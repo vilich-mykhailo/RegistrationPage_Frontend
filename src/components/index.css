@@ -1,0 +1,83 @@
+/* ===== FORM CONTAINER ===== */
+.form-wrapper {
+  width: 100%;
+  max-width: 380px;
+  background: #ffffff;
+  padding: 28px;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+/* ===== FORM ===== */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+/* ===== INPUTS ===== */
+input {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  font-size: 14px;
+}
+
+input:focus {
+  outline: none;
+  border-color: #2563eb;
+}
+
+/* ===== FORM BUTTON ===== */
+.form-btn {
+  margin-top: 10px;
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+  background-color: #2563eb;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.form-btn:hover {
+  background-color: #1d4ed8;
+}
+
+/* ===== стилі для email та password (підказки) ===== */
+.field {
+  display: flex;
+  flex-direction: column;
+}
+
+.error {
+  color: #e53935;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+.success {
+  color: #4caf50;
+  font-size: 14px;
+  margin-top: 8px;
+}
+
+.password-hints p {
+  font-size: 12px;
+  color: #999;
+  margin: 2px 0;
+}
+
+.password-hints .ok {
+  color: #4caf50;
+}
+
+.password-hints .error {
+  color: #e53935;
+}

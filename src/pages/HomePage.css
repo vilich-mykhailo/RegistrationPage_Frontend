@@ -1,0 +1,11 @@
+.section-main {
+  min-height: calc(100vh - 500px); /* header height */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2px;
+}
+
+.section-header {
+  text-align: center;
+}

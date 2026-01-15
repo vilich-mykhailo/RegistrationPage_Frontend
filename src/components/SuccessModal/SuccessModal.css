@@ -1,0 +1,12 @@
+.success-screen {
+  display: flex;
+  justify-content: center; /* по горизонталі */
+  align-items: center;     /* по вертикалі */
+}
+
+.success-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;     /* центрує h2, p, button */
+  text-align: center;
+}

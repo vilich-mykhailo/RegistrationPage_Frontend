@@ -1,0 +1,7 @@
+.section-login {
+  min-height: calc(100vh - 200px); /* header height */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2px;
+}
