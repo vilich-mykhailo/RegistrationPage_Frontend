@@ -10,6 +10,8 @@ const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const SESSION_DURATION = 24 * 60 * 60 * 1000; // 1 день
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -31,6 +33,7 @@ const LoginPage = () => {
 
       // ✅ зберігаємо JWT
       localStorage.setItem("token", data.token);
+      localStorage.setItem("expiresAt", Date.now() + SESSION_DURATION);
 
       // 🔥 ПЕРЕДАЄМО КОРИСТУВАЧА
       login(data.user);
