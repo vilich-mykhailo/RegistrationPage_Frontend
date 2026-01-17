@@ -1,15 +1,22 @@
+/* RegistrationPage.css */
+
 .section-RegistrationPage {
-  min-height: calc(100vh - 200px); /* header height */
+  min-height: 80vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 2px;
+
+  background: linear-gradient(
+      rgba(0, 0, 0, 0.55),
+      rgba(0, 0, 0, 0.55)
+    ),
 }
 
-.section-done {
-  min-height: calc(100vh - 400px); /* header height */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 2px;
+.form-wrapper {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 40px;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
 }

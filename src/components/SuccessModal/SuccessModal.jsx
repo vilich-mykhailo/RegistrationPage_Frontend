@@ -8,12 +8,12 @@ const SuccessModal = ({ name }) => {
   return (
     <div className="success-screen">
       <div className="success-card">
-        <h2>🥳 Вітаємо! 🥳</h2>
-        <p>🔥 {name}, реєстрація пройшла успішно 🔥</p>
-
-        <button className="form-btn" onClick={() => navigate("/login")}>
-          УВІЙТИ
-        </button>
+        <h2 className="success-title">Майже готово 🚀</h2>
+        <div className="success-info">
+          <p>{name}, перевірте пошту 📩</p>
+          <p>Ми надіслали лист для активації акаунту.</p>
+          <p className="success-hint">Перейдіть за посиланням у листі.</p>
+        </div>
       </div>
     </div>
   );

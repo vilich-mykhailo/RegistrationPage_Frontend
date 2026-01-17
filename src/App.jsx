@@ -1,4 +1,3 @@
-// src/App.jsx
 import { Routes, Route } from "react-router-dom";
 
 import Header from "./components/Header";
@@ -15,7 +14,7 @@ function App() {
     <>
       <Header />
 
-      <main>
+      <main >
         <Routes>
           {/* 🔐 PROTECTED */}
           <Route
@@ -40,7 +39,7 @@ function App() {
           <Route path="/sign-up" element={<RegistrationPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route
-            path="/activate/:activationToken"
+            path="/activate/:token"
             element={<AccountActivationPage />}
           />
         </Routes>

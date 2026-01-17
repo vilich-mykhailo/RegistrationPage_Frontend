@@ -101,7 +101,7 @@ const RegistrationPage = () => {
       <div className="form-wrapper">
         <h1>Реєстрація</h1>
 
-        <form onSubmit={handleSubmit}>
+        <form className="login-form" onSubmit={handleSubmit}>
           <input
             type="text"
             placeholder="Імʼя користувача"

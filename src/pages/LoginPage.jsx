@@ -45,35 +45,35 @@ const LoginPage = () => {
     }
   };
 
-  return (
-    <div className="section-login">
-      <div className="form-wrapper">
-        <h1>Log in</h1>
+return (
+  <div className="section-login">
+    <div className="form-wrapper">
+      <h1>Log in</h1>
 
-        <form onSubmit={handleSubmit}>
-          <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
+      <form className="login-form" onSubmit={handleSubmit}>
+        <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
 
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
 
-          <button className="form-btn" type="submit">
-            Log in
-          </button>
-        </form>
-      </div>
+        <button className="form-btn" type="submit">
+          Log in
+        </button>
+      </form>
     </div>
-  );
+  </div>
+);
 };
 
 export default LoginPage;
