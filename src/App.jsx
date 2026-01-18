@@ -8,6 +8,8 @@ import RegistrationPage from "./pages/RegistrationPage";
 import LoginPage from "./pages/LoginPage";
 import UsersPage from "./pages/UsersPage";
 import AccountActivationPage from "./pages/AccountActivationPage";
+import ForgotPasswordPage from "./pages/ForgotPasswordPage";
+import ResetPasswordPage from "./pages/ResetPasswordPage";
 
 function App() {
   return (
@@ -42,6 +44,8 @@ function App() {
             path="/activate/:token"
             element={<AccountActivationPage />}
           />
+            <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+  <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
         </Routes>
       </main>
     </>

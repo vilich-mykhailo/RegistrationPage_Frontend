@@ -42,7 +42,9 @@
   padding: 12px 28px;
   background-color: #2563eb;
   color: #ffffff;
+  border: none; /* 👈 прибирає чорну */
   border-radius: 10px;
+
   font-weight: 600;
   text-decoration: none;
   transition: all 0.2s ease;
@@ -52,6 +54,7 @@
   background-color: #1d4ed8;
   transform: translateY(-1px);
   box-shadow: 0 6px 14px rgba(37, 99, 235, 0.3);
+  cursor: pointer;
 }
 
 /* Анімація */

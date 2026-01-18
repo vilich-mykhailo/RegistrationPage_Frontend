@@ -59,7 +59,7 @@ input:focus {
 .error {
   color: #e53935;
   font-size: 12px;
-  margin-top: 4px;
+  margin: 4px;
 }
 
 .success {

@@ -123,3 +123,39 @@ body {
 .username {
   padding-right: 15px;
 }
+
+.logout-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+
+  padding: 10px 16px;
+  border-radius: 10px;
+
+  background: #ffefef;
+  border: 1px solid #e53935;
+  color: #e53935;
+
+  font-size: 14px;
+  font-weight: 500;
+
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.logout-btn svg {
+  transition: transform 0.25s ease;
+}
+
+.logout-btn:hover {
+  background: #e53935;
+  color: #fff;
+}
+
+.logout-btn:hover svg {
+  transform: translateX(4px);
+}
+
+.logout-btn:active {
+  transform: scale(0.97);
+}

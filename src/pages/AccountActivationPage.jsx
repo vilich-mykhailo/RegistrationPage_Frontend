@@ -8,38 +8,67 @@ function AccountActivationPage() {
   const { token } = useParams(); // ✅ ОДИН РАЗ, ЗОВНІ
   const [status, setStatus] = useState("loading");
 
-  useEffect(() => {
-    if (!token) {
-      setStatus("error");
-      return;
-    }
+useEffect(() => {
+  if (!token) {
+    setStatus("error");
+    return;
+  }
 
-    const activateAccount = async () => {
-      try {
-        await axios.get(
-          `http://localhost:5000/api/auth/activate/${token}`
-        );
+  const activateAccount = async () => {
+    const start = Date.now();
+
+    try {
+      await axios.get(
+        `http://localhost:5000/api/auth/activate/${token}`
+      );
+
+      const elapsed = Date.now() - start;
+      const delay = Math.max(1000, 1000 - elapsed);
+
+      setTimeout(() => {
         setStatus("success");
-      } catch (e) {
+      }, delay);
+    } catch (e) {
+      const elapsed = Date.now() - start;
+      const delay = Math.max(2000, 2000 - elapsed);
+
+      setTimeout(() => {
         setStatus("error");
-      }
-    };
+      }, delay);
+    }
+  };
 
-    activateAccount();
-  }, [token]);
+  activateAccount();
+}, [token]);
 
-  if (status === "loading") {
-    return <h2>⏳ Активація акаунту...</h2>;
-  }
 
-  if (status === "error") {
-    return (
-      <>
-        <h2>❌ Помилка активації</h2>
-        <p>Посилання недійсне або застаріле</p>
-      </>
-    );
-  }
+if (status === "loading") {
+  return (
+    <div className="activation-wrapper">
+      <div className="activation-card">
+        <div className="activation-icon">⏳</div>
+        <h1 className="activation-title">Активація акаунту...</h1>
+        <p className="activation-text">
+          Будь ласка, зачекайте
+        </p>
+      </div>
+    </div>
+  );
+}
+
+if (status === "error") {
+  return (
+    <div className="activation-wrapper">
+      <div className="activation-card">
+        <div className="activation-icon">❌</div>
+        <h1 className="activation-title">Помилка активації</h1>
+        <p className="activation-text">
+          Посилання недійсне або застаріле
+        </p>
+      </div>
+    </div>
+  );
+}
 
 return (
   <div className="activation-wrapper">

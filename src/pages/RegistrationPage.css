@@ -20,3 +20,38 @@
   max-width: 420px;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
 }
+
+.password-field {
+  position: relative;
+}
+
+.password-field input {
+  width: 100%;
+  padding-right: 44px; /* місце для ока */
+}
+
+.toggle-password {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-40%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  opacity: 0.6;
+    color: #616161; /* світло-сірий */
+}
+
+.toggle-password:hover {
+  opacity: 1;
+}
+
+.login-form input.input-error {
+  border: 2px solid #ef4444 !important;
+}
+
+.login-form input.input-error:focus {
+  border-color: #dc2626;
+  box-shadow: 0 0 0 1px rgba(239, 68, 68, 0.4);
+}
