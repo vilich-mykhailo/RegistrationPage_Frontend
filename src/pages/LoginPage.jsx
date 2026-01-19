@@ -42,10 +42,12 @@ const LoginPage = () => {
         return;
       }
 
-      localStorage.setItem("token", data.token);
+      // 🔥 ВСЕ ВІДДАЄМО В AuthContext
+      login(data);
+
+      // (опціонально) якщо хочеш лишити expiresAt — можна, але не обовʼязково
       localStorage.setItem("expiresAt", Date.now() + SESSION_DURATION);
 
-      login(data.user);
       navigate("/");
     } catch (error) {
       setErrors({ general: "Помилка сервера. Спробуйте пізніше." });

@@ -3,44 +3,40 @@ import { createContext, useContext, useEffect, useState } from "react";
 
 const AuthContext = createContext(null);
 
-// ⏱️ скільки дозволено бути офлайн
 const OFFLINE_TIMEOUT = 30 * 60 * 1000; // 30 хв
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [token, setToken] = useState(null);   // 👈 ДОДАЛИ TOKEN
   const [loading, setLoading] = useState(true);
 
-  // 1️⃣ ФІКСУЄМО МОМЕНТ ЗАКРИТТЯ ВКЛАДКИ
+  // 1️⃣ Фіксуємо момент закриття вкладки
   useEffect(() => {
     const handleBeforeUnload = () => {
       localStorage.setItem("lastClosedAt", Date.now());
     };
 
     window.addEventListener("beforeunload", handleBeforeUnload);
-
-    return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-    };
+    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
   }, []);
 
-  // 2️⃣ ПЕРЕВІРЯЄМО ПРИ СТАРТІ
+  // 2️⃣ При старті читаємо з localStorage
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    const storedUser = localStorage.getItem("user");
+    const savedToken = localStorage.getItem("token");
+    const savedUser = localStorage.getItem("user");
     const lastClosedAt = localStorage.getItem("lastClosedAt");
 
-    if (token && storedUser) {
-      // якщо вкладку НЕ закривали (перший логін)
+    if (savedToken && savedUser) {
       if (!lastClosedAt) {
-        setUser(JSON.parse(storedUser));
+        setToken(savedToken);
+        setUser(JSON.parse(savedUser));
       } else {
         const offlineTime = Date.now() - Number(lastClosedAt);
 
         if (offlineTime <= OFFLINE_TIMEOUT) {
-          // ✅ повернувся вчасно
-          setUser(JSON.parse(storedUser));
+          setToken(savedToken);
+          setUser(JSON.parse(savedUser));
         } else {
-          // ⛔ був відсутній занадто довго
           logout();
         }
       }
@@ -49,23 +45,32 @@ export const AuthProvider = ({ children }) => {
     setLoading(false);
   }, []);
 
-  const login = (userData) => {
-    setUser(userData);
-    localStorage.setItem("user", JSON.stringify(userData));
-    localStorage.removeItem("lastClosedAt"); // 🔥 скидаємо таймер
+  // 🔹 LOGIN — ТУТ ГОЛОВНА ПРАВКА
+  const login = (data) => {
+    // data = { token, user }
+    setToken(data.token);
+    setUser(data.user);
+
+    localStorage.setItem("token", data.token);
+    localStorage.setItem("user", JSON.stringify(data.user));
+    localStorage.removeItem("lastClosedAt");
   };
 
   const logout = () => {
+    setToken(null);
+    setUser(null);
+
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     localStorage.removeItem("lastClosedAt");
-    setUser(null);
   };
 
   return (
     <AuthContext.Provider
       value={{
         user,
+        token,                // 👈 ТЕПЕР TOKEN ДОСТУПНИЙ ВСЮДИ
+        setUser,
         isAuthenticated: !!user,
         login,
         logout,
