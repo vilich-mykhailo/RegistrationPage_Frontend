@@ -1,15 +1,53 @@
+// ProfilePage.jsx //
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
-
 import "./ProfilePage.css";
+import "./ResetPasswordPage.css";
 
 const ProfilePage = () => {
   const [dateError, setDateError] = useState(false);
-  const { token, setUser, user } = useAuth();
+  const { token, user } = useAuth();
   const [successMessage, setSuccessMessage] = useState(false);
   const [savedProfile, setSavedProfile] = useState(null);
   const [isDirty, setIsDirty] = useState(false);
+  const [showPasswordForm, setShowPasswordForm] = useState(false);
+  const [showEmailForm, setShowEmailForm] = useState(false);
+  const [passwordRequestSuccess, setPasswordRequestSuccess] = useState(false);
+  const [emailRequestSuccess, setEmailRequestSuccess] = useState(false);
+
+  const [passwordForm, setPasswordForm] = useState({
+    oldPassword: "",
+    password: "",
+    confirmPassword: "",
+  });
+  const passwordRules = {
+    length: passwordForm.password.length >= 8,
+    upper: /[A-Z]/.test(passwordForm.password),
+    lower: /[a-z]/.test(passwordForm.password),
+    number: /\d/.test(passwordForm.password),
+    symbol: /[^A-Za-z0-9]/.test(passwordForm.password),
+  };
+
+  const hasPassword = passwordForm.password.length > 0;
+  const hasLetters = /[A-Za-z]/.test(passwordForm.password);
+  const onlyEnglishLetters =
+    /^[A-Za-z0-9^_!@#$%^&*()+=\-[\]\\';,/{}|":<>?]+$/.test(
+      passwordForm.password,
+    );
+
+  const isPasswordValid =
+    passwordRules.length &&
+    passwordRules.upper &&
+    passwordRules.lower &&
+    passwordRules.number &&
+    passwordRules.symbol &&
+    onlyEnglishLetters;
+
+  const passwordsMatch =
+    passwordForm.password === passwordForm.confirmPassword &&
+    passwordForm.confirmPassword.length > 0;
+
   const isValidDate = (value) => {
     // формат ДД.ММ.РРРР
     const regex = /^(\d{2})\.(\d{2})\.(\d{4})$/;
@@ -54,15 +92,16 @@ const ProfilePage = () => {
     gender: "",
   });
 
-  const [passwordForm, setPasswordForm] = useState({
-    password: "",
-    confirmPassword: "",
-  });
-
   const [emailForm, setEmailForm] = useState({
     newEmail: "",
     confirmEmail: "",
   });
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [submitAttempted, setSubmitAttempted] = useState(false);
+  const [confirmPasswordError, setConfirmPasswordError] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (!token) return;
@@ -94,15 +133,15 @@ const ProfilePage = () => {
   const handleProfileChange = (e) => {
     let { name, value } = e.target;
 
-    // тільки цифри і крапки для дати
+    // 🔥 для дати — дозволяємо тільки цифри і крапки
     if (name === "birth_date") {
       value = value.replace(/[^\d.]/g, "");
 
-      // перевірка валідності дати
+      // перевіряємо тільки коли введено 10 символів (ДД.ММ.РРРР)
       if (value.length === 10) {
         setDateError(!isValidDate(value));
       } else {
-        setDateError(false);
+        setDateError(false); // поки вводить — не лякаємо
       }
     }
 
@@ -113,9 +152,8 @@ const ProfilePage = () => {
 
     setProfile(updatedProfile);
 
-    // 🔥 dirty-логіка з захистом
+    // dirty-логіка
     let isDifferent = false;
-
     if (savedProfile) {
       isDifferent =
         JSON.stringify(updatedProfile) !== JSON.stringify(savedProfile);
@@ -239,71 +277,441 @@ const ProfilePage = () => {
 
         {/* RIGHT COLUMN */}
         <div className="profile-right">
-          {/* PASSWORD BLOCK */}
-          <div className="profile-card">
-            <h3 className="profile-title">Пароль</h3>
+          {/* SECURITY ACTIONS */}
+          <div className="profile-card security-card">
+            <h3 className="profile-title">Безпека</h3>
 
-            <form className="profile-form">
-              <input
-                type="password"
-                placeholder="Новий пароль*"
-                value={passwordForm.password}
-                onChange={(e) =>
-                  setPasswordForm({ ...passwordForm, password: e.target.value })
-                }
-              />
+            <div
+              className="security-item"
+              onClick={() => {
+                setShowPasswordForm(true);
+                setShowEmailForm(false);
+              }}
+            >
+              <div className="security-icon">🔑</div>
+              <div className="security-text">
+                <div className="security-title">Змінити пароль</div>
+                <div className="security-subtitle">
+                  Оновіть пароль для підвищення безпеки
+                </div>
+              </div>
+              <div className="security-arrow">›</div>
+            </div>
 
-              <input
-                type="password"
-                placeholder="Повторіть пароль*"
-                value={passwordForm.confirmPassword}
-                onChange={(e) =>
-                  setPasswordForm({
-                    ...passwordForm,
-                    confirmPassword: e.target.value,
-                  })
-                }
-              />
-
-              <button type="button" className="profile-btn disabled">
-                ЗБЕРЕГТИ
-              </button>
-            </form>
-          </div>
-
-          {/* EMAIL BLOCK */}
-          <div className="profile-card">
-            <h3 className="profile-title">Електронна пошта</h3>
-
-            <form className="profile-form">
-              <input
-                placeholder="Нова пошта*"
-                value={emailForm.newEmail}
-                onChange={(e) =>
-                  setEmailForm({ ...emailForm, newEmail: e.target.value })
-                }
-              />
-
-              <input
-                placeholder="Повторіть нову пошту"
-                value={emailForm.confirmEmail}
-                onChange={(e) =>
-                  setEmailForm({
-                    ...emailForm,
-                    confirmEmail: e.target.value,
-                  })
-                }
-              />
-
-              <button type="button" className="profile-btn disabled">
-                ЗБЕРЕГТИ
-              </button>
-            </form>
+            <div
+              className="security-item"
+              onClick={() => {
+                setShowEmailForm(true);
+                setShowPasswordForm(false);
+              }}
+            >
+              <div className="security-icon">✉️</div>
+              <div className="security-text">
+                <div className="security-title">Змінити електронну пошту</div>
+                <div className="security-subtitle">
+                  Змінити адресу для входу в акаунт
+                </div>
+              </div>
+              <div className="security-arrow">›</div>
+            </div>
           </div>
         </div>
       </div>
       {successMessage && (
         <div className="success-toast">✅ Дані успішно збережено</div>
+      )}
+      {/* ===== PASSWORD MODAL (RESET STYLE) ===== */}
+      {showPasswordForm && (
+        <div
+          className="modal-overlay"
+          onClick={() => setShowPasswordForm(false)}
+        >
+          <div
+            className="modal-window activation-card"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <>
+              {passwordRequestSuccess ? (
+                /* 🔥 SUCCESS SCREEN */
+                <div className="auth-card">
+                  <div className="success-icon">📩</div>
+
+                  <h1>Перевірте пошту</h1>
+
+                  <p className="success-text">
+                    Ми надіслали лист для підтвердження зміни пароля.
+                    <br />
+                    Якщо листа немає — перевірте папку <b>«Спам»</b>.
+                  </p>
+
+                  <button
+                    className="form-btn"
+                    onClick={() => {
+                      setShowPasswordForm(false);
+                      setPasswordRequestSuccess(false);
+                    }}
+                  >
+                    Готово
+                  </button>
+                </div>
+              ) : (
+                /* 🔐 ФОРМА ЗМІНИ ПАРОЛЯ */
+                <form
+                  onSubmit={async (e) => {
+                    e.preventDefault();
+                    setSubmitAttempted(true);
+                    setLoading(true);
+
+                    if (!isPasswordValid) {
+                      setLoading(false);
+                      return;
+                    }
+
+                    if (!passwordsMatch) {
+                      setConfirmPasswordError("Паролі не співпадають");
+                      setLoading(false);
+                      return;
+                    }
+
+                    try {
+                      await axios.post(
+                        "http://localhost:5000/api/auth/request-change-password",
+                        {
+                          oldPassword: passwordForm.oldPassword,
+                          newPassword: passwordForm.password,
+                        },
+                        { headers: { Authorization: `Bearer ${token}` } },
+                      );
+
+                      // 🔥 ПОКАЗУЄМО SUCCESS ЕКРАН
+                      setPasswordRequestSuccess(true);
+
+                      // чистимо форму
+                      setPasswordForm({
+                        oldPassword: "",
+                        password: "",
+                        confirmPassword: "",
+                      });
+                    } catch (e) {
+                      setError(
+                        e.response?.data?.message || "Помилка зміни пароля",
+                      );
+                    } finally {
+                      setLoading(false);
+                    }
+                  }}
+                >
+                  {/* 🔹 СТАРИЙ ПАРОЛЬ */}
+                  <div className="password-field">
+                    <input
+                      type="password"
+                      placeholder="Старий пароль"
+                      value={passwordForm.oldPassword}
+                      onChange={(e) =>
+                        setPasswordForm({
+                          ...passwordForm,
+                          oldPassword: e.target.value,
+                        })
+                      }
+                      required
+                    />
+                  </div>
+
+                  {/* 🔹 НОВИЙ ПАРОЛЬ */}
+                  <div className="password-field">
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      placeholder="Новий пароль"
+                      value={passwordForm.password}
+                      onChange={(e) =>
+                        setPasswordForm({
+                          ...passwordForm,
+                          password: e.target.value,
+                        })
+                      }
+                      required
+                    />
+
+                    <button
+                      type="button"
+                      className="toggle-password"
+                      onClick={() => setShowPassword((prev) => !prev)}
+                    >
+                      {showPassword ? (
+                        /* 👁 ВІДКРИТЕ ОКО */
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="20"
+                          height="20"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
+                          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                          <circle cx="12" cy="12" r="3" />
+                        </svg>
+                      ) : (
+                        /* 🚫👁 ПЕРЕКРЕСЛЕНЕ ОКО */
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="20"
+                          height="20"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
+                          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                          <circle cx="12" cy="12" r="3" />
+                          <line x1="3" y1="21" x2="21" y2="3" />
+                        </svg>
+                      )}
+                    </button>
+                  </div>
+
+                  {/* 🔹 ПРАВИЛА ПАРОЛЯ (ЯК У RESET) */}
+                  <div className="reset-password-hints">
+                    <div className="password-hints">
+                      <p className={passwordRules.length ? "ok" : ""}>
+                        • Щонайменше 8 символів
+                      </p>
+                      <p className={passwordRules.upper ? "ok" : ""}>
+                        • Одна велика літера
+                      </p>
+                      <p className={passwordRules.lower ? "ok" : ""}>
+                        • Одна мала літера
+                      </p>
+                      <p className={passwordRules.number ? "ok" : ""}>
+                        • Одна цифра
+                      </p>
+                      <p className={passwordRules.symbol ? "ok" : ""}>
+                        • Один спеціальний символ
+                      </p>
+                      <p
+                        className={
+                          !hasPassword || !hasLetters
+                            ? ""
+                            : onlyEnglishLetters
+                              ? "ok"
+                              : "error"
+                        }
+                      >
+                        • Англійські літери (A–Z)
+                      </p>
+                    </div>
+                  </div>
+
+                  {submitAttempted && !isPasswordValid && (
+                    <p className="error">
+                      Пароль не відповідає вимогам безпеки
+                    </p>
+                  )}
+
+                  {error && <p className="error">{error}</p>}
+
+                  {/* 🔹 ПІДТВЕРДЖЕННЯ */}
+                  <div className="password-field">
+                    <input
+                      type={showConfirmPassword ? "text" : "password"}
+                      placeholder="Підтвердіть пароль"
+                      value={passwordForm.confirmPassword}
+                      onChange={(e) => {
+                        setPasswordForm({
+                          ...passwordForm,
+                          confirmPassword: e.target.value,
+                        });
+                        if (confirmPasswordError) setConfirmPasswordError("");
+                      }}
+                      required
+                    />
+
+                    <button
+                      type="button"
+                      className="toggle-password"
+                      onClick={() => setShowConfirmPassword((prev) => !prev)}
+                    >
+                      {showConfirmPassword ? (
+                        /* 👁 */
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="20"
+                          height="20"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
+                          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                          <circle cx="12" cy="12" r="3" />
+                        </svg>
+                      ) : (
+                        /* 🚫👁 */
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="20"
+                          height="20"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
+                          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                          <circle cx="12" cy="12" r="3" />
+                          <line x1="3" y1="21" x2="21" y2="3" />
+                        </svg>
+                      )}
+                    </button>
+                  </div>
+
+                  {confirmPasswordError && (
+                    <p className="error">{confirmPasswordError}</p>
+                  )}
+
+                  <button className="form-btn" type="submit" disabled={loading}>
+                    {loading ? "Надсилання..." : "Змінити пароль"}
+                  </button>
+                </form>
+              )}
+
+              {/* ❌ КНОПКА ЗАКРИТТЯ */}
+              <button
+                className="modal-close"
+                onClick={() => {
+                  setShowPasswordForm(false);
+                  setPasswordRequestSuccess(false);
+                }}
+              >
+                ✕
+              </button>
+            </>
+          </div>
+        </div>
+      )}
+
+      {/* ===== EMAIL MODAL ===== */}
+      {showEmailForm && (
+        <div className="modal-overlay" onClick={() => setShowEmailForm(false)}>
+          <div
+            className="modal-window activation-card"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {emailRequestSuccess ? (
+              /* 🔥 SUCCESS SCREEN */
+              <div className="auth-card">
+                <div className="success-icon">📩</div>
+
+                <h1>Перевірте пошту</h1>
+
+                <p className="success-text">
+                  Ми надіслали лист для підтвердження зміни електронної пошти.
+                  <br />
+                  Якщо листа немає — перевірте папку <b>«Спам»</b>.
+                </p>
+
+                <button
+                  className="form-btn"
+                  onClick={() => {
+                    setShowEmailForm(false);
+                    setEmailRequestSuccess(false);
+                  }}
+                >
+                  Готово
+                </button>
+              </div>
+            ) : (
+              /* ✉️ FORM */
+              <>
+                <h1 className="activation-title">Зміна електронної пошти</h1>
+
+                <form
+                  className="profile-form"
+                  onSubmit={async (e) => {
+                    e.preventDefault();
+                    setLoading(true);
+                    setError("");
+
+                    if (
+                      !emailForm.newEmail ||
+                      emailForm.newEmail !== emailForm.confirmEmail
+                    ) {
+                      setError("Пошти не співпадають");
+                      setLoading(false);
+                      return;
+                    }
+
+                    try {
+                      await axios.post(
+                        "http://localhost:5000/api/auth/request-change-email",
+                        {
+                          newEmail: emailForm.newEmail,
+                          confirmEmail: emailForm.confirmEmail,
+                        },
+                        { headers: { Authorization: `Bearer ${token}` } },
+                      );
+
+                      // 🔥 показуємо success-екран
+                      setEmailRequestSuccess(true);
+
+                      // чистимо форму
+                      setEmailForm({ newEmail: "", confirmEmail: "" });
+                    } catch (e) {
+                      setError(
+                        e.response?.data?.message || "Помилка зміни пошти",
+                      );
+                    } finally {
+                      setLoading(false);
+                    }
+                  }}
+                >
+                  <input
+                    type="email"
+                    placeholder="Нова пошта*"
+                    value={emailForm.newEmail}
+                    onChange={(e) =>
+                      setEmailForm({ ...emailForm, newEmail: e.target.value })
+                    }
+                    required
+                  />
+
+                  <input
+                    type="email"
+                    placeholder="Повторіть нову пошту"
+                    value={emailForm.confirmEmail}
+                    onChange={(e) =>
+                      setEmailForm({
+                        ...emailForm,
+                        confirmEmail: e.target.value,
+                      })
+                    }
+                    required
+                  />
+
+                  {error && <p className="error">{error}</p>}
+
+                  <button className="form-btn" type="submit" disabled={loading}>
+                    {loading ? "Надсилання..." : "Зберегти пошту"}
+                  </button>
+                </form>
+
+                <button
+                  className="modal-close"
+                  onClick={() => setShowEmailForm(false)}
+                >
+                  ✕
+                </button>
+              </>
+            )}
+          </div>
+        </div>
       )}
     </section>
   );

@@ -11,6 +11,8 @@ import AccountActivationPage from "./pages/AccountActivationPage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
 import ProfilePage from "./pages/ProfilePage";
+import PasswordChangedSuccess from "./pages/PasswordChangedSuccess";
+import EmailChangedSuccess from "./pages/EmailChangedSuccess";
 
 function App() {
   return (
@@ -53,6 +55,14 @@ function App() {
           <Route
             path="/reset-password/:token"
             element={<ResetPasswordPage />}
+          />
+          <Route
+            path="/password-changed-success"
+            element={<PasswordChangedSuccess />}
+          />
+          <Route
+            path="/email-changed-success"
+            element={<EmailChangedSuccess />}
           />
         </Routes>
       </main>
