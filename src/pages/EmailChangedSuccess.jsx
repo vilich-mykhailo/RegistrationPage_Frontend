@@ -22,7 +22,7 @@ function EmailChangedSuccess() {
         <h1 className="activation-title">Пошту успішно змінено</h1>
 
         <p className="activation-text">
-          З міркувань безпеки вас було вийдено з акаунту.
+          З міркувань безпеки ваш сеанс було завершено.
           <br />
           Увійдіть з новою електронною поштою.
         </p>

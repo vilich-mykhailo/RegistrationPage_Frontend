@@ -22,7 +22,7 @@ function PasswordChangedSuccess() {
         <h1 className="activation-title">Пароль успішно змінений</h1>
 
         <p className="activation-text">
-          З міркувань безпеки вас було вийдено з акаунту.
+          З міркувань безпеки ваш сеанс було завершено.
           <br />
           Увійдіть з новим паролем.
         </p>

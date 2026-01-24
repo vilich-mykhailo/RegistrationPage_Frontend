@@ -31,40 +31,36 @@
 }
 
 .activation-text {
-  font-size: 16px;
-  color: #4b5563;
-  margin-bottom: 28px;
-  line-height: 1.5;
+    font-size: 14px;
+  color: #6b7280;
+  line-height: 1.6;
+  margin-top: 12px;
 }
-
 .activation-button {
-  display: inline-block;
+  display: block;
+  width: 100%;
   padding: 12px 28px;
+  font-size: 16px;
+
   background-color: #2563eb;
   color: #ffffff;
-  border: none; /* 👈 прибирає чорну */
+  border: none;
   border-radius: 10px;
 
   font-weight: 600;
-  text-decoration: none;
   transition: all 0.2s ease;
+
+  margin-top: 24px;
+  box-sizing: border-box;
+
+  position: relative;   /* 👈 важливо */
+  cursor: pointer;
 }
+
 
 .activation-button:hover {
   background-color: #1d4ed8;
   transform: translateY(-1px);
   box-shadow: 0 6px 14px rgba(37, 99, 235, 0.3);
   cursor: pointer;
-}
-
-/* Анімація */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }

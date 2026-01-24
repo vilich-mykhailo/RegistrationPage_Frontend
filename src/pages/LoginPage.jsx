@@ -17,7 +17,7 @@ const LoginPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    setErrors({}); // 🔥 очищаємо перед сабмітом
+    setErrors({});
 
     try {
       const res = await fetch("http://localhost:5000/api/auth/login", {
@@ -31,23 +31,20 @@ const LoginPage = () => {
       const data = await res.json();
 
       if (!res.ok) {
-        // 🔴 логіка помилок
-        if (data.message === "Невірний пароль") {
-          setErrors({ password: data.message });
-        } else if (data.message === "Користувача не знайдено") {
-          setErrors({ email: data.message });
+        if (data.message === "EMAIL_NOT_FOUND") {
+          setErrors({ email: "Неправильна електронна адреса" });
+        } else if (data.message === "WRONG_PASSWORD") {
+          setErrors({ password: "Невірний пароль" });
         } else {
-          setErrors({ general: data.message });
+          setErrors({ password: "Невірний email або пароль" });
         }
         return;
       }
 
-      // 🔥 ВСЕ ВІДДАЄМО В AuthContext
-      login(data);
-
-      // (опціонально) якщо хочеш лишити expiresAt — можна, але не обовʼязково
+      localStorage.setItem("token", data.token);
       localStorage.setItem("expiresAt", Date.now() + SESSION_DURATION);
 
+      login(data.user);
       navigate("/");
     } catch (error) {
       setErrors({ general: "Помилка сервера. Спробуйте пізніше." });
@@ -116,7 +113,7 @@ const LoginPage = () => {
                     <circle cx="12" cy="12" r="3" />
                   </svg>
                 ) : (
-                  /* 🚫👁 ПЕРЕКРЕСЛЕНЕ ОКО */
+                  /* 🚫👁 */
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="20"
@@ -135,8 +132,10 @@ const LoginPage = () => {
                 )}
               </button>
             </div>
+
             {errors.password && <p className="error">{errors.password}</p>}
           </div>
+
           <div className="forgot-password">
             <button
               type="button"

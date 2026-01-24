@@ -1,5 +1,5 @@
-// src/pages/ResetPasswordPage.jsx //
-import { useState } from "react";
+// ResetPasswordPage.jsx
+import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./ResetPasswordPage.css";
@@ -9,15 +9,18 @@ function ResetPasswordPage() {
   const navigate = useNavigate();
 
   const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  const [loading, setLoading] = useState(true); // loading token check
+  const [submitting, setSubmitting] = useState(false); // loading submit
+  const [validToken, setValidToken] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
-  const [submitAttempted, setSubmitAttempted] = useState(false);
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [confirmPasswordError, setConfirmPasswordError] = useState("");
+  const [submitAttempted, setSubmitAttempted] = useState(false);
 
+  // ===== PASSWORD RULES =====
   const passwordRules = {
     length: password.length >= 8,
     upper: /[A-Z]/.test(password),
@@ -28,8 +31,7 @@ function ResetPasswordPage() {
 
   const hasPassword = password.length > 0;
   const hasLetters = /[A-Za-z]/.test(password);
-  const onlyEnglishLetters =
-    /^[A-Za-z0-9^_!@#$%^&*()+=\-[\]\\';,/{}|":<>?]+$/.test(password);
+  const onlyEnglishLetters = /^[A-Za-z0-9^_!@#$%^&*()+=\-[\]\\';,/{}|\":<>?]+$/.test(password);
 
   const isPasswordValid =
     passwordRules.length &&
@@ -38,48 +40,103 @@ function ResetPasswordPage() {
     passwordRules.number &&
     passwordRules.symbol &&
     onlyEnglishLetters;
-  const passwordsMatch =
-    password === confirmPassword && confirmPassword.length > 0;
 
+  const passwordsMatch = password === confirmPassword && confirmPassword.length > 0;
+
+  // 🔥 CHECK TOKEN ON MOUNT
+  useEffect(() => {
+    const checkToken = async () => {
+      try {
+        const res = await axios.get(
+          `http://localhost:5000/api/auth/check-reset-token/${token}`
+        );
+
+        setValidToken(Boolean(res.data.valid));
+      } catch {
+        setValidToken(false);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    checkToken();
+  }, [token]);
+
+  // 🔄 LOADING TOKEN CHECK
+  if (loading) {
+    return (
+      <div className="activation-wrapper">
+        <div className="activation-card">
+          <p>Перевіряємо посилання...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // ❌ INVALID TOKEN
+  if (!validToken) {
+    return (
+      <div className="activation-wrapper">
+        <div className="activation-card">
+          <div className="activation-icon">❌</div>
+
+          <h1 className="activation-title">Посилання недійсне</h1>
+
+          <p className="activation-text">
+            Це посилання вже використано або термін його дії закінчився.
+          </p>
+
+          <button
+            className="activation-button"
+            onClick={() => navigate("/forgot-password")}
+          >
+            Запросити нове
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  // ===== SUBMIT =====
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmitAttempted(true);
-    setLoading(true);
+    setError("");
 
     if (!isPasswordValid) {
-      setLoading(false);
+      setError("Пароль не відповідає вимогам безпеки");
       return;
     }
 
     if (!passwordsMatch) {
-      setConfirmPasswordError("Паролі не співпадають");
-      setLoading(false);
+      setError("Паролі не співпадають");
       return;
     }
 
     try {
+      setSubmitting(true);
+
       await axios.post(
         `http://localhost:5000/api/auth/reset-password/${token}`,
-        { password },
+        { password }
       );
+
       setSuccess(true);
     } catch (e) {
-      setError(e.response?.data?.message || "Посилання недійсне або застаріле");
+      setError(e.response?.data?.message || "Помилка зміни пароля");
     } finally {
-      setLoading(false);
+      setSubmitting(false);
     }
   };
 
-  /* =========================
-     SUCCESS SCREEN
-  ========================= */
+  // ✅ SUCCESS
   if (success) {
     return (
       <div className="activation-wrapper">
         <div className="activation-card">
           <div className="activation-icon">🎉</div>
 
-          <h1 className="activation-title">Пароль успішно змінений</h1>
+          <h1 className="activation-title">Пароль змінено</h1>
 
           <p className="activation-text">
             Тепер ви можете увійти з новим паролем
@@ -97,14 +154,15 @@ function ResetPasswordPage() {
   }
 
   /* =========================
-     FORM
+        FORM
   ========================= */
   return (
     <div className="activation-wrapper">
       <div className="activation-card">
         <h1 className="activation-title">Новий пароль</h1>
 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} noValidate>
+          {/* PASSWORD */}
           <div className="password-field">
             <input
               type={showPassword ? "text" : "password"}
@@ -156,52 +214,36 @@ function ResetPasswordPage() {
               )}
             </button>
           </div>
+
+          {/* HINTS */}
           <div className="reset-password-hints">
             <div className="password-hints">
-              <p className={passwordRules.length ? "ok" : ""}>
-                • Щонайменше 8 символів
-              </p>
-              <p className={passwordRules.upper ? "ok" : ""}>
-                • Одна велика літера
-              </p>
-              <p className={passwordRules.lower ? "ok" : ""}>
-                • Одна мала літера
-              </p>
+              <p className={passwordRules.length ? "ok" : ""}>• Щонайменше 8 символів</p>
+              <p className={passwordRules.upper ? "ok" : ""}>• Одна велика літера</p>
+              <p className={passwordRules.lower ? "ok" : ""}>• Одна мала літера</p>
               <p className={passwordRules.number ? "ok" : ""}>• Одна цифра</p>
-              <p className={passwordRules.symbol ? "ok" : ""}>
-                • Один спеціальний символ
-              </p>
+              <p className={passwordRules.symbol ? "ok" : ""}>• Один спеціальний символ</p>
               <p
                 className={
                   !hasPassword || !hasLetters
                     ? ""
                     : onlyEnglishLetters
-                      ? "ok"
-                      : "error"
+                    ? "ok"
+                    : "error"
                 }
               >
                 • Англійські літери (A–Z)
               </p>
             </div>
           </div>
-          {/* ❌ Пароль невалідний (після спроби сабміту) */}
-          {submitAttempted && !isPasswordValid && (
-            <p className="error">Пароль не відповідає вимогам безпеки</p>
-          )}
 
-          {/* ❌ Backend помилка */}
-          {error && <p className="error">{error}</p>}
+          {/* CONFIRM PASSWORD */}
           <div className="password-field">
             <input
               type={showConfirmPassword ? "text" : "password"}
               placeholder="Підтвердіть пароль"
               value={confirmPassword}
-              onChange={(e) => {
-                setConfirmPassword(e.target.value);
-                if (confirmPasswordError) {
-                  setConfirmPasswordError("");
-                }
-              }}
+              onChange={(e) => setConfirmPassword(e.target.value)}
               required
             />
 
@@ -215,7 +257,7 @@ function ResetPasswordPage() {
                   : "Show confirm password"
               }
             >
-              {showConfirmPassword ? (
+              {showPassword ? (
                 /* 👁 */
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -251,11 +293,23 @@ function ResetPasswordPage() {
               )}
             </button>
           </div>
-          {confirmPasswordError && (
-            <p className="error">{confirmPasswordError}</p>
+
+          {/* ERRORS */}
+          {submitAttempted && !isPasswordValid && (
+            <p className="error">Пароль не відповідає вимогам безпеки</p>
           )}
-          <button className="form-btn" type="submit" disabled={loading}>
-            {loading ? "Збереження..." : "Зберегти пароль"}
+
+          {submitAttempted && confirmPassword.length > 0 && !passwordsMatch && (
+            <p className="error">Паролі не співпадають</p>
+          )}
+
+          {/* SUBMIT */}
+          <button
+            className="form-btn"
+            type="submit"
+            disabled={submitting}
+          >
+            {submitting ? "Збереження..." : "Зберегти пароль"}
           </button>
         </form>
       </div>

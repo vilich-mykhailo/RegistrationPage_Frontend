@@ -13,6 +13,7 @@ import ResetPasswordPage from "./pages/ResetPasswordPage";
 import ProfilePage from "./pages/ProfilePage";
 import PasswordChangedSuccess from "./pages/PasswordChangedSuccess";
 import EmailChangedSuccess from "./pages/EmailChangedSuccess";
+import EmailChangedInvalid from "./pages/EmailChangedInvalid";
 
 function App() {
   return (
@@ -63,6 +64,10 @@ function App() {
           <Route
             path="/email-changed-success"
             element={<EmailChangedSuccess />}
+          />
+          <Route
+            path="/email-changed-invalid"
+            element={<EmailChangedInvalid />}
           />
         </Routes>
       </main>

@@ -12,46 +12,177 @@
     ),
 }
 
-.form-wrapper {
-  background: rgba(255, 255, 255, 0.95);
-  padding: 40px;
-  border-radius: 12px;
-  width: 100%;
-  max-width: 420px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-}
-
 .password-field {
   position: relative;
+  width: 100%;
 }
 
 .password-field input {
-  width: 100%;
-  padding-right: 44px; /* місце для ока */
+  height: 48px;              /* 🔥 фіксована висота */
+  line-height: 48px;
+  padding-right: 44px;
 }
 
 .toggle-password {
   position: absolute;
   right: 12px;
+
+  /* 🔥 РІВНО ПО СЕРЕДИНІ INPUT */
   top: 50%;
-  transform: translateY(-40%);
+  transform: translateY(-50%);
+
   background: none;
   border: none;
   cursor: pointer;
-  font-size: 18px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 32px;
+  height: 32px;
+
   opacity: 0.6;
-    color: #616161; /* світло-сірий */
+  color: #c5c5c5;
 }
+
 
 .toggle-password:hover {
   opacity: 1;
 }
 
 .login-form input.input-error {
-  border: 2px solid #ef4444 !important;
+  border: 1.5px solid #ef4444 !important;
+  box-shadow: 0 0 0 1px rgba(239, 68, 68, 0.3);
 }
+
 
 .login-form input.input-error:focus {
   border-color: #dc2626;
   box-shadow: 0 0 0 1px rgba(239, 68, 68, 0.4);
 }
+
+.section-login {
+  min-height: calc(100vh - 70px); /* якщо є header */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #f5f7fa, #e4ecf7);
+  padding: 20px;
+}
+
+.form-wrapper {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 36px 32px 40px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+  animation: fadeIn 0.5s ease;
+}
+
+.form-wrapper h1 {
+  text-align: center;
+  font-size: 26px;
+  font-weight: 700;
+  margin-bottom: 28px;
+  color: #1f2937;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  row-gap: 8px;
+}
+
+.login-form input {
+  width: 100%;
+  padding: 14px 16px;
+  font-size: 15px;
+  border-radius: 10px;
+  border: 1px solid #d1d5db;
+  outline: none;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.login-form input::placeholder {
+  color: #9ca3af;
+}
+
+.login-form input:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.form-btn {
+  margin-top: 10px;
+  padding: 14px;
+  border-radius: 12px;
+  border: none;
+  background-color: #2563eb;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+/* Hover */
+.form-btn:hover {
+  background-color: #1d4ed8;
+  box-shadow: 0 8px 18px rgba(37, 99, 235, 0.35);
+  transform: translateY(-1px);
+}
+
+/* Натискання */
+.form-btn:active {
+  transform: scale(0.96);
+  box-shadow: 0 4px 10px rgba(37, 99, 235, 0.25);
+}
+
+/* Фокус (клавіатура / accessibility) */
+.form-btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.3);
+}
+
+.input-error {
+  border: 1.5px solid #ef4444 !important;
+  box-shadow: 0 0 0 1px rgba(239, 68, 68, 0.3);
+}
+
+.error {
+  margin-top: 6px;
+  font-size: 13px;
+  color: #ef4444;
+}
+
+/* Анімація */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 📱 Мобільна адаптація */
+@media (max-width: 480px) {
+  .form-wrapper {
+    padding: 28px 24px 32px;
+  }
+
+  .form-wrapper h1 {
+    font-size: 22px;
+  }
+}
+

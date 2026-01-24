@@ -40,7 +40,8 @@ const Header = () => {
           ) : (
             <div className="user-info">
               <Link to="/profile" className="username">
-                👤 {user.username}
+                👤 {user.first_name || user.username}
+
               </Link>
               <button className="logout-btn" onClick={handleLogout}>
                 <span>Вийти</span>
