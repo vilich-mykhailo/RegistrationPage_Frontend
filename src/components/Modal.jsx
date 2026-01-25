@@ -1,30 +1,40 @@
-import { useState } from "react";
+import { useEffect } from "react";
 
-function Modal({ open, onClose, children }) {
-  const [mouseDownInside, setMouseDownInside] = useState(false);
-
+const Modal = ({ open, onClose, children }) => {
   if (!open) return null;
 
+  // 🔒 Блокуємо скрол фону
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, []);
+
+  // ⌨️ Закриття по ESC
+  useEffect(() => {
+    const handleEsc = (e) => {
+      if (e.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", handleEsc);
+    return () => window.removeEventListener("keydown", handleEsc);
+  }, [onClose]);
+
   return (
-    <div
-      className="modal-overlay"
-      onMouseUp={() => {
-        // закриваємо тільки якщо клік почався НЕ у вікні
-        if (!mouseDownInside) {
-          onClose();
-        }
-        setMouseDownInside(false);
-      }}
-    >
+    <div className="modal-overlay" onClick={onClose}>
       <div
-        className="modal-window activation-card"
-        onMouseDown={() => setMouseDownInside(true)}
-        onClick={(e) => e.stopPropagation()}
+        className="modal-content"
+        onClick={(e) => e.stopPropagation()} // ❌ не закривати при кліку всередині
       >
         {children}
+
+        {/* ❌ ЄДИНА КНОПКА ЗАКРИТТЯ — У КУТІ МАЛОГО ВІКНА */}
+        <button className="modal-close" onClick={onClose}>
+          ✕
+        </button>
       </div>
     </div>
   );
-}
+};
 
 export default Modal;

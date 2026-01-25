@@ -12,16 +12,6 @@
     ),
 }
 
-.password-field {
-  position: relative;
-  width: 100%;
-}
-
-.password-field input {
-  height: 48px;              /* 🔥 фіксована висота */
-  line-height: 48px;
-  padding-right: 44px;
-}
 
 .toggle-password {
   position: absolute;
@@ -133,6 +123,9 @@
     box-shadow 0.15s ease;
 }
 
+.form-btn-gotowo {
+width: 100%;
+}
 /* Hover */
 .form-btn:hover {
   background-color: #1d4ed8;

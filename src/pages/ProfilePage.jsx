@@ -8,7 +8,8 @@ import Modal from "../components/Modal.jsx";
 
 const ProfilePage = () => {
   const [dateError, setDateError] = useState(false);
-const { user, login } = useAuth();
+  const { user, login, logout } = useAuth();
+
   const token = localStorage.getItem("token");
   const [successMessage, setSuccessMessage] = useState(false);
   const [savedProfile, setSavedProfile] = useState(null);
@@ -17,7 +18,7 @@ const { user, login } = useAuth();
   const [showEmailForm, setShowEmailForm] = useState(false);
   const [passwordRequestSuccess, setPasswordRequestSuccess] = useState(false);
   const [emailRequestSuccess, setEmailRequestSuccess] = useState(false);
-  
+
   const closeEmailModal = () => {
     setShowEmailForm(false);
     setEmailRequestSuccess(false);
@@ -111,12 +112,12 @@ const { user, login } = useAuth();
   };
 
   const [profile, setProfile] = useState({
-    first_name: "",
-    last_name: "",
-    phone: "",
-    address: "",
-    birth_date: "",
-    gender: "",
+  first_name: "...",
+  last_name: "...",
+  phone: "...",
+  address: "...",
+  birth_date: "...",
+  gender: "..."
   });
 
   const [emailForm, setEmailForm] = useState({
@@ -218,15 +219,14 @@ const { user, login } = useAuth();
       };
 
       // 🔥 ОНОВЛЮЄМО USER В AUTH CONTEXT (ДЛЯ ХЕДЕРА)
-const updatedUser = {
-  ...user,
-  first_name: updated.first_name,
-  last_name: updated.last_name,
-};
+      const updatedUser = {
+        ...user,
+        first_name: updated.first_name,
+        last_name: updated.last_name,
+      };
 
-// зберігаємо в context + localStorage
-login(updatedUser);
-
+      // зберігаємо в context + localStorage
+      login(updatedUser);
 
       setProfile(updated);
       setSavedProfile(updated);
@@ -318,7 +318,6 @@ login(updatedUser);
           {/* SECURITY ACTIONS */}
           <div className="profile-card security-card">
             <h3 className="profile-title">Безпека</h3>
-
             <div
               className="security-item"
               onClick={() => {
@@ -346,7 +345,6 @@ login(updatedUser);
               </div>
               <div className="security-arrow">›</div>
             </div>
-
             <div
               className="security-item"
               onClick={() => {
@@ -366,6 +364,21 @@ login(updatedUser);
                 </div>
               </div>
               <div className="security-arrow">›</div>
+            </div>
+            {/* 🔴 LOGOUT */}{" "}
+            <div className="security-item logout-item" onClick={() => logout()}>
+              {" "}
+              <div className="security-icon logout-icon">🚪</div>{" "}
+              <div className="security-text">
+                {" "}
+                <div className="security-title logout-title">
+                  Вийти з акаунта
+                </div>{" "}
+                <div className="security-subtitle logout-subtitle">
+                  {" "}
+                  Завершити поточну сесію{" "}
+                </div>{" "}
+              </div>{" "}
             </div>
           </div>
         </div>
@@ -406,7 +419,10 @@ login(updatedUser);
               Якщо листа немає — перевірте папку <b>«Спам»</b>.
             </p>
 
-            <button className="form-btn" onClick={closePasswordModal}>
+            <button
+              className="form-btn form-btn-gotowo"
+              onClick={closePasswordModal}
+            >
               Готово
             </button>
           </div>
@@ -662,7 +678,10 @@ login(updatedUser);
               Якщо листа немає — перевірте папку <b>«Спам»</b>.
             </p>
 
-            <button className="form-btn" onClick={closePasswordModal}>
+            <button
+              className="form-btn form-btn-gotowo"
+              onClick={closeEmailModal}
+            >
               Готово
             </button>
           </div>
@@ -746,10 +765,10 @@ login(updatedUser);
                 {loading ? "Надсилання..." : "Зберегти пошту"}
               </button>
             </form>
-
             <button className="modal-close" onClick={closeEmailModal}>
               ✕
             </button>
+
           </>
         )}
       </Modal>

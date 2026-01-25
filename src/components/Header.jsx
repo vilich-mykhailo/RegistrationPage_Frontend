@@ -1,20 +1,15 @@
-// src/components/Header.jsx
-import { NavLink, Link, useNavigate } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { FaUser, FaBalanceScale, FaHeart, FaRegCommentDots, FaShoppingCart } from "react-icons/fa";
 import "./Header.css";
 
 const Header = () => {
-  const { user, isAuthenticated, logout } = useAuth();
-  const navigate = useNavigate();
-
-  const handleLogout = () => {
-    logout();
-    navigate("/login");
-  };
+  const { user, isAuthenticated } = useAuth();
 
   return (
     <header className="header">
       <nav className="nav">
+        {/* Left side */}
         <div className="nav-left">
           <NavLink to="/" className="nav-link">
             Home
@@ -27,6 +22,7 @@ const Header = () => {
           )}
         </div>
 
+        {/* Right side */}
         <div className="nav-right">
           {!isAuthenticated ? (
             <>
@@ -38,30 +34,32 @@ const Header = () => {
               </Link>
             </>
           ) : (
-            <div className="user-info">
-              <Link to="/profile" className="username">
-                👤 {user.first_name || user.username}
-
+            <div className="header-icons">
+              {/* Profile icon + username under it */}
+              <Link to="/profile" className="icon-item">
+                <FaUser />
+                <span>{user.username || "Увійти"}</span>
               </Link>
-              <button className="logout-btn" onClick={handleLogout}>
-                <span>Вийти</span>
 
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" />
-                  <path d="M10 17l5-5-5-5" />
-                  <path d="M15 12H3" />
-                </svg>
-              </button>
+              <Link to="/compare" className="icon-item">
+                <FaBalanceScale />
+                <span>Порівняння</span>
+              </Link>
+
+              <Link to="/favourites" className="icon-item">
+                <FaHeart />
+                <span>Обране</span>
+              </Link>
+
+              <Link to="/messages" className="icon-item">
+                <FaRegCommentDots />
+                <span>Повідомлення</span>
+              </Link>
+
+              <Link to="/cart" className="icon-item cart">
+                <FaShoppingCart />
+                <span>Кошик</span>
+              </Link>
             </div>
           )}
         </div>

@@ -35,7 +35,7 @@ input:focus {
 }
 
 /* ===== FORM BUTTON ===== */
-.form-btn {
+/* .form-btn {
   margin-top: 10px;
   padding: 12px;
   border-radius: 8px;
@@ -48,7 +48,7 @@ input:focus {
 
 .form-btn:hover {
   background-color: #1d4ed8;
-}
+} */
 
 /* ===== стилі для email та password (підказки) ===== */
 .field {
