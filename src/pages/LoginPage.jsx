@@ -12,19 +12,16 @@ const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({});
 
-  const SESSION_DURATION = 24 * 60 * 60 * 1000; // 1 день
+  const SESSION_DURATION = 24 * 60 * 60 * 1000;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     setErrors({});
 
     try {
       const res = await fetch("http://localhost:5000/api/auth/login", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
 
@@ -46,18 +43,18 @@ const LoginPage = () => {
 
       login(data.user);
       navigate("/");
-    } catch (error) {
+    } catch {
       setErrors({ general: "Помилка сервера. Спробуйте пізніше." });
     }
   };
 
   return (
-    <div className="section-login">
-      <div className="form-wrapper">
-        <h1>Вхід</h1>
+    <div className="login-form-section">
+      <div className="login-form-wrapper">
+        <h1 className="login-form-title">Вхід</h1>
 
-        <form className="login-form" onSubmit={handleSubmit}>
-          <div className="field">
+        <form className="login-form-form" onSubmit={handleSubmit}>
+          <div className="login-form-field">
             <input
               type="email"
               placeholder="Email"
@@ -68,15 +65,19 @@ const LoginPage = () => {
                   setErrors((prev) => ({ ...prev, email: null }));
                 }
               }}
-              className={errors.email ? "input-error" : ""}
+              className={`login-form-input ${
+                errors.email ? "login-form-input-error" : ""
+              }`}
               required
             />
 
-            {errors.email && <p className="error">{errors.email}</p>}
+            {errors.email && (
+              <p className="login-form-error">{errors.email}</p>
+            )}
           </div>
 
-          <div className="field">
-            <div className="password-field">
+          <div className="login-form-field">
+            <div className="login-form-password-field">
               <input
                 type={showPassword ? "text" : "password"}
                 placeholder="Пароль"
@@ -87,44 +88,24 @@ const LoginPage = () => {
                     setErrors((prev) => ({ ...prev, password: null }));
                   }
                 }}
-                className={errors.password ? "input-error" : ""}
+                className={`login-form-input ${
+                  errors.password ? "login-form-input-error" : ""
+                }`}
                 required
               />
 
               <button
                 type="button"
-                className="toggle-password"
+                className="login-form-toggle-password"
                 onClick={() => setShowPassword((prev) => !prev)}
               >
                 {showPassword ? (
-                  /* 👁 ВІДКРИТЕ ОКО */
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
                     <circle cx="12" cy="12" r="3" />
                   </svg>
                 ) : (
-                  /* 🚫👁 */
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
                     <circle cx="12" cy="12" r="3" />
                     <line x1="3" y1="21" x2="21" y2="3" />
@@ -133,22 +114,30 @@ const LoginPage = () => {
               </button>
             </div>
 
-            {errors.password && <p className="error">{errors.password}</p>}
+            {errors.password && (
+              <p className="login-form-error">{errors.password}</p>
+            )}
           </div>
 
-          <div className="forgot-password">
+          <div className="login-form-forgot-password">
             <button
               type="button"
-              className="forgot-link"
+              className="login-form-forgot-link"
               onClick={() => navigate("/forgot-password")}
             >
               Забули пароль?
             </button>
           </div>
 
-          <button className="form-btn" type="submit">
+          <button className="login-form-submit-btn login-btn" type="submit">
             Увійти
           </button>
+
+          {errors.general && (
+            <p className="login-form-error login-form-general-error">
+              {errors.general}
+            </p>
+          )}
         </form>
       </div>
     </div>

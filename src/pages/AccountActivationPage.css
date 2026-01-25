@@ -1,5 +1,7 @@
+/* ===== SUCCESS / ACTIVATION MODAL CENTER ===== */
+
 .activation-wrapper {
-  min-height: calc(100vh - 70px); /* якщо є хедер */
+  min-height: calc(100vh - 70px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -9,58 +11,69 @@
 
 .activation-card {
   background: #ffffff;
-  border-radius: 16px;
-  padding: 40px 32px;
+  border-radius: 18px;
+  padding: 36px 32px 40px;
   max-width: 420px;
   width: 100%;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.12);
+  animation: fadeIn 0.4s ease;
+
+  /* 🔥 ГОЛОВНЕ */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   text-align: center;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
-  animation: fadeIn 0.5s ease;
 }
 
+/* ICON */
 .activation-icon {
   font-size: 48px;
-  margin-bottom: 16px;
+  margin-bottom: 18px;
+  line-height: 1;
 }
 
+/* TITLE */
 .activation-title {
   font-size: 24px;
   font-weight: 700;
   color: #1f2937;
-  margin-bottom: 12px;
-}
+  margin-bottom: 14px;
+  text-align: center;
+  width: 100%;
+} 
 
+/* TEXT */
 .activation-text {
-    font-size: 14px;
+  font-size: 14px;
   color: #6b7280;
   line-height: 1.6;
-  margin-top: 12px;
-}
-.activation-button {
-  display: block;
+  margin-top: 8px;
+  margin-bottom: 26px;
+  text-align: center;
+
+  /* 🔥 ІДЕАЛЬНИЙ ЦЕНТР */
+  width: 100%;
+} 
+
+/* BUTTON */
+.activation-button,
+.form-btn-gotowo {
   width: 100%;
   padding: 12px 28px;
-  font-size: 16px;
-  text-decoration: none;
-  background-color: #2563eb;
-  color: #ffffff;
-  border: none;
-  border-radius: 10px;
-
+  font-size: 15px;
   font-weight: 600;
-  transition: all 0.2s ease;
-
-  margin-top: 24px;
-  box-sizing: border-box;
-
-  position: relative;   /* 👈 важливо */
+  background: linear-gradient(135deg, #2563eb, #7c3aed);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
   cursor: pointer;
+  transition: all 0.25s ease;
+  text-decoration: none;
 }
 
-
-.activation-button:hover {
-  background-color: #1d4ed8;
-  transform: translateY(-1px);
-  box-shadow: 0 6px 14px rgba(37, 99, 235, 0.3);
-  cursor: pointer;
+.activation-button:hover,
+.form-btn-gotowo:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(37, 99, 235, 0.35);
 }

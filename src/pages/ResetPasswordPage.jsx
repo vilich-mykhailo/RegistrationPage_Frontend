@@ -31,7 +31,8 @@ function ResetPasswordPage() {
 
   const hasPassword = password.length > 0;
   const hasLetters = /[A-Za-z]/.test(password);
-  const onlyEnglishLetters = /^[A-Za-z0-9^_!@#$%^&*()+=\-[\]\\';,/{}|\":<>?]+$/.test(password);
+  const onlyEnglishLetters =
+    /^[A-Za-z0-9^_!@#$%^&*()+=\-[\]\\';,/{}|\":<>?]+$/.test(password);
 
   const isPasswordValid =
     passwordRules.length &&
@@ -41,14 +42,15 @@ function ResetPasswordPage() {
     passwordRules.symbol &&
     onlyEnglishLetters;
 
-  const passwordsMatch = password === confirmPassword && confirmPassword.length > 0;
+  const passwordsMatch =
+    password === confirmPassword && confirmPassword.length > 0;
 
   // 🔥 CHECK TOKEN ON MOUNT
   useEffect(() => {
     const checkToken = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:5000/api/auth/check-reset-token/${token}`
+          `http://localhost:5000/api/auth/check-reset-token/${token}`,
         );
 
         setValidToken(Boolean(res.data.valid));
@@ -65,8 +67,8 @@ function ResetPasswordPage() {
   // 🔄 LOADING TOKEN CHECK
   if (loading) {
     return (
-      <div className="activation-wrapper">
-        <div className="activation-card">
+      <div className="securemail-password-activation-wrapper">
+        <div className="securemail-password-activation-card">
           <p>Перевіряємо посилання...</p>
         </div>
       </div>
@@ -76,18 +78,18 @@ function ResetPasswordPage() {
   // ❌ INVALID TOKEN
   if (!validToken) {
     return (
-      <div className="activation-wrapper">
-        <div className="activation-card">
-          <div className="activation-icon">❌</div>
+      <div className="securemail-password-activation-wrapper">
+        <div className="securemail-password-activation-card">
+          <div className="securemail-password-activation-icon">❌</div>
 
-          <h1 className="activation-title">Посилання недійсне</h1>
+          <h1 className="securemail-password-activation-title">Посилання недійсне</h1>
 
-          <p className="activation-text">
+          <p className="securemail-password-activation-text">
             Це посилання вже використано або термін його дії закінчився.
           </p>
 
           <button
-            className="activation-button"
+            className="securemail-password-activation-button"
             onClick={() => navigate("/forgot-password")}
           >
             Запросити нове
@@ -118,7 +120,7 @@ function ResetPasswordPage() {
 
       await axios.post(
         `http://localhost:5000/api/auth/reset-password/${token}`,
-        { password }
+        { password },
       );
 
       setSuccess(true);
@@ -132,18 +134,18 @@ function ResetPasswordPage() {
   // ✅ SUCCESS
   if (success) {
     return (
-      <div className="activation-wrapper">
-        <div className="activation-card">
-          <div className="activation-icon">🎉</div>
+      <div className="securemail-password-activation-wrapper">
+        <div className="securemail-password-activation-card">
+          <div className="securemail-password-activation-icon">🎉</div>
 
-          <h1 className="activation-title">Пароль змінено</h1>
+          <h1 className="securemail-password-activation-title">Пароль змінено</h1>
 
-          <p className="activation-text">
+          <p className="securemail-password-activation-text">
             Тепер ви можете увійти з новим паролем
           </p>
 
           <button
-            className="activation-button"
+            className="securemail-password-activation-button"
             onClick={() => navigate("/login")}
           >
             Увійти
@@ -157,13 +159,13 @@ function ResetPasswordPage() {
         FORM
   ========================= */
   return (
-    <div className="activation-wrapper">
-      <div className="activation-card">
-        <h1 className="activation-title">Новий пароль</h1>
+    <div className="securemail-password-activation-wrapper">
+      <div className="securemail-password-activation-card">
+        <h1 className="securemail-password-activation-title">Новий пароль</h1>
 
         <form onSubmit={handleSubmit} noValidate>
           {/* PASSWORD */}
-          <div className="password-field">
+          <div className="securemail-password-password-field">
             <input
               type={showPassword ? "text" : "password"}
               placeholder="Новий пароль"
@@ -174,7 +176,7 @@ function ResetPasswordPage() {
 
             <button
               type="button"
-              className="toggle-password"
+              className="securemail-password-toggle-password"
               onClick={() => setShowPassword((prev) => !prev)}
               aria-label={showPassword ? "Hide password" : "Show password"}
             >
@@ -216,20 +218,28 @@ function ResetPasswordPage() {
           </div>
 
           {/* HINTS */}
-          <div className="reset-password-hints">
-            <div className="password-hints">
-              <p className={passwordRules.length ? "ok" : ""}>• Щонайменше 8 символів</p>
-              <p className={passwordRules.upper ? "ok" : ""}>• Одна велика літера</p>
-              <p className={passwordRules.lower ? "ok" : ""}>• Одна мала літера</p>
+            <div className="securemail-password-reset-password-hints">
+              <div className="securemail-password-password-hints">
+              <p className={passwordRules.length ? "ok" : ""}>
+                • Щонайменше 8 символів
+              </p>
+              <p className={passwordRules.upper ? "ok" : ""}>
+                • Одна велика літера
+              </p>
+              <p className={passwordRules.lower ? "ok" : ""}>
+                • Одна мала літера
+              </p>
               <p className={passwordRules.number ? "ok" : ""}>• Одна цифра</p>
-              <p className={passwordRules.symbol ? "ok" : ""}>• Один спеціальний символ</p>
+              <p className={passwordRules.symbol ? "ok" : ""}>
+                • Один спеціальний символ
+              </p>
               <p
                 className={
                   !hasPassword || !hasLetters
                     ? ""
                     : onlyEnglishLetters
-                    ? "ok"
-                    : "error"
+                      ? "ok"
+                      : "error"
                 }
               >
                 • Англійські літери (A–Z)
@@ -238,7 +248,7 @@ function ResetPasswordPage() {
           </div>
 
           {/* CONFIRM PASSWORD */}
-          <div className="password-field">
+          <div className="securemail-password-password-field">
             <input
               type={showConfirmPassword ? "text" : "password"}
               placeholder="Підтвердіть пароль"
@@ -249,7 +259,7 @@ function ResetPasswordPage() {
 
             <button
               type="button"
-              className="toggle-password"
+              className="securemail-password-toggle-password"
               onClick={() => setShowConfirmPassword((prev) => !prev)}
               aria-label={
                 showConfirmPassword
@@ -296,16 +306,18 @@ function ResetPasswordPage() {
 
           {/* ERRORS */}
           {submitAttempted && !isPasswordValid && (
-            <p className="error">Пароль не відповідає вимогам безпеки</p>
+            <p className="securemail-passworderror">
+              Пароль не відповідає вимогам безпеки
+            </p>
           )}
 
           {submitAttempted && confirmPassword.length > 0 && !passwordsMatch && (
-            <p className="error">Паролі не співпадають</p>
+            <p className="securemail-passworderror">Паролі не співпадають</p>
           )}
 
           {/* SUBMIT */}
           <button
-            className="form-btn"
+            className="securemail-password-form-btn"
             type="submit"
             disabled={submitting}
           >

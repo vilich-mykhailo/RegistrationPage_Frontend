@@ -112,12 +112,12 @@ const ProfilePage = () => {
   };
 
   const [profile, setProfile] = useState({
-  first_name: "...",
-  last_name: "...",
-  phone: "...",
-  address: "...",
-  birth_date: "...",
-  gender: "..."
+    first_name: "...",
+    last_name: "...",
+    phone: "...",
+    address: "...",
+    birth_date: "...",
+    gender: "...",
   });
 
   const [emailForm, setEmailForm] = useState({
@@ -323,6 +323,7 @@ const ProfilePage = () => {
               onClick={() => {
                 setShowPasswordForm(true);
                 setShowEmailForm(false);
+
                 // 🔥 повний reset перед відкриттям
                 setPasswordForm({
                   oldPassword: "",
@@ -419,16 +420,14 @@ const ProfilePage = () => {
               Якщо листа немає — перевірте папку <b>«Спам»</b>.
             </p>
 
-            <button
-              className="form-btn form-btn-gotowo"
-              onClick={closePasswordModal}
-            >
+            <button className="security-form-btn" onClick={closePasswordModal}>
               Готово
             </button>
           </div>
         ) : (
           /* 🔐 ФОРМА ЗМІНИ ПАРОЛЯ */
           <form
+            className="security-reset-form"
             onSubmit={async (e) => {
               e.preventDefault();
               setSubmitAttempted(true);
@@ -472,10 +471,10 @@ const ProfilePage = () => {
             }}
           >
             {/* 🔹 СТАРИЙ ПАРОЛЬ */}
-            <div className="password-field">
+            <div className="security-password-field">
               <input
                 type="password"
-                placeholder="Старий пароль"
+                placeholder="Старий пароль*"
                 value={passwordForm.oldPassword}
                 onChange={(e) =>
                   setPasswordForm({
@@ -488,10 +487,10 @@ const ProfilePage = () => {
             </div>
 
             {/* 🔹 НОВИЙ ПАРОЛЬ */}
-            <div className="password-field">
+            <div className="security-password-field">
               <input
                 type={showPassword ? "text" : "password"}
-                placeholder="Новий пароль"
+                placeholder="Новий пароль*"
                 value={passwordForm.password}
                 onChange={(e) =>
                   setPasswordForm({
@@ -501,10 +500,9 @@ const ProfilePage = () => {
                 }
                 required
               />
-
               <button
                 type="button"
-                className="toggle-password"
+                className="security-toggle-password"
                 onClick={() => setShowPassword((prev) => !prev)}
               >
                 {showPassword ? (
@@ -545,8 +543,8 @@ const ProfilePage = () => {
             </div>
 
             {/* 🔹 ПРАВИЛА ПАРОЛЯ (ЯК У RESET) */}
-            <div className="reset-password-hints">
-              <div className="password-hints">
+            <div className="security-reset-password-hints">
+              <div className="security-password-hints">
                 <p className={passwordRules.length ? "ok" : ""}>
                   • Щонайменше 8 символів
                 </p>
@@ -581,10 +579,10 @@ const ProfilePage = () => {
             {error && <p className="error">{error}</p>}
 
             {/* 🔹 ПІДТВЕРДЖЕННЯ */}
-            <div className="password-field">
+            <div className="security-password-field">
               <input
                 type={showConfirmPassword ? "text" : "password"}
-                placeholder="Підтвердіть пароль"
+                placeholder="Підтвердіть пароль*"
                 value={passwordForm.confirmPassword}
                 onChange={(e) => {
                   setPasswordForm({
@@ -598,7 +596,7 @@ const ProfilePage = () => {
 
               <button
                 type="button"
-                className="toggle-password"
+                className="security-toggle-password"
                 onClick={() => setShowConfirmPassword((prev) => !prev)}
               >
                 {showConfirmPassword ? (
@@ -642,7 +640,11 @@ const ProfilePage = () => {
               <p className="error">{confirmPasswordError}</p>
             )}
 
-            <button className="form-btn" type="submit" disabled={loading}>
+            <button
+              className="security-form-btn"
+              type="submit"
+              disabled={loading}
+            >
               {loading ? "Надсилання..." : "Змінити пароль"}
             </button>
           </form>
@@ -657,14 +659,7 @@ const ProfilePage = () => {
       {/* ===== EMAIL MODAL ===== */}
       <Modal
         open={showEmailForm}
-        onClose={() => {
-          setShowEmailForm(false);
-          setEmailRequestSuccess(false);
-
-          // 🔥 чистимо форму
-          setEmailForm({ newEmail: "", confirmEmail: "" });
-          setError("");
-        }}
+        onClose={closeEmailModal} // 🔥 ОТ ТУТ ГОЛОВНИЙ ФІКС
       >
         {emailRequestSuccess ? (
           /* 🔥 SUCCESS SCREEN */
@@ -678,10 +673,7 @@ const ProfilePage = () => {
               Якщо листа немає — перевірте папку <b>«Спам»</b>.
             </p>
 
-            <button
-              className="form-btn form-btn-gotowo"
-              onClick={closeEmailModal}
-            >
+            <button className="security-form-btn" onClick={closeEmailModal}>
               Готово
             </button>
           </div>
@@ -691,7 +683,7 @@ const ProfilePage = () => {
             <h1 className="activation-title">Зміна електронної пошти</h1>
 
             <form
-              className="profile-form"
+              className="security-email-reset-form"
               onSubmit={async (e) => {
                 e.preventDefault();
                 setLoading(true);
@@ -736,39 +728,44 @@ const ProfilePage = () => {
                 }
               }}
             >
-              <input
-                type="email"
-                placeholder="Нова пошта*"
-                value={emailForm.newEmail}
-                onChange={(e) =>
-                  setEmailForm({ ...emailForm, newEmail: e.target.value })
-                }
-                required
-              />
-
-              <input
-                type="email"
-                placeholder="Повторіть нову пошту"
-                value={emailForm.confirmEmail}
-                onChange={(e) =>
-                  setEmailForm({
-                    ...emailForm,
-                    confirmEmail: e.target.value,
-                  })
-                }
-                required
-              />
-
+              <div className="security-email-password-field">
+                <input
+                  type="email"
+                  placeholder="Нова пошта*"
+                  value={emailForm.newEmail}
+                  onChange={(e) =>
+                    setEmailForm({ ...emailForm, newEmail: e.target.value })
+                  }
+                  required
+                />
+              </div>
+              <div className="security-email-password-field">
+                <input
+                  type="email"
+                  placeholder="Повторіть нову пошту*"
+                  value={emailForm.confirmEmail}
+                  onChange={(e) =>
+                    setEmailForm({
+                      ...emailForm,
+                      confirmEmail: e.target.value,
+                    })
+                  }
+                  required
+                />
+              </div>
               {error && <p className="error">{error}</p>}
 
-              <button className="form-btn" type="submit" disabled={loading}>
+              <button
+                className="security-email-form-btn"
+                type="submit"
+                disabled={loading}
+              >
                 {loading ? "Надсилання..." : "Зберегти пошту"}
               </button>
             </form>
             <button className="modal-close" onClick={closeEmailModal}>
               ✕
             </button>
-
           </>
         )}
       </Modal>

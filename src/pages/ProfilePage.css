@@ -1,9 +1,9 @@
-/* ===== PROFILE PAGE – MODERN UI ===== */
+/* ===== PROFILE PAGE BASE ===== */
 
 .profile-section {
   min-height: 100vh;
-  background: #f6f7fb;
-  padding: 40px 16px 80px;
+  background: linear-gradient(135deg, #f6f8fb, #eef2f7);
+  padding: 40px 20px 80px;
 }
 
 .profile-container {
@@ -15,18 +15,22 @@
 }
 
 /* ===== CARDS ===== */
+
 .profile-card {
-  background: #fff;
-  border-radius: 18px;
-  padding: 28px 28px 32px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 28px 28px 34px;
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.05),
+    0 2px 8px rgba(0, 0, 0, 0.04);
+
   animation: fadeUp 0.5s ease both;
 }
 
 @keyframes fadeUp {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(16px);
   }
   to {
     opacity: 1;
@@ -38,70 +42,77 @@
   font-size: 20px;
   font-weight: 600;
   margin-bottom: 22px;
+  color: #1f2937;
 }
 
 /* ===== FORM ===== */
-.profile-form {
-  display: grid;
-  gap: 14px;
-}
 
+.profile-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.password-full-field {
+  width: 100%;
+}
 .profile-form input,
 .profile-form select {
   height: 46px;
-  border-radius: 10px;
-  border: 1px solid #ddd;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
   padding: 0 14px;
   font-size: 14px;
   transition: all 0.25s ease;
-  background: #fff;
+  background: #ffffff;
 }
 
 .profile-form input:focus,
 .profile-form select:focus {
   outline: none;
-  border-color: #ff6a00;
-  box-shadow: 0 0 0 3px rgba(255, 106, 0, 0.15);
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
 }
 
 .profile-form input:disabled {
-  background: #f2f2f2;
-  color: #888;
+  background: #f3f4f6;
+  color: #9ca3af;
 }
 
-/* Date field */
+/* Date */
+
 .date-field {
   position: relative;
 }
 
 .error-text {
   font-size: 12px;
-  color: #e53935;
+  color: #ef4444;
   margin-top: 4px;
 }
 
 .input-error {
-  border-color: #e53935 !important;
-  box-shadow: 0 0 0 3px rgba(229, 57, 53, 0.15);
+  border-color: #ef4444 !important;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15);
 }
 
-/* ===== SAVE BUTTON ===== */
+/* ===== Профіль акаунт ===== */
+
 .profile-btn {
-  margin-top: 14px;
+  margin-top: 18px;
   height: 48px;
-  border-radius: 12px;
+  border-radius: 14px;
   border: none;
   font-size: 14px;
   font-weight: 600;
-  color: #fff;
-  background: linear-gradient(135deg, #ff8a00, #ff6a00);
+  color: #ffffff;
+  background: linear-gradient(135deg, #6366f1, #4f46e5);
   cursor: pointer;
   transition: all 0.25s ease;
 }
 
 .profile-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(255, 106, 0, 0.35);
+  box-shadow: 0 10px 26px rgba(99, 102, 241, 0.35);
 }
 
 .profile-btn:active {
@@ -109,20 +120,22 @@
 }
 
 .profile-btn.disabled {
-  background: #ccc;
+  background: #d1d5db;
   cursor: not-allowed;
   box-shadow: none;
   transform: none;
 }
 
 /* ===== RIGHT COLUMN ===== */
+
 .profile-right {
   display: flex;
   flex-direction: column;
   gap: 24px;
 }
 
-/* ===== SECURITY BLOCK ===== */
+/* ===== Блок БЕЗПЕКА ===== */
+
 .security-card {
   padding: 24px;
 }
@@ -131,14 +144,14 @@
   display: flex;
   align-items: center;
   gap: 14px;
-  padding: 14px 12px;
-  border-radius: 12px;
+  padding: 14px 14px;
+  border-radius: 14px;
   cursor: pointer;
   transition: all 0.25s ease;
 }
 
 .security-item:hover {
-  background: #f8f9fc;
+  background: #f8fafc;
   transform: translateX(4px);
 }
 
@@ -153,168 +166,303 @@
 .security-title {
   font-weight: 600;
   font-size: 14px;
+  color: #1f2937;
 }
 
 .security-subtitle {
   font-size: 12px;
-  color: #777;
+  color: #6b7280;
 }
 
 .security-arrow {
   font-size: 20px;
-  color: #bbb;
+  color: #c7c7c7;
 }
 
-/* Logout style */
+/* ===== Вийти з акаунта ===== */
+
 .logout-item:hover {
-  background: #fff1f1;
+  background: #fff1f2;
 }
 
 .logout-title {
-  color: #e53935;
+  color: #dc2626;
 }
 
 .logout-subtitle {
-  color: #e57373;
+  color: #f87171;
 }
+
+/* ===== SUCCESS TOAST ===== */
 
 /* ===== SUCCESS TOAST ===== */
 .success-toast {
   position: fixed;
   bottom: 30px;
   right: 30px;
-  background: #2e7d32;
-  color: #fff;
+  z-index: 9999;
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  background: rgba(5, 70, 29, 0.85);
+  backdrop-filter: blur(6px);
+
+  color: #ffffff;
   padding: 14px 20px;
-  border-radius: 10px;
+  border-radius: 12px;
   font-size: 14px;
+  font-weight: 500;
+
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
-  animation: toastIn 0.4s ease, toastOut 0.4s ease 2.6s forwards;
+
+  animation:
+    toastIn 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    toastOut 0.4s ease 2.6s forwards;
 }
 
+/* ===== ANIMATIONS ===== */
 @keyframes toastIn {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(20px) scale(0.98);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
   }
 }
 
 @keyframes toastOut {
   to {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(20px) scale(0.98);
   }
 }
-/* Overlay – центр екрану */
-.modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.45);
-  backdrop-filter: blur(3px);
+
+
+/* ===== БЕЗПЕКА - ЗМІНА ПАРОЛЯ ===== */
+
+.security-reset-form {
+  width: 100%;
+  max-width: 360px;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-  animation: fadeIn 0.25s ease;
+  flex-direction: column;
+  gap: 8px;                 /* 🔥 ідеальний вертикальний ритм */
+  margin-top: 8px;
 }
 
-.modal-close {
-  position: absolute;
-  top: 6px;
-  right: 6px;
-  width: 25px;
-  height: 25px;
-  border-radius: 50%;
-  border: none;
-  background: #e6e6e6;
-  cursor: pointer;
-  font-size: 10px;
-  line-height: 1;
+.security-password-field {
+  position: relative;
+  width: 100%;
   display: flex;
   align-items: center;
-  justify-content: center;
-  color: #222222;
+}
+
+.security-password-field input::placeholder {
+  color: #b9b9b9;
+}
+
+.security-password-field input {
+  width: 100%;
+  height: 48px;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  padding: 0 50px 0 16px;     /* 🔥 місце під іконку */
+  font-size: 14px;
+  background: #ffffff;
   transition: all 0.25s ease;
 }
 
-.modal-close:hover {
-  background: #ff6a00;
-  color: #fff;
-  transform: rotate(90deg) scale(1.05);
-}
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+.security-password-field input:focus {
+  outline: none;
+  border-color: #4f46e5;
 }
 
-@keyframes scaleIn {
-  from {
-    opacity: 0;
-    transform: scale(0.9);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-/* Саме вікно */
-.modal-content {
-  position: relative; /* 🔥 ОБОВʼЯЗКОВО для кнопки */
-  background: #fff;
-  border-radius: 18px;
-  padding: 32px 28px 28px;
-  width: 100%;
-  max-width: 420px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
-  animation: scaleIn 0.3s ease;
-}
-
-/* ===== MODAL STYLES (OVERRIDE) ===== */
-.password-field {
-  position: relative;
-}
-
-
-.toggle-password {
+.security-toggle-password {
   position: absolute;
   right: 12px;
   top: 50%;
   transform: translateY(-50%);
+
   background: none;
   border: none;
+  padding: 6px;
+  border-radius: 10px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   cursor: pointer;
-  color: #777;
+  color: #cfcfcf;
+  transition: all 0.2s ease;
 }
 
-.reset-password-hints {
-  background: #f8f9fc;
-  border-radius: 10px;
-  padding: 12px;
+.security-toggle-password:hover {
+  color: #9e9e9e;
+  background: rgba(158, 158, 158, 0.08);
+  transform: translateY(-50%) scale(1.08);
+}
+
+.security-toggle-password:active {
+  transform: translateY(-50%) scale(0.95);
+}
+
+.security-toggle-password svg {
+  width: 20px;
+  height: 20px;
+  stroke-width: 2;
+}
+
+.security-password-field input:focus + .security-toggle-password {
+  color: #cecece;
+}
+
+.security-password-hints {
+  background: linear-gradient(135deg, #f8fafc, #eef2ff);
+  border-radius: 14px;
+  padding: 14px 16px;
+  margin-top: 6px;
+  margin-bottom: 4px;
+  text-align: left;
+  width: 100%;
+}
+
+.security-password-hints p {
+  font-size: 12px;
+  margin: 4px 0;
+  color: #9ca3af;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  text-align: left;
+}
+
+.security-password-hints p.ok {
+  color: #22c55e;
+}
+
+.security-password-hints p.error {
+  color: #ef4444;
+}
+
+.security-error {
+  font-size: 13px;
+  color: #ef4444;
+  margin-top: 6px;
+}
+
+.security-reset-btn {
+  width: 100%;
+  height: 48px;
+  border-radius: 14px;
+  border: none;
+  font-size: 14px;
+  font-weight: 600;
+  color: #ffffff;
+
+  background: linear-gradient(135deg, #4f46e5, #6366f1);
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.security-reset-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(79, 70, 229, 0.35);
+}
+
+.security-reset-btn:active {
+  transform: scale(0.97);
+}
+
+.security-form-btn {
+  width: 100%;
+  height: 46px;
+  border-radius: 14px;
+  border: none;
+  font-size: 14px;
+  font-weight: 600;
+  color: #ffffff;
+  margin-top: 10px;
+  background: linear-gradient(135deg, #6366f1, #4f46e5);
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.security-form-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 26px rgba(99, 102, 241, 0.35);
+}
+
+.security-form-btn:active {
+  transform: scale(0.97);
+}
+
+/* ===== БЕЗПЕКА - ЗМІНА ПОШТИ ===== */
+
+
+.security-email-reset-form {
+  width: 100%;
+  max-width: 360px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;                 /* 🔥 ідеальний вертикальний ритм */
   margin-top: 8px;
 }
 
-.password-hints p {
-  font-size: 12px;
-  margin: 4px 0;
-  color: #999;
+.security-email-password-field {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
 }
 
-.password-hints p.ok {
-  color: #2e7d32;
+.security-email-password-field input::placeholder {
+  color: #b9b9b9;
 }
 
-.password-hints p.error {
-  color: #e53935;
+.security-email-password-field input {
+  width: 100%;
+  height: 48px;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  padding: 0 50px 0 16px;     /* 🔥 місце під іконку */
+  font-size: 14px;
+  background: #ffffff;
+  transition: all 0.25s ease;
 }
 
-/* ===== RESPONSIVE ===== */
-@media (max-width: 900px) {
-  .profile-container {
-    grid-template-columns: 1fr;
-  }
+.security-email-password-field input:focus {
+  outline: none;
+  border-color: #4f46e5;
+}
+
+.security-email-password-field input:focus + .security-toggle-password {
+  color: #cecece;
+}
+
+.security-email-form-btn {
+  width: 100%;
+  height: 46px;
+  border-radius: 14px;
+  border: none;
+  font-size: 14px;
+  font-weight: 600;
+  margin-top: 10px;
+  color: #ffffff;
+  background: linear-gradient(135deg, #6366f1, #4f46e5);
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.security-email--form-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 26px rgba(99, 102, 241, 0.35);
+}
+
+.security-email--form-btn:active {
+  transform: scale(0.97);
 }

@@ -1,34 +1,64 @@
-import { useEffect } from "react";
-
+import { useEffect, useRef } from "react";
+import "./Modal.css";
 const Modal = ({ open, onClose, children }) => {
-  if (!open) return null;
+  const overlayRef = useRef(null);
+  const mouseDownOnOverlay = useRef(false);
 
-  // 🔒 Блокуємо скрол фону
-  useEffect(() => {
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.body.style.overflow = "auto";
-    };
-  }, []);
+  // 🔒 Блокуємо скрол
+  // useEffect(() => {
+  //   if (!open) return;
 
-  // ⌨️ Закриття по ESC
+  //   document.body.style.overflow = "hidden";
+  //   return () => {
+  //     document.body.style.overflow = "auto";
+  //   };
+  // }, [open]);
+
+  // ⌨️ ESC
   useEffect(() => {
+    if (!open) return;
+
     const handleEsc = (e) => {
       if (e.key === "Escape") onClose();
     };
+
     window.addEventListener("keydown", handleEsc);
     return () => window.removeEventListener("keydown", handleEsc);
-  }, [onClose]);
+  }, [open, onClose]);
+
+  if (!open) return null;
 
   return (
-    <div className="modal-overlay" onClick={onClose}>
+    <div
+      className="modal-overlay"
+      ref={overlayRef}
+      onMouseDown={(e) => {
+        // 🔥 TRUE тільки якщо натиснули САМЕ НА ФОН
+        mouseDownOnOverlay.current = e.target === overlayRef.current;
+      }}
+      onMouseUp={(e) => {
+        // 🔒 Закриваємо ТІЛЬКИ якщо:
+        // - mousedown був на overlay
+        // - mouseup теж на overlay
+        if (
+          mouseDownOnOverlay.current &&
+          e.target === overlayRef.current
+        ) {
+          onClose();
+        }
+
+        // скидаємо стан
+        mouseDownOnOverlay.current = false;
+      }}
+    >
       <div
-        className="modal-content"
-        onClick={(e) => e.stopPropagation()} // ❌ не закривати при кліку всередині
+        className="modal-window"
+        onMouseDown={(e) => e.stopPropagation()}
+        onMouseUp={(e) => e.stopPropagation()}
       >
         {children}
 
-        {/* ❌ ЄДИНА КНОПКА ЗАКРИТТЯ — У КУТІ МАЛОГО ВІКНА */}
+        {/* ❌ КНОПКА ЗАКРИТТЯ */}
         <button className="modal-close" onClick={onClose}>
           ✕
         </button>

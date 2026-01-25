@@ -1,5 +1,5 @@
 /* ===== FORM CONTAINER ===== */
-.form-wrapper {
+/* .form-wrapper {
   width: 100%;
   max-width: 380px;
   background: #ffffff;
@@ -9,7 +9,7 @@
 }
 
 /* ===== FORM ===== */
-form {
+/* form {
   display: flex;
   flex-direction: column;
   gap: 14px;
@@ -18,10 +18,10 @@ form {
 h1 {
   text-align: center;
   margin-bottom: 16px;
-}
+} */
 
 /* ===== INPUTS ===== */
-input {
+/* input {
   width: 100%;
   padding: 12px 14px;
   border-radius: 8px;
@@ -32,26 +32,11 @@ input {
 input:focus {
   outline: none;
   border-color: #2563eb;
-}
-
-/* ===== FORM BUTTON ===== */
-/* .form-btn {
-  margin-top: 10px;
-  padding: 12px;
-  border-radius: 8px;
-  border: none;
-  background-color: #2563eb;
-  color: white;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-.form-btn:hover {
-  background-color: #1d4ed8;
 } */
 
+
 /* ===== стилі для email та password (підказки) ===== */
-.field {
+/* .field {
   display: flex;
   flex-direction: column;
 }
@@ -66,8 +51,8 @@ input:focus {
   color: #4caf50;
   font-size: 14px;
   margin-top: 8px;
-}
-
+}  */
+/* 
 .password-hints p {
   font-size: 12px;
   color: #999;
@@ -80,4 +65,5 @@ input:focus {
 
 .password-hints .error {
   color: #e53935;
-}
+} */
+
