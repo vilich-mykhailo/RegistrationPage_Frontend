@@ -41,10 +41,10 @@ const Header = () => {
                 <span>{user.username || "Увійти"}</span>
               </Link>
 
-              <Link to="/compare" className="icon-item">
+              {/* <Link to="/compare" className="icon-item">
                 <FaBalanceScale />
                 <span>Порівняння</span>
-              </Link>
+              </Link> */}
 
               <Link to="/favourites" className="icon-item">
                 <FaHeart />

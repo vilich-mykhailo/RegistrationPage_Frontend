@@ -28,7 +28,7 @@ function EmailChangedSuccess() {
         </p>
 
         <button
-          className="activation-button"
+          className="security-email-submit-btn security-email-btn"
           onClick={() => navigate("/login")}
         >
           Увійти

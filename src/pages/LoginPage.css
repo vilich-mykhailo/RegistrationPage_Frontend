@@ -1,10 +1,11 @@
 .login-form-section {
-  min-height: 80vh;
+  min-height: 100vh;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: center;      /* по горизонталі */
+  align-items: flex-start;      /* зверху */
   background: linear-gradient(135deg, #f4f6f9, #eef1f5);
   padding: 20px;
+  padding-top: 20vh;            /* ≈ 30% висоти екрана */
 }
 
 .login-form-wrapper {

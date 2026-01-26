@@ -28,7 +28,7 @@ function PasswordChangedSuccess() {
         </p>
 
         <button
-          className="activation-button"
+          className="security-password-submit-btn security-password-btn"
           onClick={() => navigate("/login")}
         >
           Увійти

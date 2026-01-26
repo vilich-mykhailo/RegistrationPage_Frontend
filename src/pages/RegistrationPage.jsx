@@ -11,6 +11,7 @@ const RegistrationPage = () => {
   const [registeredName, setRegisteredName] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const [confirmPassword, setConfirmPassword] = useState("");
 
@@ -68,8 +69,12 @@ const RegistrationPage = () => {
       return;
     }
 
-    setErrors({});
+    if (isLoading) return;
 
+    setErrors({});
+    setIsLoading(true); // 🔥 ВМИКАЄМО LOADING
+
+    const startTime = Date.now(); // ⏱️ старт таймера
     try {
       const res = await fetch("http://localhost:5000/api/auth/signup", {
         method: "POST",
@@ -78,7 +83,10 @@ const RegistrationPage = () => {
       });
 
       const data = await res.json();
-
+      // 🔥 ЧЕКАЄМО, ЩОБ МИНУЛО МІНІМУМ 1 СЕКУНДА
+      const elapsed = Date.now() - startTime;
+      const delay = Math.max(1000 - elapsed, 0);
+      await new Promise((resolve) => setTimeout(resolve, delay));
       if (!res.ok) {
         if (data.message === "Електронна пошта вже існує") {
           setErrors({ email: data.message });
@@ -96,6 +104,8 @@ const RegistrationPage = () => {
       setPassword("");
     } catch {
       setErrors({ general: "Помилка сервера. Спробуйте пізніше." });
+    } finally {
+      setIsLoading(false); // 🔥 ВИМИКАЄМО LOADING
     }
   };
 
@@ -110,90 +120,106 @@ const RegistrationPage = () => {
 
   // ===== REGISTRATION FORM =====
   return (
-  <div className="registration-section">
-    <div className="registration-wrapper">
-      <h1 className="registration-title">Реєстрація</h1>
+    <div className="registration-section">
+      <div className="registration-wrapper">
+        <h1 className="registration-title">Реєстрація</h1>
 
-      <form className="registration-form" onSubmit={handleSubmit}>
-        <div className="registration-field">
-          <input
-            type="text"
-            placeholder="Імʼя користувача*"
-            value={username}
-            onChange={(e) => {
-              setUsername(e.target.value);
-              if (errors.username) {
-                setErrors((prev) => ({ ...prev, username: null }));
-              }
-            }}
-            className={`registration-input ${
-              errors.username ? "registration-input-error" : ""
-            }`}
-          />
-          {errors.username && (
-            <p className="registration-error">{errors.username}</p>
-          )}
-        </div>
-
-        <div className="registration-field">
-          <input
-            type="email"
-            placeholder="Email*"
-            value={email}
-            onChange={(e) => {
-              setEmail(e.target.value);
-              if (errors.email) {
-                setErrors((prev) => ({ ...prev, email: null }));
-              }
-            }}
-            className={`registration-input ${
-              errors.email ? "registration-input-error" : ""
-            }`}
-          />
-          {errors.email && (
-            <p className="registration-error">{errors.email}</p>
-          )}
-        </div>
-
-        {/* PASSWORD */}
-        <div className="registration-field">
-          <div className="registration-password-field">
+        <form className="registration-form" onSubmit={handleSubmit}>
+          <div className="registration-field">
             <input
-              type={showPassword ? "text" : "password"}
-              placeholder="Пароль*"
-              value={password}
+              type="text"
+              placeholder="Імʼя користувача*"
+              value={username}
               onChange={(e) => {
-                setPassword(e.target.value);
-                if (errors.password) {
-                  setErrors((prev) => ({ ...prev, password: null }));
+                setUsername(e.target.value);
+                if (errors.username) {
+                  setErrors((prev) => ({ ...prev, username: null }));
                 }
               }}
               className={`registration-input ${
-                errors.password ? "registration-input-error" : ""
+                errors.username ? "registration-input-error" : ""
               }`}
             />
-
-            <button
-              type="button"
-              className="registration-toggle-password"
-              onClick={() => setShowPassword((prev) => !prev)}
-            >
-              {showPassword ? (
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-                  <circle cx="12" cy="12" r="3" />
-                </svg>
-              ) : (
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-                  <circle cx="12" cy="12" r="3" />
-                  <line x1="3" y1="21" x2="21" y2="3" />
-                </svg>
-              )}
-            </button>
+            {errors.username && (
+              <p className="registration-error">{errors.username}</p>
+            )}
           </div>
 
-          {/* PASSWORD HINTS */}
+          <div className="registration-field">
+            <input
+              type="email"
+              placeholder="Email*"
+              value={email}
+              onChange={(e) => {
+                setEmail(e.target.value);
+                if (errors.email) {
+                  setErrors((prev) => ({ ...prev, email: null }));
+                }
+              }}
+              className={`registration-input ${
+                errors.email ? "registration-input-error" : ""
+              }`}
+            />
+            {errors.email && (
+              <p className="registration-error">{errors.email}</p>
+            )}
+          </div>
+
+          {/* PASSWORD */}
+          <div className="registration-field">
+            <div className="registration-password-field">
+              <input
+                type={showPassword ? "text" : "password"}
+                placeholder="Пароль*"
+                value={password}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                  if (errors.password) {
+                    setErrors((prev) => ({ ...prev, password: null }));
+                  }
+                }}
+                className={`registration-input ${
+                  errors.password ? "registration-input-error" : ""
+                }`}
+              />
+
+              <button
+                type="button"
+                className="registration-toggle-password"
+                onClick={() => setShowPassword((prev) => !prev)}
+              >
+                {showPassword ? (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  >
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                    <circle cx="12" cy="12" r="3" />
+                  </svg>
+                ) : (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  >
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                    <circle cx="12" cy="12" r="3" />
+                    <line x1="3" y1="21" x2="21" y2="3" />
+                  </svg>
+                )}
+              </button>
+            </div>
+
+            {/* PASSWORD HINTS */}
             <div className="registration-reset-password-hints">
               <div className="registration-password-hints">
                 <p className={passwordRules.length ? "ok" : ""}>
@@ -223,75 +249,92 @@ const RegistrationPage = () => {
               </div>
             </div>
 
-          {errors.password && (
-            <p className="registration-error error">{errors.password}</p>
-          )}
-        </div>
-
-        {/* CONFIRM PASSWORD */}
-        <div className="registration-field">
-          <div className="registration-password-field">
-            <input
-              type={showConfirmPassword ? "text" : "password"}
-              placeholder="Підтвердіть пароль*"
-              value={confirmPassword}
-              onChange={(e) => {
-                setConfirmPassword(e.target.value);
-                if (errors.confirmPassword) {
-                  setErrors((prev) => ({
-                    ...prev,
-                    confirmPassword: null,
-                  }));
-                }
-              }}
-              className={`registration-input ${
-                errors.confirmPassword ? "registration-input-error" : ""
-              }`}
-            />
-
-            <button
-              type="button"
-              className="registration-toggle-password"
-              onClick={() =>
-                setShowConfirmPassword((prev) => !prev)
-              }
-            >
-              {showConfirmPassword ? (
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-                  <circle cx="12" cy="12" r="3" />
-                </svg>
-              ) : (
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-                  <circle cx="12" cy="12" r="3" />
-                  <line x1="3" y1="21" x2="21" y2="3" />
-                </svg>
-              )}
-            </button>
+            {errors.password && (
+              <p className="registration-error error">{errors.password}</p>
+            )}
           </div>
 
-          {errors.confirmPassword && (
-            <p className="registration-error error">
-              {errors.confirmPassword}
+          {/* CONFIRM PASSWORD */}
+          <div className="registration-field">
+            <div className="registration-password-field">
+              <input
+                type={showConfirmPassword ? "text" : "password"}
+                placeholder="Підтвердіть пароль*"
+                value={confirmPassword}
+                onChange={(e) => {
+                  setConfirmPassword(e.target.value);
+                  if (errors.confirmPassword) {
+                    setErrors((prev) => ({
+                      ...prev,
+                      confirmPassword: null,
+                    }));
+                  }
+                }}
+                className={`registration-input ${
+                  errors.confirmPassword ? "registration-input-error" : ""
+                }`}
+              />
+
+              <button
+                type="button"
+                className="registration-toggle-password"
+                onClick={() => setShowConfirmPassword((prev) => !prev)}
+              >
+                {showConfirmPassword ? (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  >
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                    <circle cx="12" cy="12" r="3" />
+                  </svg>
+                ) : (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  >
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                    <circle cx="12" cy="12" r="3" />
+                    <line x1="3" y1="21" x2="21" y2="3" />
+                  </svg>
+                )}
+              </button>
+            </div>
+
+            {errors.confirmPassword && (
+              <p className="registration-error error">
+                {errors.confirmPassword}
+              </p>
+            )}
+          </div>
+
+          {errors.general && (
+            <p className="registration-error registration-general-error">
+              {errors.general}
             </p>
           )}
-        </div>
 
-        {errors.general && (
-          <p className="registration-error registration-general-error">
-            {errors.general}
-          </p>
-        )}
-
-        <button className="registration-submit-btn registration-btn" type="submit">
-          Зареєструватись
-        </button>
-      </form>
+          <button
+            className="registration-submit-btn registration-btn"
+            type="submit"
+            disabled={isLoading}
+          >
+            {isLoading ? "Реєстрація..." : "Зареєструватись"}
+          </button>
+        </form>
+      </div>
     </div>
-  </div>
-);
-
+  );
 };
 
 export default RegistrationPage;

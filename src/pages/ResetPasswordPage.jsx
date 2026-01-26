@@ -89,7 +89,7 @@ function ResetPasswordPage() {
           </p>
 
           <button
-            className="securemail-password-activation-button"
+            className="reset-password-submit-btn reset-password-btn"
             onClick={() => navigate("/forgot-password")}
           >
             Запросити нове
@@ -145,7 +145,7 @@ function ResetPasswordPage() {
           </p>
 
           <button
-            className="securemail-password-activation-button"
+            className="reset-password-submit-btn reset-password-btn"
             onClick={() => navigate("/login")}
           >
             Увійти
@@ -312,12 +312,12 @@ function ResetPasswordPage() {
           )}
 
           {submitAttempted && confirmPassword.length > 0 && !passwordsMatch && (
-            <p className="securemail-passworderror">Паролі не співпадають</p>
+            <p className="securemail-password-error">Паролі не співпадають</p>
           )}
 
           {/* SUBMIT */}
           <button
-            className="securemail-password-form-btn"
+            className="reset-password-submit-btn reset-password-btn"
             type="submit"
             disabled={submitting}
           >

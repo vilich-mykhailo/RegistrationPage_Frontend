@@ -65,6 +65,7 @@ function ForgotPasswordPage() {
   return (
     <div className="auth-screen">
       <div className="auth-card">
+        <div className="success-icon">🥲</div>
         <h1>Забули пароль?</h1>
         <p>Введіть email — ми надішлемо інструкцію</p>
 
@@ -85,7 +86,10 @@ function ForgotPasswordPage() {
 
           {message && <p className="error">{message}</p>}
 
-          <button type="submit" disabled={loading}>
+          <button 
+          type="submit" 
+          className="activation-submit-btn activation-btn"
+          disabled={loading}>
             {loading ? "Надсилання..." : "Надіслати"}
           </button>
         </form>

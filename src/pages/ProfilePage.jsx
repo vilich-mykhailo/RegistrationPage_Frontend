@@ -9,7 +9,8 @@ import Modal from "../components/Modal.jsx";
 const ProfilePage = () => {
   const [dateError, setDateError] = useState(false);
   const { user, login, logout } = useAuth();
-
+  const [isSaving, setIsSaving] = useState(false);
+  const [savedOnce, setSavedOnce] = useState(false);
   const token = localStorage.getItem("token");
   const [successMessage, setSuccessMessage] = useState(false);
   const [savedProfile, setSavedProfile] = useState(null);
@@ -18,6 +19,8 @@ const ProfilePage = () => {
   const [showEmailForm, setShowEmailForm] = useState(false);
   const [passwordRequestSuccess, setPasswordRequestSuccess] = useState(false);
   const [emailRequestSuccess, setEmailRequestSuccess] = useState(false);
+  const [genderOpen, setGenderOpen] = useState(false);
+
 
   const closeEmailModal = () => {
     setShowEmailForm(false);
@@ -188,12 +191,14 @@ const ProfilePage = () => {
     }
 
     setIsDirty(isDifferent);
+    setSavedOnce(false);
   };
 
   const handleProfileSubmit = async (e) => {
     e.preventDefault();
-
     try {
+      setIsSaving(true); // 🔥 почали зберігати
+      setSavedOnce(false);
       const formattedProfile = {
         ...profile,
         birth_date: profile.birth_date
@@ -232,10 +237,10 @@ const ProfilePage = () => {
       setSavedProfile(updated);
       setIsDirty(false);
 
-      setIsDirty(false); // 🔥 кнопка знову стає неактивна
+      // 🔥 показуємо "ЗБЕРЕЖЕНО"
+      setSavedOnce(true);
 
       setSuccessMessage(true);
-
       // автоматично ховаємо через 3 секунди
       setTimeout(() => {
         setSuccessMessage(false);
@@ -243,6 +248,8 @@ const ProfilePage = () => {
     } catch (err) {
       console.error("PROFILE SAVE ERROR:", err);
       alert("Помилка збереження ❌");
+    } finally {
+      setIsSaving(false); // 🔥 завжди прибираємо loading
     }
   };
 
@@ -251,26 +258,40 @@ const ProfilePage = () => {
       <div className="profile-container">
         {/* LEFT BLOCK — PERSONAL INFO */}
         <div className="profile-card">
-          <h3 className="profile-title">Персональна інформація</h3>
+          <h3 className="profile-title">👤 Персональна інформація</h3>
 
           <form onSubmit={handleProfileSubmit} className="profile-form">
-            <input
-              name="first_name"
-              placeholder="Ім'я*"
-              value={profile.first_name}
-              onChange={handleProfileChange}
-            />
+            {/* ІМʼЯ */}
+            <div className="profile-field">
+              <span className="profile-icon">👤</span>
+              <input
+                name="first_name"
+                placeholder="Ім'я*"
+                value={profile.first_name}
+                onChange={handleProfileChange}
+              />
+            </div>
 
-            <input
-              name="last_name"
-              placeholder="Прізвище*"
-              value={profile.last_name}
-              onChange={handleProfileChange}
-            />
+            {/* ПРІЗВИЩЕ */}
+            <div className="profile-field">
+              <span className="profile-icon">🧑‍💼</span>
+              <input
+                name="last_name"
+                placeholder="Прізвище*"
+                value={profile.last_name}
+                onChange={handleProfileChange}
+              />
+            </div>
 
-            <input value={user?.email || ""} disabled placeholder="E-mail" />
+            {/* EMAIL (READONLY) */}
+            <div className="profile-field">
+              <span className="profile-icon">📧</span>
+              <input value={user?.email || ""} disabled placeholder="E-mail" />
+            </div>
 
-            <div className="date-field">
+            {/* ДАТА НАРОДЖЕННЯ */}
+            <div className="profile-field date-field">
+              <span className="profile-icon">📅</span>
               <input
                 type="text"
                 name="birth_date"
@@ -285,30 +306,91 @@ const ProfilePage = () => {
               )}
             </div>
 
-            <select
-              name="gender"
-              value={profile.gender || ""}
-              onChange={handleProfileChange}
-            >
-              <option value="">Оберіть стать</option>
-              <option value="male">Чоловіча</option>
-              <option value="female">Жіноча</option>
-              <option value="other">Інша</option>
-            </select>
+            {/* СТАТЬ */}
+<div className="profile-field custom-select">
+  <span className="profile-icon">⚧️</span>
 
-            <input
-              name="phone"
-              placeholder="Номер телефона"
-              value={profile.phone}
-              onChange={handleProfileChange}
-            />
+  <div
+    className={`select-display ${genderOpen ? "open" : ""}`}
+    onClick={() => setGenderOpen((prev) => !prev)}
+  >
+    {profile.gender === "male"
+      ? "Чоловіча"
+      : profile.gender === "female"
+      ? "Жіноча"
+      : profile.gender === "other"
+      ? "Інша"
+      : "Оберіть стать"}
 
+    <span className="custom-arrow">▾</span>
+  </div>
+
+  {genderOpen && (
+    <div className="select-dropdown">
+      <div
+        className="select-option"
+        onClick={() => {
+          setProfile({ ...profile, gender: "male" });
+          setGenderOpen(false);
+          setIsDirty(true);
+          setSavedOnce(false);
+        }}
+      >
+        Чоловіча
+      </div>
+
+      <div
+        className="select-option"
+        onClick={() => {
+          setProfile({ ...profile, gender: "female" });
+          setGenderOpen(false);
+          setIsDirty(true);
+          setSavedOnce(false);
+        }}
+      >
+        Жіноча
+      </div>
+
+      <div
+        className="select-option"
+        onClick={() => {
+          setProfile({ ...profile, gender: "other" });
+          setGenderOpen(false);
+          setIsDirty(true);
+          setSavedOnce(false);
+        }}
+      >
+        Інша
+      </div>
+    </div>
+  )}
+</div>
+
+
+            {/* ТЕЛЕФОН */}
+            <div className="profile-field">
+              <span className="profile-icon">📞</span>
+<input
+  name="phone"
+  placeholder="+380 (__) ___ __ __"
+  value={profile.phone}
+  onChange={handleProfileChange}
+/>
+
+
+            </div>
+
+            {/* КНОПКА */}
             <button
               type="submit"
-              className={`profile-btn ${!isDirty || dateError ? "disabled" : ""}`}
-              disabled={!isDirty || dateError}
+              className={`profile-btn ${!isDirty || dateError || isSaving ? "disabled" : ""}`}
+              disabled={!isDirty || dateError || isSaving}
             >
-              ЗБЕРЕГТИ
+              {isSaving
+                ? "ЗБЕРІГАЄТЬСЯ..."
+                : savedOnce
+                  ? "ЗБЕРЕЖЕНО ✓"
+                  : "ЗБЕРЕГТИ"}
             </button>
           </form>
         </div>
@@ -420,7 +502,10 @@ const ProfilePage = () => {
               Якщо листа немає — перевірте папку <b>«Спам»</b>.
             </p>
 
-            <button className="security-form-btn" onClick={closePasswordModal}>
+            <button
+              className="security-password-submit-btn security-password-btn"
+              onClick={closePasswordModal}
+            >
               Готово
             </button>
           </div>
@@ -641,7 +726,7 @@ const ProfilePage = () => {
             )}
 
             <button
-              className="security-form-btn"
+              className="security-password-submit-btn security-password-btn"
               type="submit"
               disabled={loading}
             >
@@ -673,7 +758,10 @@ const ProfilePage = () => {
               Якщо листа немає — перевірте папку <b>«Спам»</b>.
             </p>
 
-            <button className="security-form-btn" onClick={closeEmailModal}>
+            <button
+              className="security-email-submit-btn security-email-btn"
+              onClick={closeEmailModal}
+            >
               Готово
             </button>
           </div>
@@ -756,7 +844,7 @@ const ProfilePage = () => {
               {error && <p className="error">{error}</p>}
 
               <button
-                className="security-email-form-btn"
+                className="security-email-submit-btn security-email-btn"
                 type="submit"
                 disabled={loading}
               >

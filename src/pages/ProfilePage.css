@@ -43,10 +43,12 @@
   font-weight: 600;
   margin-bottom: 22px;
   color: #1f2937;
+
+  width: 100%;
+  text-align: center;
 }
 
 /* ===== FORM ===== */
-
 .profile-form {
   display: flex;
   flex-direction: column;
@@ -96,13 +98,35 @@
 }
 
 /* ===== Профіль акаунт ===== */
+.profile-field {
+  position: relative;
+  width: 100%;
+}
+.profile-field input,
+.profile-field select {
+  width: 100%;
+}
+.profile-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 16px;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.profile-field input,
+.profile-field select {
+  padding-left: 42px !important;   /* місце під іконку */
+}
 
 .profile-btn {
   margin-top: 18px;
   height: 48px;
   border-radius: 14px;
   border: none;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 600;
   color: #ffffff;
   background: linear-gradient(135deg, #6366f1, #4f46e5);
@@ -125,6 +149,117 @@
   box-shadow: none;
   transform: none;
 }
+
+/* ===== РЯДОК СТАТЬ ===== */
+
+/* ===== CUSTOM PREMIUM SELECT ===== */
+
+.custom-select {
+  position: relative;
+  width: 100%;
+}
+
+.select-display {
+  height: 46px;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  padding: 0 42px 0 42px;
+  font-size: 14px;
+  background: #ffffff;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.select-display:hover {
+  border-color: #6366f1;
+}
+
+.select-display.open {
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+}
+
+/* стрілка */
+.custom-arrow {
+  font-size: 18px;
+  color: #c7c7c7;                 /* світло-сірий */
+  transition: 
+    transform 0.25s ease,
+    color 0.25s ease;
+}
+
+/* hover ефект */
+.select-display:hover .custom-arrow {
+  color: #6b7280;                 /* темно-сірий */
+  transform: scale(1.45);
+}
+
+/* коли відкрито */
+.select-display.open .custom-arrow {
+  transform: rotate(180deg) scale(1.45);
+  color: #6366f1;
+}
+
+/* коли відкрито + hover */
+.select-display.open:hover .custom-arrow {
+  transform: rotate(180deg) scale(1.45);
+  color: #4f46e5;
+}
+
+
+/* DROPDOWN */
+
+.select-dropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 6px;
+
+  box-shadow:
+    0 20px 40px rgba(0, 0, 0, 0.12),
+    0 2px 6px rgba(0, 0, 0, 0.05);
+
+  z-index: 999;
+  animation: dropdownIn 0.25s ease;
+}
+
+@keyframes dropdownIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* OPTIONS */
+
+.select-option {
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: #1f2937;
+}
+
+.select-option:hover {
+  background: linear-gradient(135deg, #eef2ff, #e0e7ff);
+  color: #4f46e5;
+  transform: translateX(4px);
+}
+
 
 /* ===== RIGHT COLUMN ===== */
 
@@ -354,53 +489,72 @@
   color: #ef4444;
   margin-top: 6px;
 }
-
-.security-reset-btn {
-  width: 100%;
-  height: 48px;
-  border-radius: 14px;
-  border: none;
-  font-size: 14px;
-  font-weight: 600;
-  color: #ffffff;
-
-  background: linear-gradient(135deg, #4f46e5, #6366f1);
-  cursor: pointer;
-  transition: all 0.25s ease;
-}
-
-.security-reset-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 28px rgba(79, 70, 229, 0.35);
-}
-
-.security-reset-btn:active {
-  transform: scale(0.97);
-}
-
-.security-form-btn {
-  width: 100%;
-  height: 46px;
-  border-radius: 14px;
-  border: none;
-  font-size: 14px;
-  font-weight: 600;
-  color: #ffffff;
+  /* КНОПКА */
+.security-password-submit-btn {
   margin-top: 10px;
-  background: linear-gradient(135deg, #6366f1, #4f46e5);
+  margin-left: 0px;
+  padding: 14px;
+  border-radius: 12px;
+  width: 100%;
+  border: none;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
   cursor: pointer;
+  text-decoration: none;
+  overflow: hidden;
   transition: all 0.25s ease;
 }
 
-.security-form-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 26px rgba(99, 102, 241, 0.35);
+.security-password-submit-btn:disabled {
+  background-color: #9ca3af;   /* сіріша */
+  cursor: not-allowed;
+  opacity: 0.8;
 }
 
-.security-form-btn:active {
-  transform: scale(0.97);
+
+.security-password-submit-btn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    120deg,
+    transparent,
+    rgba(255, 255, 255, 0.4),
+    transparent
+  );
+  transform: translateX(-100%);
+  transition: transform 0.5s ease;
+}
+.security-password-submit-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(79, 70, 229, 0.35);
 }
 
+.security-password-submit-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 10px rgba(79, 70, 229, 0.25);
+}
+
+.security-password-submit-btn:hover::after {
+  transform: translateX(100%);
+}
+
+.security-password-btn {
+  background: linear-gradient(135deg, #002fff, #ff0000);
+  color: #fff;
+  border: none;
+}
+
+.security-password-btn:hover {
+  box-shadow: 0 6px 18px rgba(4, 0, 255, 0.35);
+  transform: translateY(-2px) scale(1.03);
+}
+
+.security-password-btn:active {
+  transform: translateY(0) scale(0.98);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+}
 /* ===== БЕЗПЕКА - ЗМІНА ПОШТИ ===== */
 
 
@@ -444,25 +598,69 @@
   color: #cecece;
 }
 
-.security-email-form-btn {
-  width: 100%;
-  height: 46px;
-  border-radius: 14px;
-  border: none;
-  font-size: 14px;
-  font-weight: 600;
+  /* КНОПКА */
+.security-email-submit-btn {
   margin-top: 10px;
-  color: #ffffff;
-  background: linear-gradient(135deg, #6366f1, #4f46e5);
+  margin-left: 0px;
+  padding: 14px;
+  border-radius: 12px;
+  width: 100%;
+  border: none;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
   cursor: pointer;
+  text-decoration: none;
+  overflow: hidden;
   transition: all 0.25s ease;
 }
 
-.security-email--form-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 26px rgba(99, 102, 241, 0.35);
+.security-email-submit-btn:disabled {
+  background-color: #9ca3af;   /* сіріша */
+  cursor: not-allowed;
+  opacity: 0.8;
 }
 
-.security-email--form-btn:active {
-  transform: scale(0.97);
+
+.security-email-submit-btn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    120deg,
+    transparent,
+    rgba(255, 255, 255, 0.4),
+    transparent
+  );
+  transform: translateX(-100%);
+  transition: transform 0.5s ease;
+}
+.security-email-submit-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(79, 70, 229, 0.35);
+}
+
+.security-email-submit-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 10px rgba(79, 70, 229, 0.25);
+}
+
+.security-email-submit-btn:hover::after {
+  transform: translateX(100%);
+}
+
+.security-email-btn {
+  background: linear-gradient(135deg, #002fff, #ff0000);
+  color: #fff;
+  border: none;
+}
+
+.security-email-btn:hover {
+  box-shadow: 0 6px 18px rgba(4, 0, 255, 0.35);
+  transform: translateY(-2px) scale(1.03);
+}
+
+.security-email-btn:active {
+  transform: translateY(0) scale(0.98);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
 }
