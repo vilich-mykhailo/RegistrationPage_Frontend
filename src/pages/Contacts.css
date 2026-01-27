@@ -1,59 +1,76 @@
-.home-container {
+.contacts-container {
   min-height: 80vh;
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: #f7f8fa;
-  position: relative;
 }
 
 /* card */
-.home-card {
+.contacts-card {
   background: #ffffff;
   padding: 60px 50px;
   border-radius: 16px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-  text-align: center;
   max-width: 520px;
   width: 100%;
+  text-align: center;
 
-  animation: homeFadeIn 0.5s ease forwards;
+  animation: contactsFadeIn 0.5s ease forwards;
   transition: all 0.3s ease;
 }
 
 /* hover ефект */
-.home-card:hover {
+.contacts-card:hover {
   transform: translateY(-6px) scale(1.02);
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12);
 }
 
-/* тексти */
-.home-title {
+/* заголовки і тексти */
+.contacts-title {
   font-size: 36px;
   font-weight: 600;
   margin-bottom: 20px;
   color: #222;
 }
 
-.home-text {
-  font-size: 20px;
-  margin-bottom: 14px;
+.contacts-text {
+  font-size: 18px;
+  margin-bottom: 24px;
   color: #333;
 }
 
-.home-subtext {
-  font-size: 16px;
-  color: #666;
-  margin-bottom: 24px;
+/* список контактів */
+.contacts-list {
+  text-align: left;
+  margin-bottom: 28px;
 }
 
-.home-hint {
+.contact-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 14px;
+  font-size: 16px;
+}
+
+.contact-label {
+  font-weight: 500;
+  color: #444;
+}
+
+.contact-value {
+  color: #666;
+  text-align: right;
+}
+
+/* підказка */
+.contacts-hint {
   font-size: 15px;
   color: #999;
 }
 
-/* анімація появи */
-@keyframes homeFadeIn {
+/* анімація */
+@keyframes contactsFadeIn {
   from {
     opacity: 0;
     transform: translateY(20px) scale(0.95);

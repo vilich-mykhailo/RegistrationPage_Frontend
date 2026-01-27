@@ -29,7 +29,7 @@
 .login-form-form {
   display: flex;
   flex-direction: column;
-  gap: 22px;
+  gap: 20px;
 }
 
 .login-form-field {
@@ -80,8 +80,10 @@
 }
 
 .login-form-error {
+  text-align: center;
   font-size: 13px;
   color: #ef4444;
+  margin: 0;
 }
 
 .login-form-general-error {

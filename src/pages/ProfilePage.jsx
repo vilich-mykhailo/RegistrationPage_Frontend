@@ -20,14 +20,16 @@ const ProfilePage = () => {
   const [passwordRequestSuccess, setPasswordRequestSuccess] = useState(false);
   const [emailRequestSuccess, setEmailRequestSuccess] = useState(false);
   const [genderOpen, setGenderOpen] = useState(false);
-
+  const [dateTouched, setDateTouched] = useState(false);
+  const [phoneError, setPhoneError] = useState(false);
+  const [phoneTouched, setPhoneTouched] = useState(false);
 
   const closeEmailModal = () => {
     setShowEmailForm(false);
     setEmailRequestSuccess(false);
     setError("");
     setLoading(false);
-    setEmailForm({ newEmail: "", confirmEmail: "" }); // 🔥 ОЧИСТКА ПОЛІВ
+    setEmailForm({ newEmail: "", confirmEmail: "", password: "" }); // 🔥 ОЧИСТКА ПОЛІВ
   };
   const closePasswordModal = () => {
     setShowPasswordForm(false);
@@ -78,9 +80,61 @@ const ProfilePage = () => {
   const passwordsMatch =
     passwordForm.password === passwordForm.confirmPassword &&
     passwordForm.confirmPassword.length > 0;
+  const formatPhone = (value, prevValue = "") => {
+    // якщо користувач СТИРАЄ — нічого не форматуємо
+    if (value.length < prevValue.length) {
+      return value;
+    }
+
+    // залишаємо тільки цифри
+    let digits = value.replace(/\D/g, "");
+
+    // якщо все стерли — пусто
+    if (digits.length === 0) {
+      return "";
+    }
+
+    // 🔥 перша цифра → одразу +38(0 + ЦЯ ЦИФРА
+    if (digits.length === 1) {
+      return `+38(0${digits[0]}`;
+    }
+
+    // якщо почали з 0 — український номер
+    if (digits.startsWith("0")) {
+      digits = "38" + digits;
+    }
+
+    // якщо не починається з 38 — підставляємо
+    if (!digits.startsWith("38")) {
+      digits = "38" + digits;
+    }
+
+    // обмежуємо довжину (38 + 10 цифр)
+    digits = digits.slice(0, 12);
+
+    let formatted = "+38(0";
+
+    const rest = digits.slice(3); // після 380
+
+    // оператор
+    if (rest.length >= 1) formatted += rest.slice(0, 2); // XX
+
+    // 🔥 закриваємо дужку і ставимо дефіс
+    if (rest.length >= 3) formatted += ")-" + rest.slice(2, 5); // )-XXX
+
+    // далі стандартні блоки
+    if (rest.length >= 6) formatted += "-" + rest.slice(5, 7); // -XX
+    if (rest.length >= 8) formatted += "-" + rest.slice(7, 9); // -XX
+
+    return formatted;
+  };
+
+  const isValidPhone = (value) => {
+    const regex = /^\+38\(0\d{2}\)-\d{3}-\d{2}-\d{2}$/;
+    return regex.test(value);
+  };
 
   const isValidDate = (value) => {
-    // формат ДД.ММ.РРРР
     const regex = /^(\d{2})\.(\d{2})\.(\d{4})$/;
     const match = value.match(regex);
 
@@ -92,7 +146,6 @@ const ProfilePage = () => {
 
     const date = new Date(year, month - 1, day);
 
-    // перевірка, що дата реально існує
     if (
       date.getFullYear() !== year ||
       date.getMonth() !== month - 1 ||
@@ -104,10 +157,8 @@ const ProfilePage = () => {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
-    // ❌ не можна в майбутньому
     if (date > today) return false;
 
-    // 🔹 (опціонально) не старше 120 років
     const minYear = today.getFullYear() - 120;
     if (year < minYear) return false;
 
@@ -126,6 +177,7 @@ const ProfilePage = () => {
   const [emailForm, setEmailForm] = useState({
     newEmail: "",
     confirmEmail: "",
+    password: "",
   });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -162,23 +214,28 @@ const ProfilePage = () => {
   }, [token]);
 
   const handleProfileChange = (e) => {
-    let { name, value } = e.target;
+    const { name, value } = e.target;
 
-    // 🔥 для дати — дозволяємо тільки цифри і крапки
-    if (name === "birth_date") {
-      value = value.replace(/[^\d.]/g, "");
+    let updatedValue = value;
 
-      // перевіряємо тільки коли введено 10 символів (ДД.ММ.РРРР)
-      if (value.length === 10) {
-        setDateError(!isValidDate(value));
-      } else {
-        setDateError(false); // поки вводить — не лякаємо
+    // 🔥 АВТОФОРМАТУВАННЯ ТЕЛЕФОНУ
+    if (name === "phone") {
+      updatedValue = formatPhone(value, profile.phone);
+
+      // якщо редагують після помилки — ховаємо її
+      if (phoneTouched) {
+        setPhoneError(false);
       }
+    }
+
+    // 🔥 для дати — як уже зробили
+    if (name === "birth_date" && dateTouched) {
+      setDateError(false);
     }
 
     const updatedProfile = {
       ...profile,
-      [name]: value,
+      [name]: updatedValue,
     };
 
     setProfile(updatedProfile);
@@ -192,6 +249,45 @@ const ProfilePage = () => {
 
     setIsDirty(isDifferent);
     setSavedOnce(false);
+  };
+
+  const handleDateBlur = () => {
+    setDateTouched(true);
+
+    const value = profile.birth_date;
+
+    if (!value || value === "") {
+      setDateError(false);
+      return;
+    }
+
+    if (value.length < 10) {
+      setDateError(true);
+      return;
+    }
+
+    if (!isValidDate(value)) {
+      setDateError(true);
+    } else {
+      setDateError(false);
+    }
+  };
+
+  const handlePhoneBlur = () => {
+    setPhoneTouched(true);
+
+    const value = profile.phone;
+
+    if (!value || value === "") {
+      setPhoneError(false);
+      return;
+    }
+
+    if (!isValidPhone(value)) {
+      setPhoneError(true);
+    } else {
+      setPhoneError(false);
+    }
   };
 
   const handleProfileSubmit = async (e) => {
@@ -291,94 +387,110 @@ const ProfilePage = () => {
 
             {/* ДАТА НАРОДЖЕННЯ */}
             <div className="profile-field date-field">
-              <span className="profile-icon">📅</span>
-              <input
-                type="text"
-                name="birth_date"
-                placeholder="ДД.ММ.РРРР"
-                value={profile.birth_date || ""}
-                onChange={handleProfileChange}
-                className={`profile-input ${dateError ? "input-error" : ""}`}
-              />
+              <div className="date-input-wrapper">
+                <span className="profile-icon">📅</span>
 
-              {dateError && (
-                <p className="error-text">Невірна дата. Формат: ДД.ММ.РРРР</p>
+                <input
+                  type="text"
+                  name="birth_date"
+                  placeholder="ДД.ММ.РРРР"
+                  value={profile.birth_date || ""}
+                  onChange={handleProfileChange}
+                  onBlur={handleDateBlur}
+                  className={`profile-input ${
+                    dateError && dateTouched ? "input-error" : ""
+                  }`}
+                />
+              </div>
+
+              {dateError && dateTouched && (
+                <p className="date-error-text">
+                  Невірний формат дати. Використовуйте ДД.ММ.РРРР
+                </p>
               )}
             </div>
 
             {/* СТАТЬ */}
-<div className="profile-field custom-select">
-  <span className="profile-icon">⚧️</span>
+            <div className="profile-field custom-select">
+              <span className="profile-icon">⚧️</span>
 
-  <div
-    className={`select-display ${genderOpen ? "open" : ""}`}
-    onClick={() => setGenderOpen((prev) => !prev)}
-  >
-    {profile.gender === "male"
-      ? "Чоловіча"
-      : profile.gender === "female"
-      ? "Жіноча"
-      : profile.gender === "other"
-      ? "Інша"
-      : "Оберіть стать"}
+              <div
+                className={`select-display ${genderOpen ? "open" : ""}`}
+                onClick={() => setGenderOpen((prev) => !prev)}
+              >
+                {profile.gender === "male"
+                  ? "Чоловіча"
+                  : profile.gender === "female"
+                    ? "Жіноча"
+                    : profile.gender === "other"
+                      ? "Інша"
+                      : "Оберіть стать"}
 
-    <span className="custom-arrow">▾</span>
-  </div>
+                <span className="custom-arrow">▾</span>
+              </div>
 
-  {genderOpen && (
-    <div className="select-dropdown">
-      <div
-        className="select-option"
-        onClick={() => {
-          setProfile({ ...profile, gender: "male" });
-          setGenderOpen(false);
-          setIsDirty(true);
-          setSavedOnce(false);
-        }}
-      >
-        Чоловіча
-      </div>
+              {genderOpen && (
+                <div className="select-dropdown">
+                  <div
+                    className="select-option"
+                    onClick={() => {
+                      setProfile({ ...profile, gender: "male" });
+                      setGenderOpen(false);
+                      setIsDirty(true);
+                      setSavedOnce(false);
+                    }}
+                  >
+                    Чоловіча
+                  </div>
 
-      <div
-        className="select-option"
-        onClick={() => {
-          setProfile({ ...profile, gender: "female" });
-          setGenderOpen(false);
-          setIsDirty(true);
-          setSavedOnce(false);
-        }}
-      >
-        Жіноча
-      </div>
+                  <div
+                    className="select-option"
+                    onClick={() => {
+                      setProfile({ ...profile, gender: "female" });
+                      setGenderOpen(false);
+                      setIsDirty(true);
+                      setSavedOnce(false);
+                    }}
+                  >
+                    Жіноча
+                  </div>
 
-      <div
-        className="select-option"
-        onClick={() => {
-          setProfile({ ...profile, gender: "other" });
-          setGenderOpen(false);
-          setIsDirty(true);
-          setSavedOnce(false);
-        }}
-      >
-        Інша
-      </div>
-    </div>
-  )}
-</div>
-
+                  <div
+                    className="select-option"
+                    onClick={() => {
+                      setProfile({ ...profile, gender: "other" });
+                      setGenderOpen(false);
+                      setIsDirty(true);
+                      setSavedOnce(false);
+                    }}
+                  >
+                    Інша
+                  </div>
+                </div>
+              )}
+            </div>
 
             {/* ТЕЛЕФОН */}
             <div className="profile-field">
               <span className="profile-icon">📞</span>
-<input
-  name="phone"
-  placeholder="+380 (__) ___ __ __"
-  value={profile.phone}
-  onChange={handleProfileChange}
-/>
 
-
+              <input
+                name="phone"
+                placeholder="+38(0__)-___-__-__"
+                value={profile.phone}
+                onChange={handleProfileChange}
+                onBlur={handlePhoneBlur}
+                className={`profile-input ${
+                  phoneError && phoneTouched ? "input-error" : ""
+                }`}
+              />
             </div>
+
+            {phoneError && phoneTouched && (
+              <p className="date-error-text">
+                Необхідно вказати номер у форматі: +38(097)-777-77-77
+              </p>
+            )}
 
             {/* КНОПКА */}
             <button
@@ -777,10 +889,19 @@ const ProfilePage = () => {
                 setLoading(true);
                 setError("");
 
-                if (
-                  !emailForm.newEmail ||
-                  emailForm.newEmail !== emailForm.confirmEmail
-                ) {
+                if (!emailForm.password) {
+                  setError("Введіть пароль для підтвердження");
+                  setLoading(false);
+                  return;
+                }
+
+                if (!emailForm.newEmail || !emailForm.confirmEmail) {
+                  setError("Заповніть всі поля");
+                  setLoading(false);
+                  return;
+                }
+
+                if (emailForm.newEmail !== emailForm.confirmEmail) {
                   setError("Пошти не співпадають");
                   setLoading(false);
                   return;
@@ -798,6 +919,7 @@ const ProfilePage = () => {
                     {
                       newEmail: emailForm.newEmail,
                       confirmEmail: emailForm.confirmEmail,
+                      password: emailForm.password, // 🔥 ОЦЕ ГОЛОВНЕ
                     },
                     {
                       headers: { Authorization: `Bearer ${token}` },
@@ -816,6 +938,17 @@ const ProfilePage = () => {
                 }
               }}
             >
+              <div className="security-email-password-field">
+                <input
+                  type="password"
+                  placeholder="Пароль*"
+                  value={emailForm.password}
+                  onChange={(e) =>
+                    setEmailForm({ ...emailForm, password: e.target.value })
+                  }
+                  required
+                />
+              </div>
               <div className="security-email-password-field">
                 <input
                   type="email"

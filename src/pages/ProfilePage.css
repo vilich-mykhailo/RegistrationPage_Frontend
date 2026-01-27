@@ -25,8 +25,13 @@
     0 2px 8px rgba(0, 0, 0, 0.04);
 
   animation: fadeUp 0.5s ease both;
+  transition: all 0.3s ease;
 }
 
+
+.profile-card:hover {
+  box-shadow: 0 16px 40px rgba(2, 19, 255, 0.267);
+}
 @keyframes fadeUp {
   from {
     opacity: 0;
@@ -86,6 +91,20 @@
   position: relative;
 }
 
+.date-input-wrapper {
+  position: relative;
+}
+
+.date-error-text {
+  font-size: 12px;
+  color: #ef4444;
+  margin-top: 6px;
+  margin-bottom: 0px;
+  padding-left: 4px;
+
+  animation: fadeInError 0.25s ease;
+}
+
 .error-text {
   font-size: 12px;
   color: #ef4444;
@@ -95,7 +114,22 @@
 .input-error {
   border-color: #ef4444 !important;
   box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15);
+  background-color: #fffafa;
 }
+
+
+@keyframes fadeInError {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
 
 /* ===== Профіль акаунт ===== */
 .profile-field {
@@ -106,15 +140,17 @@
 .profile-field select {
   width: 100%;
 }
+
 .profile-icon {
   position: absolute;
-  left: 14px;
+  left: 12px;
   top: 50%;
   transform: translateY(-50%);
   font-size: 16px;
   opacity: 0.5;
   pointer-events: none;
 }
+
 
 .profile-field input,
 .profile-field select {

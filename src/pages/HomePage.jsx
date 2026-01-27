@@ -1,13 +1,23 @@
 // src/pages/HomePage.jsx
-import React from "react";
 import "./HomePage.css";
 
 const HomePage = () => {
   return (
-    <div className="section-main">
-      <div className="section-header">
-        <h1>Home page</h1>
-        <p>Welcome to our app!</p>
+    <div className="home-container">
+      <div className="home-card">
+        <h1 className="home-title">Головна сторінка</h1>
+
+        <p className="home-text">
+          Тут буде відображатися каталог товарів та рекомендовані позиції 🛍️
+        </p>
+
+        <p className="home-subtext">
+          Ви зможете переглядати новинки, популярні товари, акції та швидко переходити до потрібних категорій.
+        </p>
+
+        <p className="home-hint">
+          Сторінка зараз у розробці ✨ Скоро тут з’явиться повноцінний магазин.
+        </p>
       </div>
     </div>
   );
