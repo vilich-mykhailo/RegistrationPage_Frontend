@@ -1,6 +1,13 @@
 import { NavLink, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { FaUser, FaBalanceScale, FaHeart, FaRegCommentDots, FaShoppingCart } from "react-icons/fa";
+import {
+  FaUser,
+  FaBalanceScale,
+  FaHeart,
+  FaRegCommentDots,
+  FaShoppingCart,
+} from "react-icons/fa";
+import logo from "../assets/logo2.png";
 import "./Header.css";
 
 const Header = () => {
@@ -11,13 +18,18 @@ const Header = () => {
       <nav className="nav">
         {/* Left side */}
         <div className="nav-left">
+          {/* LOGO */}
+          <NavLink to="/" className="nav-logo">
+            <img src={logo} alt="MyShop logo" />
+          </NavLink>
+
           <NavLink to="/" className="nav-link">
             Home
           </NavLink>
 
           {isAuthenticated && (
             <NavLink to="/users" className="nav-link">
-              Users
+              Contacts
             </NavLink>
           )}
         </div>
