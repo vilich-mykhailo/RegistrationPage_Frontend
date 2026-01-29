@@ -12,8 +12,13 @@ const RegistrationPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [submitAttempted, setSubmitAttempted] = useState(false);
+  const passwordMismatch =
+    submitAttempted &&
+    password &&
+    confirmPassword &&
+    password !== confirmPassword;
 
   // ===== VALIDATION =====
   const validateEmail = (email) => {
@@ -43,7 +48,7 @@ const RegistrationPage = () => {
   // ===== SUBMIT =====
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setSubmitAttempted(true);
     const newErrors = {};
     // 🔴 Імʼя
     if (!username.trim()) {
@@ -137,7 +142,7 @@ const RegistrationPage = () => {
                 }
               }}
               className={`registration-input ${
-                errors.username ? "registration-input-error" : ""
+                errors.username ? "input-error" : ""
               }`}
             />
             {errors.username && (
@@ -157,7 +162,7 @@ const RegistrationPage = () => {
                 }
               }}
               className={`registration-input ${
-                errors.email ? "registration-input-error" : ""
+                errors.email ? "input-error" : ""
               }`}
             />
             {errors.email && (
@@ -174,12 +179,13 @@ const RegistrationPage = () => {
                 value={password}
                 onChange={(e) => {
                   setPassword(e.target.value);
+                  if (submitAttempted) setSubmitAttempted(false);
                   if (errors.password) {
                     setErrors((prev) => ({ ...prev, password: null }));
                   }
                 }}
                 className={`registration-input ${
-                  errors.password ? "registration-input-error" : ""
+                  errors.password || passwordMismatch ? "input-error" : ""
                 }`}
               />
 
@@ -250,7 +256,7 @@ const RegistrationPage = () => {
             </div>
 
             {errors.password && (
-              <p className="registration-error error">{errors.password}</p>
+              <p className="registration-error">{errors.password}</p>
             )}
           </div>
 
@@ -263,15 +269,15 @@ const RegistrationPage = () => {
                 value={confirmPassword}
                 onChange={(e) => {
                   setConfirmPassword(e.target.value);
+                  if (submitAttempted) setSubmitAttempted(false);
                   if (errors.confirmPassword) {
-                    setErrors((prev) => ({
-                      ...prev,
-                      confirmPassword: null,
-                    }));
+                    setErrors((prev) => ({ ...prev, confirmPassword: null }));
                   }
                 }}
                 className={`registration-input ${
-                  errors.confirmPassword ? "registration-input-error" : ""
+                  errors.confirmPassword || passwordMismatch
+                    ? "input-error"
+                    : ""
                 }`}
               />
 
@@ -312,7 +318,7 @@ const RegistrationPage = () => {
             </div>
 
             {errors.confirmPassword && (
-              <p className="registration-error error">
+              <p className="registration-error ">
                 {errors.confirmPassword}
               </p>
             )}

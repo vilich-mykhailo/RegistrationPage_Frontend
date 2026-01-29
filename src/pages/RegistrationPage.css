@@ -1,10 +1,9 @@
 /* RegistrationPage.css */
 .registration-section {
-  min-height: 100vh;
+    min-height: calc(100vh - 97px);
   display: flex;
   justify-content: center;      /* по горизонталі */
   align-items: flex-start;      /* зверху */
-  background: linear-gradient(135deg, #f4f6f9, #eef1f5);
   padding: 20px;
   padding-top: 10vh;            /* ≈ 30% висоти екрана */
 }
@@ -12,10 +11,10 @@
 .registration-wrapper {
   width: 100%;
   max-width: 460px;
-  background: #ffffff;
+  background: var(--modal-bg);
   border-radius: 16px;
   padding: 30px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--color-box-shadow);
 }
 
 .registration-title {
@@ -24,7 +23,7 @@
   margin-bottom: 20px;
   font-size: 28px;
   font-weight: 600;
-  color: #111827;
+  color: var(--color-primar);
 }
 
 .registration-form {
@@ -40,25 +39,26 @@
 }
 
 .registration-field input::placeholder {
-  color: #b9b9b9;
+  color: var(--color-text-border-input);
 }
 
 .registration-input {
   width: 100%;
   padding: 14px 14px;
+  margin-bottom: 5px;
   border-radius: 10px;
-  border: 1px solid #c2c2c2;
+  border: 1px solid var(--color-text-border-input);
   font-size: 15px;
   transition: all 0.2s ease;
 }
 
 .registration-input:focus {
   outline: none;
-  border-color: #6366f1;
+  box-shadow: var(--color-input-focus);
 }
 
 .registration-input-error {
-  border-color: #ef4444;
+  border-color: var(--color-error);
 }
 
 .registration-password-field {
@@ -83,14 +83,12 @@
   justify-content: center;
 
   cursor: pointer;
-  color: #cfcfcf;
+  color: var(--color-text-border-input);
   transition: all 0.2s ease;
 }
 
 .registration-toggle-password:hover {
-  color: #9e9e9e;
-  background: rgba(158, 158, 158, 0.08);
-  transform: translateY(-50%) scale(1.08);
+  color: #5f5f5f;
 }
 
 .registration-toggle-password:active {
@@ -104,7 +102,7 @@
 }
 
 .registration-toggle-password {
-  color: #cecece;
+  color: var(--color-text-border-input);
 }
 
 .registration-password-hints {
@@ -120,7 +118,7 @@
 .registration-password-hints p {
   font-size: 12px;
   margin: 4px 0;
-  color: #888888;
+  color: var(--color-text-border-input);
   display: flex;
   align-items: center;
   gap: 6px;
@@ -129,17 +127,19 @@
 }
 
 .registration-password-hints p.ok {
-  color: #22c55e;
+  color: var(--color-good);
 }
 
 .registration-password-hints p.error {
-  color: #ef4444;
+  color: var(--color-error);
 }
 
 
 .registration-error {
+  text-align: center;
   font-size: 13px;
-  color: #ef4444;
+  color: var(--color-error);
+  margin: 0;
 }
 
 .registration-general-error {
@@ -164,7 +164,7 @@
 }
 
 .registration-submit-btn:disabled {
-  background-color: #9ca3af;   /* сіріша */
+  background-color: var(--color-text-border-input);
   cursor: not-allowed;
   opacity: 0.8;
 }
@@ -185,12 +185,12 @@
 }
 .registration-submit-btn:hover {
   transform: translateY(-1px);
-  box-shadow: 0 8px 20px rgba(79, 70, 229, 0.35);
+  box-shadow: var(--color-box-shadow-hover);
 }
 
 .registration-submit-btn:active {
   transform: translateY(0);
-  box-shadow: 0 4px 10px rgba(79, 70, 229, 0.25);
+  box-shadow: var(--color-box-shadow);
 }
 
 .registration-submit-btn:hover::after {
@@ -198,17 +198,17 @@
 }
 
 .registration-btn {
-  background: linear-gradient(135deg, #002fff, #ff0000);
+  background: var(--color-primary-bottom-gradient);
   color: #fff;
   border: none;
 }
 
 .registration-btn:hover {
-  box-shadow: 0 6px 18px rgba(4, 0, 255, 0.35);
+  box-shadow: var(--color-box-shadow-hover);
   transform: translateY(-2px) scale(1.03);
 }
 
 .registration-btn:active {
   transform: translateY(0) scale(0.98);
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--color-box-shadow);
 }

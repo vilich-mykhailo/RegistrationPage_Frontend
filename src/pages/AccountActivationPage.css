@@ -1,7 +1,7 @@
 /* ===== SUCCESS / ACTIVATION MODAL CENTER ===== */
 
 .activation-wrapper {
-  min-height: calc(100vh - 70px);
+  min-height: calc(100vh - 97px);
   display: flex;
   align-items: center;
   justify-content: center;

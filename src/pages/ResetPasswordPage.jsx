@@ -19,6 +19,10 @@ function ResetPasswordPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [submitAttempted, setSubmitAttempted] = useState(false);
+  const passwordMismatch =
+    submitAttempted &&
+    confirmPassword.length > 0 &&
+    password !== confirmPassword;
 
   // ===== PASSWORD RULES =====
   const passwordRules = {
@@ -82,7 +86,9 @@ function ResetPasswordPage() {
         <div className="securemail-password-activation-card">
           <div className="securemail-password-activation-icon">❌</div>
 
-          <h1 className="securemail-password-activation-title">Посилання недійсне</h1>
+          <h1 className="securemail-password-activation-title">
+            Посилання недійсне
+          </h1>
 
           <p className="securemail-password-activation-text">
             Це посилання вже використано або термін його дії закінчився.
@@ -138,7 +144,9 @@ function ResetPasswordPage() {
         <div className="securemail-password-activation-card">
           <div className="securemail-password-activation-icon">🎉</div>
 
-          <h1 className="securemail-password-activation-title">Пароль змінено</h1>
+          <h1 className="securemail-password-activation-title">
+            Пароль змінено
+          </h1>
 
           <p className="securemail-password-activation-text">
             Тепер ви можете увійти з новим паролем
@@ -170,7 +178,17 @@ function ResetPasswordPage() {
               type={showPassword ? "text" : "password"}
               placeholder="Новий пароль"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) => {
+                setPassword(e.target.value);
+
+                // 🔥 як тільки редагують — скидаємо submitAttempted
+                if (submitAttempted) {
+                  setSubmitAttempted(false);
+                }
+              }}
+              className={`securemail-password-input ${
+                passwordMismatch ? "input-error" : ""
+              }`}
               required
             />
 
@@ -218,8 +236,8 @@ function ResetPasswordPage() {
           </div>
 
           {/* HINTS */}
-            <div className="securemail-password-reset-password-hints">
-              <div className="securemail-password-password-hints">
+          <div className="securemail-password-reset-password-hints">
+            <div className="securemail-password-password-hints">
               <p className={passwordRules.length ? "ok" : ""}>
                 • Щонайменше 8 символів
               </p>
@@ -248,12 +266,22 @@ function ResetPasswordPage() {
           </div>
 
           {/* CONFIRM PASSWORD */}
-          <div className="securemail-password-password-field">
+          <div className="securemail-password-password-field securemail-password-input-down">
             <input
               type={showConfirmPassword ? "text" : "password"}
               placeholder="Підтвердіть пароль"
               value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
+              onChange={(e) => {
+                setConfirmPassword(e.target.value);
+
+                // 🔥 одразу прибираємо червоне
+                if (submitAttempted) {
+                  setSubmitAttempted(false);
+                }
+              }}
+              className={`securemail-password-input ${
+                passwordMismatch ? "input-error" : ""
+              }`}
               required
             />
 
@@ -306,7 +334,7 @@ function ResetPasswordPage() {
 
           {/* ERRORS */}
           {submitAttempted && !isPasswordValid && (
-            <p className="securemail-passworderror">
+            <p className="securemail-password-error">
               Пароль не відповідає вимогам безпеки
             </p>
           )}

@@ -5,33 +5,43 @@ import "./ForgotPasswordPage.css";
 
 function ForgotPasswordPage() {
   const [email, setEmail] = useState("");
-  const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
 
+  const isEmailValid = (value) => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError("");
+
+    // ❌ пусте поле
+    if (!email.trim()) {
+      setError("Введіть email, щоб ми могли надіслати інструкцію");
+      return;
+    }
+
+    // ❌ невалідний email
+    if (!isEmailValid(email)) {
+      setError("Схоже, це не email. Перевірте адресу");
+      return;
+    }
+
     setLoading(true);
-    setMessage("");
 
     try {
       await axios.post("http://localhost:5000/api/auth/forgot-password", {
         email,
       });
 
-      // ✅ якщо дійшли сюди — пошта ІСНУЄ і лист надіслано
       setSuccess(true);
     } catch (e) {
       if (e.response?.data?.message === "EMAIL_NOT_FOUND") {
-        setMessage(
-          <>
-            ❌ Акаунт не знайдено.
-            <br />
-            Перевірте email або зареєструйтесь
-          </>,
-        );
+        setError("Акаунт не знайдено. Перевірте email або зареєструйтесь");
       } else {
-        setMessage("Сталася помилка. Спробуйте пізніше.");
+        setError("Сталася помилка. Спробуйте пізніше.");
       }
     } finally {
       setLoading(false);
@@ -49,7 +59,7 @@ function ForgotPasswordPage() {
 
           <h1>Перевірте пошту</h1>
 
-          <p className="success-text">
+          <p className="success-text auth-card-text">
             Ми надіслали лист із посиланням для зміни пароля.
             <br />
             Якщо листа немає — перевірте папку <b>«Спам»</b>.
@@ -66,30 +76,29 @@ function ForgotPasswordPage() {
     <div className="auth-screen">
       <div className="auth-card">
         <div className="success-icon">🥲</div>
-        <h1>Забули пароль?</h1>
-        <p>Введіть email — ми надішлемо інструкцію</p>
 
-        <form onSubmit={handleSubmit}>
+        <h1>Забули пароль?</h1>
+        <p className="auth-card-text">Введіть email — ми надішлемо інструкцію</p>
+
+        <form onSubmit={handleSubmit} noValidate>
           <input
             type="email"
             placeholder="Email"
             value={email}
             onChange={(e) => {
               setEmail(e.target.value);
-
-              // 🔥 при вводі — прибираємо помилку
-              if (message) setMessage("");
+              if (error) setError("");
             }}
-            className={message ? "input-error" : ""}
-            required
+            className={`auth-input ${error ? "input-error" : ""}`}
           />
 
-          {message && <p className="error">{message}</p>}
+          {error && <p className="forgot-password-error">{error}</p>}
 
-          <button 
-          type="submit" 
-          className="activation-submit-btn activation-btn"
-          disabled={loading}>
+          <button
+            type="submit"
+            className="activation-submit-btn activation-btn"
+            disabled={loading}
+          >
             {loading ? "Надсилання..." : "Надіслати"}
           </button>
         </form>

@@ -11,6 +11,9 @@ const LoginPage = () => {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({});
+  const isEmailValid = (value) => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+  };
 
   const SESSION_DURATION = 24 * 60 * 60 * 1000;
 
@@ -18,6 +21,15 @@ const LoginPage = () => {
     e.preventDefault();
     setErrors({});
 
+    if (!email.trim()) {
+      setErrors({ email: "Введіть коректну email-адресу (має містити @)" });
+      return;
+    }
+
+    if (!isEmailValid(email)) {
+      setErrors({ email: "Схоже, це не email. Перевірте адресу" });
+      return;
+    }
     try {
       const res = await fetch("http://localhost:5000/api/auth/login", {
         method: "POST",
@@ -29,7 +41,7 @@ const LoginPage = () => {
 
       if (!res.ok) {
         if (data.message === "EMAIL_NOT_FOUND") {
-          setErrors({ email: "Неправильна електронна адреса" });
+          setErrors({ email: "Схоже, це не email. Перевірте адресу" });
         } else if (data.message === "WRONG_PASSWORD") {
           setErrors({ password: "Невірний пароль" });
         } else {
@@ -53,7 +65,7 @@ const LoginPage = () => {
       <div className="login-form-wrapper">
         <h1 className="login-form-title">Вхід</h1>
 
-        <form className="login-form-form" onSubmit={handleSubmit}>
+        <form className="login-form-form" onSubmit={handleSubmit} noValidate>
           <div className="login-form-field">
             <input
               type="email"
@@ -66,14 +78,12 @@ const LoginPage = () => {
                 }
               }}
               className={`login-form-input ${
-                errors.email ? "login-form-input-error" : ""
+                errors.email ? "input-error" : ""
               }`}
               required
             />
 
-            {errors.email && (
-              <p className="login-form-error">{errors.email}</p>
-            )}
+            {errors.email && <p className="login-form-error">{errors.email}</p>}
           </div>
 
           <div className="login-form-field">
@@ -89,7 +99,7 @@ const LoginPage = () => {
                   }
                 }}
                 className={`login-form-input ${
-                  errors.password ? "login-form-input-error" : ""
+                  errors.password ? "input-error" : ""
                 }`}
                 required
               />
@@ -100,12 +110,28 @@ const LoginPage = () => {
                 onClick={() => setShowPassword((prev) => !prev)}
               >
                 {showPassword ? (
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  >
                     <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
                     <circle cx="12" cy="12" r="3" />
                   </svg>
                 ) : (
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  >
                     <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
                     <circle cx="12" cy="12" r="3" />
                     <line x1="3" y1="21" x2="21" y2="3" />
