@@ -23,6 +23,7 @@ const ProfilePage = () => {
   const [dateTouched, setDateTouched] = useState(false);
   const [phoneError, setPhoneError] = useState(false);
   const [phoneTouched, setPhoneTouched] = useState(false);
+  
 
   const closeEmailModal = () => {
     setShowEmailForm(false);

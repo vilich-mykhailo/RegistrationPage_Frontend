@@ -137,9 +137,17 @@ const RegistrationPage = () => {
               value={username}
               onChange={(e) => {
                 setUsername(e.target.value);
-                if (errors.username) {
-                  setErrors((prev) => ({ ...prev, username: null }));
-                }
+
+                if (submitAttempted) setSubmitAttempted(false);
+
+if (errors.username) {
+  setErrors(prev => {
+    const copy = { ...prev };
+    delete copy.username;
+    return copy;
+  });
+}
+
               }}
               className={`registration-input ${
                 errors.username ? "input-error" : ""
@@ -157,8 +165,15 @@ const RegistrationPage = () => {
               value={email}
               onChange={(e) => {
                 setEmail(e.target.value);
+
+                if (submitAttempted) setSubmitAttempted(false);
+
                 if (errors.email) {
-                  setErrors((prev) => ({ ...prev, email: null }));
+                  setErrors((prev) => {
+                    const copy = { ...prev };
+                    delete copy.email;
+                    return copy;
+                  });
                 }
               }}
               className={`registration-input ${
@@ -185,7 +200,9 @@ const RegistrationPage = () => {
                   }
                 }}
                 className={`registration-input ${
-                  errors.password || passwordMismatch ? "input-error" : ""
+                  errors.password || passwordMismatch
+                    ? "input-error input-shake"
+                    : ""
                 }`}
               />
 
@@ -227,32 +244,41 @@ const RegistrationPage = () => {
 
             {/* PASSWORD HINTS */}
             <div className="registration-reset-password-hints">
-              <div className="registration-password-hints">
-                <p className={passwordRules.length ? "ok" : ""}>
-                  • Щонайменше 8 символів
-                </p>
-                <p className={passwordRules.upper ? "ok" : ""}>
-                  • Одна велика літера
-                </p>
-                <p className={passwordRules.lower ? "ok" : ""}>
-                  • Одна мала літера
-                </p>
-                <p className={passwordRules.number ? "ok" : ""}>• Одна цифра</p>
-                <p className={passwordRules.symbol ? "ok" : ""}>
-                  • Один спеціальний символ
-                </p>
-                <p
-                  className={
-                    !hasPassword || !hasLetters
-                      ? ""
-                      : onlyEnglishLetters
-                        ? "ok"
-                        : "error"
-                  }
-                >
-                  • Англійські літери (A–Z)
-                </p>
-              </div>
+                          <div className="securemail-password-password-hints">
+  <p className={passwordRules.length ? "ok" : submitAttempted ? "error" : ""}>
+    • Щонайменше 8 символів
+  </p>
+
+  <p className={passwordRules.upper ? "ok" : submitAttempted ? "error" : ""}>
+    • Одна велика літера
+  </p>
+
+  <p className={passwordRules.lower ? "ok" : submitAttempted ? "error" : ""}>
+    • Одна мала літера
+  </p>
+
+  <p className={passwordRules.number ? "ok" : submitAttempted ? "error" : ""}>
+    • Одна цифра
+  </p>
+
+  <p className={passwordRules.symbol ? "ok" : submitAttempted ? "error" : ""}>
+    • Один спеціальний символ
+  </p>
+
+  <p
+    className={
+      !hasPassword || !hasLetters
+        ? ""
+        : onlyEnglishLetters
+        ? "ok"
+        : submitAttempted
+        ? "error"
+        : ""
+    }
+  >
+    • Англійські літери (A–Z)
+  </p>
+</div>
             </div>
 
             {errors.password && (
@@ -318,9 +344,7 @@ const RegistrationPage = () => {
             </div>
 
             {errors.confirmPassword && (
-              <p className="registration-error ">
-                {errors.confirmPassword}
-              </p>
+              <p className="registration-error ">{errors.confirmPassword}</p>
             )}
           </div>
 

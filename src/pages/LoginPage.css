@@ -67,24 +67,6 @@
   align-items: center;
 }
 
-.login-form-toggle-password {
-  position: absolute;
-  right: 12px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: var(--color-text-border-input);
-  display: flex;
-  align-items: center;
-  padding: 4px;
-
-  transition: all 0.2s ease;
-}
-
-.login-form-toggle-password:hover {
-  color: #5f5f5f;
-}
-
 .login-form-error {
   text-align: center;
   font-size: 13px;

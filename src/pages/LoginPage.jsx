@@ -41,7 +41,7 @@ const LoginPage = () => {
 
       if (!res.ok) {
         if (data.message === "EMAIL_NOT_FOUND") {
-          setErrors({ email: "Схоже, це не email. Перевірте адресу" });
+          setErrors({ email: "Користувач з такою поштою не зареєстрований" });
         } else if (data.message === "WRONG_PASSWORD") {
           setErrors({ password: "Невірний пароль" });
         } else {
@@ -74,7 +74,11 @@ const LoginPage = () => {
               onChange={(e) => {
                 setEmail(e.target.value);
                 if (errors.email) {
-                  setErrors((prev) => ({ ...prev, email: null }));
+                  setErrors((prev) => {
+                    const copy = { ...prev };
+                    delete copy.email;
+                    return copy;
+                  });
                 }
               }}
               className={`login-form-input ${
@@ -94,8 +98,13 @@ const LoginPage = () => {
                 value={password}
                 onChange={(e) => {
                   setPassword(e.target.value);
+
                   if (errors.password) {
-                    setErrors((prev) => ({ ...prev, password: null }));
+                    setErrors((prev) => {
+                      const copy = { ...prev };
+                      delete copy.password;
+                      return copy;
+                    });
                   }
                 }}
                 className={`login-form-input ${
@@ -106,7 +115,7 @@ const LoginPage = () => {
 
               <button
                 type="button"
-                className="login-form-toggle-password"
+                className="securemail-password-toggle-password"
                 onClick={() => setShowPassword((prev) => !prev)}
               >
                 {showPassword ? (

@@ -39,7 +39,14 @@ function ForgotPasswordPage() {
       setSuccess(true);
     } catch (e) {
       if (e.response?.data?.message === "EMAIL_NOT_FOUND") {
-        setError("Акаунт не знайдено. Перевірте email або зареєструйтесь");
+        setError(
+  <>
+    ❌ Акаунт не знайдено.
+    <br />
+    Перевірте email або зареєструйтесь
+  </>
+);
+
       } else {
         setError("Сталася помилка. Спробуйте пізніше.");
       }
