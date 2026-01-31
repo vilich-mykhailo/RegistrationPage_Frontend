@@ -54,9 +54,15 @@ const RegistrationPage = () => {
     if (!username.trim()) {
       newErrors.username = "Імʼя не може бути порожнім";
     }
-    if (!validateEmail(email)) {
-      newErrors.email = "Введіть коректну email-адресу (має містити @)";
+    // 🔴 Email
+    if (!email.trim()) {
+      newErrors.email = "Email не може бути порожнім";
+    } else if (!email.includes("@")) {
+      newErrors.email = "Email має виглядати як name@example.com";
+    } else if (!validateEmail(email)) {
+      newErrors.email = "Email має виглядати як name@example.com";
     }
+
     if (!passwordRules.englishOnly) {
       newErrors.password =
         "Використовуйте лише англійські літери, цифри та символи.";
@@ -129,7 +135,7 @@ const RegistrationPage = () => {
       <div className="registration-wrapper">
         <h1 className="registration-title">Реєстрація</h1>
 
-        <form className="registration-form" onSubmit={handleSubmit}>
+        <form className="registration-form" onSubmit={handleSubmit} noValidate>
           <div className="registration-field">
             <input
               type="text"
@@ -140,14 +146,13 @@ const RegistrationPage = () => {
 
                 if (submitAttempted) setSubmitAttempted(false);
 
-if (errors.username) {
-  setErrors(prev => {
-    const copy = { ...prev };
-    delete copy.username;
-    return copy;
-  });
-}
-
+                if (errors.username) {
+                  setErrors((prev) => {
+                    const copy = { ...prev };
+                    delete copy.username;
+                    return copy;
+                  });
+                }
               }}
               className={`registration-input ${
                 errors.username ? "input-error" : ""
@@ -244,41 +249,61 @@ if (errors.username) {
 
             {/* PASSWORD HINTS */}
             <div className="registration-reset-password-hints">
-                          <div className="securemail-password-password-hints">
-  <p className={passwordRules.length ? "ok" : submitAttempted ? "error" : ""}>
-    • Щонайменше 8 символів
-  </p>
+              <div className="securemail-password-password-hints">
+                <p
+                  className={
+                    passwordRules.length ? "ok" : submitAttempted ? "error" : ""
+                  }
+                >
+                  • Щонайменше 8 символів
+                </p>
 
-  <p className={passwordRules.upper ? "ok" : submitAttempted ? "error" : ""}>
-    • Одна велика літера
-  </p>
+                <p
+                  className={
+                    passwordRules.upper ? "ok" : submitAttempted ? "error" : ""
+                  }
+                >
+                  • Одна велика літера
+                </p>
 
-  <p className={passwordRules.lower ? "ok" : submitAttempted ? "error" : ""}>
-    • Одна мала літера
-  </p>
+                <p
+                  className={
+                    passwordRules.lower ? "ok" : submitAttempted ? "error" : ""
+                  }
+                >
+                  • Одна мала літера
+                </p>
 
-  <p className={passwordRules.number ? "ok" : submitAttempted ? "error" : ""}>
-    • Одна цифра
-  </p>
+                <p
+                  className={
+                    passwordRules.number ? "ok" : submitAttempted ? "error" : ""
+                  }
+                >
+                  • Одна цифра
+                </p>
 
-  <p className={passwordRules.symbol ? "ok" : submitAttempted ? "error" : ""}>
-    • Один спеціальний символ
-  </p>
+                <p
+                  className={
+                    passwordRules.symbol ? "ok" : submitAttempted ? "error" : ""
+                  }
+                >
+                  • Один спеціальний символ
+                </p>
 
-  <p
-    className={
-      !hasPassword || !hasLetters
-        ? ""
-        : onlyEnglishLetters
-        ? "ok"
-        : submitAttempted
-        ? "error"
-        : ""
-    }
-  >
-    • Англійські літери (A–Z)
-  </p>
-</div>
+                <p
+                  className={
+                    !hasPassword || !hasLetters
+                      ? ""
+                      : onlyEnglishLetters
+                        ? "ok"
+                        : submitAttempted
+                          ? "error"
+                          : ""
+                  }
+                >
+                  • Англійські літери (A–Z)
+                </p>
+              </div>
             </div>
 
             {errors.password && (

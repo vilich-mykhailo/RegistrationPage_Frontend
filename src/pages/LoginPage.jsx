@@ -27,7 +27,7 @@ const LoginPage = () => {
     }
 
     if (!isEmailValid(email)) {
-      setErrors({ email: "Схоже, це не email. Перевірте адресу" });
+      setErrors({ email: "Email має виглядати як name@example.com" });
       return;
     }
     try {
@@ -45,8 +45,8 @@ const LoginPage = () => {
         } else if (data.message === "WRONG_PASSWORD") {
           setErrors({ password: "Невірний пароль" });
         } else {
-          setErrors({ password: "Невірний email або пароль" });
-        }
+        setErrors({ general: data.message || "Помилка входу" });
+      }
         return;
       }
 
@@ -88,6 +88,11 @@ const LoginPage = () => {
             />
 
             {errors.email && <p className="login-form-error">{errors.email}</p>}
+                      {errors.general && (
+            <p className="login-form-error login-form-general-error">
+              {errors.general}
+            </p>
+          )}
           </div>
 
           <div className="login-form-field">
@@ -168,11 +173,7 @@ const LoginPage = () => {
             Увійти
           </button>
 
-          {errors.general && (
-            <p className="login-form-error login-form-general-error">
-              {errors.general}
-            </p>
-          )}
+
         </form>
       </div>
     </div>

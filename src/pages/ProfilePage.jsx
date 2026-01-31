@@ -16,6 +16,12 @@ const ProfilePage = () => {
   const [savedProfile, setSavedProfile] = useState(null);
   const [isDirty, setIsDirty] = useState(false);
   const [showPasswordForm, setShowPasswordForm] = useState(false);
+  const [showOldPassword, setShowOldPassword] = useState(false);
+  const [showEmailPassword, setShowEmailPassword] = useState(false);
+  const [emailPasswordErrorText, setEmailPasswordErrorText] = useState("");
+  const [newEmailErrorText, setNewEmailErrorText] = useState("");
+  const [confirmEmailErrorText, setConfirmEmailErrorText] = useState("");
+
   const [showEmailForm, setShowEmailForm] = useState(false);
   const [passwordRequestSuccess, setPasswordRequestSuccess] = useState(false);
   const [emailRequestSuccess, setEmailRequestSuccess] = useState(false);
@@ -23,31 +29,62 @@ const ProfilePage = () => {
   const [dateTouched, setDateTouched] = useState(false);
   const [phoneError, setPhoneError] = useState(false);
   const [phoneTouched, setPhoneTouched] = useState(false);
-  
+  const [oldPasswordError, setOldPasswordError] = useState(false);
+  const [newPasswordError, setNewPasswordError] = useState(false);
+  const [newEmailError, setNewEmailError] = useState(false);
+  const [confirmEmailError, setConfirmEmailError] = useState(false);
+const isValidEmail = (email) => {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+};
 
-  const closeEmailModal = () => {
-    setShowEmailForm(false);
-    setEmailRequestSuccess(false);
-    setError("");
-    setLoading(false);
-    setEmailForm({ newEmail: "", confirmEmail: "", password: "" }); // 🔥 ОЧИСТКА ПОЛІВ
-  };
+  const [confirmPasswordFieldError, setConfirmPasswordFieldError] =
+    useState(false);
+  const [emailPasswordError, setEmailPasswordError] = useState(false);
+
+const closeEmailModal = () => {
+  setShowEmailForm(false);
+  setEmailRequestSuccess(false);
+  setError("");
+  setLoading(false);
+
+  setEmailForm({
+    newEmail: "",
+    confirmEmail: "",
+    password: "",
+  });
+
+  // 🔥 RESET ERRORS
+  setEmailPasswordError(false);
+  setNewEmailError(false);
+  setConfirmEmailError(false);
+
+  setEmailPasswordErrorText("");
+  setNewEmailErrorText("");
+  setConfirmEmailErrorText("");
+};
+
   const closePasswordModal = () => {
     setShowPasswordForm(false);
     setPasswordRequestSuccess(false);
-    setError("");
-    setLoading(false);
-    setSubmitAttempted(false);
-    setConfirmPasswordError("");
-    setShowPassword(false);
-    setShowConfirmPassword(false);
 
-    // 🔥 ОЧИСТКА ФОРМИ
     setPasswordForm({
       oldPassword: "",
       password: "",
       confirmPassword: "",
     });
+
+    setSubmitAttempted(false);
+    setConfirmPasswordError("");
+    setError("");
+    setLoading(false);
+
+    setOldPasswordError(false);
+    setNewPasswordError(false);
+    setConfirmPasswordFieldError(false);
+
+    setShowPassword(false);
+    setShowConfirmPassword(false);
+    setShowOldPassword(false);
   };
 
   const [passwordForm, setPasswordForm] = useState({
@@ -65,10 +102,7 @@ const ProfilePage = () => {
 
   const hasPassword = passwordForm.password.length > 0;
   const hasLetters = /[A-Za-z]/.test(passwordForm.password);
-  const onlyEnglishLetters =
-    /^[A-Za-z0-9^_!@#$%^&*()+=\-[\]\\';,/{}|":<>?]+$/.test(
-      passwordForm.password,
-    );
+  const onlyEnglishLetters = !/[А-Яа-яІіЇїЄє]/.test(passwordForm.password);
 
   const isPasswordValid =
     passwordRules.length &&
@@ -543,14 +577,31 @@ const ProfilePage = () => {
             </div>
             <div
               className="security-item"
-              onClick={() => {
-                setShowEmailForm(true);
-                setShowPasswordForm(false);
+onClick={() => {
+  setShowEmailForm(true);
+  setShowPasswordForm(false);
 
-                setEmailForm({ newEmail: "", confirmEmail: "" });
-                setError("");
-                setEmailRequestSuccess(false);
-              }}
+  setEmailForm({
+    newEmail: "",
+    confirmEmail: "",
+    password: "",
+  });
+
+  setError("");
+  setEmailRequestSuccess(false);
+
+  // 🔥 RESET ERROR STATES
+  setEmailPasswordError(false);
+  setNewEmailError(false);
+  setConfirmEmailError(false);
+
+  setEmailPasswordErrorText("");
+  setNewEmailErrorText("");
+  setConfirmEmailErrorText("");
+
+  setShowEmailPassword(false);
+}}
+
             >
               <div className="security-icon">✉️</div>
               <div className="security-text">
@@ -583,26 +634,7 @@ const ProfilePage = () => {
         <div className="success-toast">✅ Дані успішно збережено</div>
       )}
       {/* ===== PASSWORD MODAL (RESET STYLE) ===== */}
-      <Modal
-        open={showPasswordForm}
-        onClose={() => {
-          setShowPasswordForm(false);
-          setPasswordRequestSuccess(false);
-
-          // 🔥 ЧИСТИМО ВСЕ
-          setPasswordForm({
-            oldPassword: "",
-            password: "",
-            confirmPassword: "",
-          });
-
-          setSubmitAttempted(false);
-          setConfirmPasswordError("");
-          setError("");
-          setShowPassword(false);
-          setShowConfirmPassword(false);
-        }}
-      >
+      <Modal open={showPasswordForm} onClose={closePasswordModal}>
         {passwordRequestSuccess ? (
           /* 🔥 SUCCESS SCREEN */
 
@@ -626,22 +658,65 @@ const ProfilePage = () => {
           /* 🔐 ФОРМА ЗМІНИ ПАРОЛЯ */
           <form
             className="security-reset-form"
+            noValidate
             onSubmit={async (e) => {
               e.preventDefault();
-              setSubmitAttempted(true);
+
+              setSubmitAttempted(false); // 🔥 не вмикаємо поки не перевіримо old
               setLoading(true);
 
-              if (!isPasswordValid) {
+              // reset
+              setOldPasswordError(false);
+              setNewPasswordError(false);
+              setConfirmPasswordFieldError(false);
+              setConfirmPasswordError("");
+              setError("");
+
+              // STEP 1 — чи введений старий
+              if (!passwordForm.oldPassword) {
+                setOldPasswordError(true);
+                setError("Введіть поточний пароль");
                 setLoading(false);
                 return;
               }
 
+              // STEP 2 — перевірка старого пароля сервером
+              try {
+                await axios.post(
+                  "http://localhost:5000/api/auth/request-change-password",
+                  {
+                    oldPassword: passwordForm.oldPassword,
+                    newPassword: "__probe__", // будь-що, сервер все одно спершу валідить old
+                  },
+                  { headers: { Authorization: `Bearer ${token}` } },
+                );
+              } catch (e) {
+                setOldPasswordError(true);
+                setError("Невірний поточний пароль");
+                setLoading(false);
+                return; // ⛔ СТОП — далі не йдемо
+              }
+
+              // ✅ ТІЛЬКИ ТЕПЕР вмикаємо валідацію нового
+              setSubmitAttempted(true);
+
+              // STEP 3 — новий пароль
+              if (!isPasswordValid) {
+                setNewPasswordError(true);
+                setLoading(false);
+                return;
+              }
+
+              // STEP 4 — confirm
               if (!passwordsMatch) {
+                setNewPasswordError(true);
+                setConfirmPasswordFieldError(true);
                 setConfirmPasswordError("Паролі не співпадають");
                 setLoading(false);
                 return;
               }
 
+              // STEP 5 — реальна зміна
               try {
                 await axios.post(
                   "http://localhost:5000/api/auth/request-change-password",
@@ -652,17 +727,9 @@ const ProfilePage = () => {
                   { headers: { Authorization: `Bearer ${token}` } },
                 );
 
-                // 🔥 ПОКАЗУЄМО SUCCESS ЕКРАН
                 setPasswordRequestSuccess(true);
-
-                // чистимо форму
-                setPasswordForm({
-                  oldPassword: "",
-                  password: "",
-                  confirmPassword: "",
-                });
               } catch (e) {
-                setError(e.response?.data?.message || "Помилка зміни пароля");
+                setError("Помилка зміни пароля");
               } finally {
                 setLoading(false);
               }
@@ -671,18 +738,64 @@ const ProfilePage = () => {
             {/* 🔹 СТАРИЙ ПАРОЛЬ */}
             <div className="security-password-field">
               <input
-                type="password"
-                placeholder="Старий пароль*"
+                type={showOldPassword ? "text" : "password"}
+                placeholder="Поточний пароль*"
                 value={passwordForm.oldPassword}
-                onChange={(e) =>
+                className={oldPasswordError ? "input-error" : ""}
+                onChange={(e) => {
                   setPasswordForm({
                     ...passwordForm,
                     oldPassword: e.target.value,
-                  })
-                }
-                required
+                  });
+                  if (oldPasswordError) setOldPasswordError(false);
+                  if (error) setError("");
+                }}
               />
+
+              <button
+                type="button"
+                className="security-toggle-password"
+                onClick={() => setShowOldPassword((prev) => !prev)}
+              >
+                {showOldPassword ? (
+                  /* 👁 ВІДКРИТЕ ОКО */
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                    <circle cx="12" cy="12" r="3" />
+                  </svg>
+                ) : (
+                  /* 🚫👁 ПЕРЕКРЕСЛЕНЕ ОКО */
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                    <circle cx="12" cy="12" r="3" />
+                    <line x1="3" y1="21" x2="21" y2="3" />
+                  </svg>
+                )}
+              </button>
             </div>
+            {oldPasswordError && error && (
+              <p className="registration-error">{error}</p>
+            )}
 
             {/* 🔹 НОВИЙ ПАРОЛЬ */}
             <div className="security-password-field">
@@ -690,14 +803,23 @@ const ProfilePage = () => {
                 type={showPassword ? "text" : "password"}
                 placeholder="Новий пароль*"
                 value={passwordForm.password}
-                onChange={(e) =>
+                className={
+                  newPasswordError || (submitAttempted && !isPasswordValid)
+                    ? "input-error input-shake"
+                    : ""
+                }
+                onChange={(e) => {
                   setPasswordForm({
                     ...passwordForm,
                     password: e.target.value,
-                  })
-                }
+                  });
+
+                  if (newPasswordError) setNewPasswordError(false);
+                  if (error) setError("");
+                }}
                 required
               />
+
               <button
                 type="button"
                 className="security-toggle-password"
@@ -771,10 +893,10 @@ const ProfilePage = () => {
             </div>
 
             {submitAttempted && !isPasswordValid && (
-              <p className="error">Пароль не відповідає вимогам безпеки</p>
+              <p className="registration-error ">
+                Пароль не відповідає вимогам безпеки
+              </p>
             )}
-
-            {error && <p className="error">{error}</p>}
 
             {/* 🔹 ПІДТВЕРДЖЕННЯ */}
             <div className="security-password-field">
@@ -782,12 +904,16 @@ const ProfilePage = () => {
                 type={showConfirmPassword ? "text" : "password"}
                 placeholder="Підтвердіть пароль*"
                 value={passwordForm.confirmPassword}
+                className={confirmPasswordFieldError ? "input-error" : ""}
                 onChange={(e) => {
                   setPasswordForm({
                     ...passwordForm,
                     confirmPassword: e.target.value,
                   });
+
                   if (confirmPasswordError) setConfirmPasswordError("");
+                  if (confirmPasswordFieldError)
+                    setConfirmPasswordFieldError(false);
                 }}
                 required
               />
@@ -835,7 +961,7 @@ const ProfilePage = () => {
             </div>
 
             {confirmPasswordError && (
-              <p className="error">{confirmPasswordError}</p>
+              <p className="registration-error">{confirmPasswordError}</p>
             )}
 
             <button
@@ -885,55 +1011,89 @@ const ProfilePage = () => {
 
             <form
               className="security-email-reset-form"
+              noValidate
               onSubmit={async (e) => {
                 e.preventDefault();
                 setLoading(true);
                 setError("");
 
+                // reset
+
+                setEmailPasswordError(false);
+                setNewEmailError(false);
+                setConfirmEmailError(false);
+
+                setEmailPasswordErrorText("");
+                setNewEmailErrorText("");
+                setConfirmEmailErrorText("");
+if (!isValidEmail(emailForm.newEmail)) {
+  setNewEmailError(true);
+  setNewEmailErrorText("Невірний формат пошти");
+  setLoading(false);
+  return;
+}
+
+if (!isValidEmail(emailForm.confirmEmail)) {
+  setConfirmEmailError(true);
+  setConfirmEmailErrorText("Невірний формат пошти");
+  setLoading(false);
+  return;
+}
+
                 if (!emailForm.password) {
-                  setError("Введіть пароль для підтвердження");
+                  setEmailPasswordError(true);
+                  setEmailPasswordErrorText("Введіть пароль для підтвердження");
                   setLoading(false);
                   return;
                 }
 
-                if (!emailForm.newEmail || !emailForm.confirmEmail) {
-                  setError("Заповніть всі поля");
+                if (!emailForm.newEmail) {
+                  setNewEmailError(true);
+                  setNewEmailErrorText("Введіть нову пошту");
+                  setLoading(false);
+                  return;
+                }
+
+                if (!emailForm.confirmEmail) {
+                  setConfirmEmailError(true);
+                  setConfirmEmailErrorText("Повторіть пошту");
                   setLoading(false);
                   return;
                 }
 
                 if (emailForm.newEmail !== emailForm.confirmEmail) {
-                  setError("Пошти не співпадають");
+                  setNewEmailError(true);
+                  setConfirmEmailError(true);
+                  setConfirmEmailErrorText("Пошти не співпадають");
                   setLoading(false);
                   return;
                 }
 
                 try {
-                  if (!token) {
-                    setError("Сесія закінчилась. Увійдіть знову.");
-                    setLoading(false);
-                    return;
-                  }
-
                   await axios.post(
                     "http://localhost:5000/api/auth/request-change-email",
-                    {
-                      newEmail: emailForm.newEmail,
-                      confirmEmail: emailForm.confirmEmail,
-                      password: emailForm.password, // 🔥 ОЦЕ ГОЛОВНЕ
-                    },
-                    {
-                      headers: { Authorization: `Bearer ${token}` },
-                    },
+                    emailForm,
+                    { headers: { Authorization: `Bearer ${token}` } },
                   );
 
-                  // 🔥 показуємо success-екран
                   setEmailRequestSuccess(true);
-
-                  // чистимо форму
-                  setEmailForm({ newEmail: "", confirmEmail: "" });
+                  setEmailForm({
+                    newEmail: "",
+                    confirmEmail: "",
+                    password: "",
+                  });
                 } catch (e) {
-                  setError(e.response?.data?.message || "Помилка зміни пошти");
+                  const msg = e.response?.data?.message || "";
+
+                  if (msg.toLowerCase().includes("парол")) {
+                    setEmailPasswordError(true);
+                    setEmailPasswordErrorText("Невірний пароль");
+                  } else if (msg.toLowerCase().includes("email")) {
+                    setNewEmailError(true);
+                    setNewEmailErrorText(msg);
+                  } else {
+                    setError(msg || "Помилка зміни пошти");
+                  }
                 } finally {
                   setLoading(false);
                 }
@@ -941,42 +1101,98 @@ const ProfilePage = () => {
             >
               <div className="security-email-password-field">
                 <input
-                  type="password"
-                  placeholder="Пароль*"
-                  value={emailForm.password}
-                  onChange={(e) =>
-                    setEmailForm({ ...emailForm, password: e.target.value })
+                  type={showEmailPassword ? "text" : "password"}
+                  placeholder="Поточний пароль*"
+                  className={
+                    emailPasswordError ? "input-error input-shake" : ""
                   }
-                  required
+                  value={emailForm.password}
+                  onChange={(e) => {
+                    setEmailForm({ ...emailForm, password: e.target.value });
+                    setEmailPasswordError(false);
+                    setEmailPasswordErrorText("");
+                  }}
                 />
+
+                <button
+                  type="button"
+                  className="security-toggle-password"
+                  onClick={() => setShowEmailPassword((p) => !p)}
+                >
+                  {showEmailPassword ? (
+                    /* 👁 */
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                      <circle cx="12" cy="12" r="3" />
+                    </svg>
+                  ) : (
+                    /* 🚫👁 */
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                      <circle cx="12" cy="12" r="3" />
+                      <line x1="3" y1="21" x2="21" y2="3" />
+                    </svg>
+                  )}
+                </button>
               </div>
+              {emailPasswordErrorText && (
+                <p className="registration-error">{emailPasswordErrorText}</p>
+              )}
               <div className="security-email-password-field">
                 <input
                   type="email"
                   placeholder="Нова пошта*"
+                  className={newEmailError ? "input-error input-shake" : ""}
                   value={emailForm.newEmail}
-                  onChange={(e) =>
-                    setEmailForm({ ...emailForm, newEmail: e.target.value })
-                  }
-                  required
+                  onChange={(e) => {
+                    setEmailForm({ ...emailForm, newEmail: e.target.value });
+                    setNewEmailError(false);
+                    setNewEmailErrorText("");
+                  }}
                 />
               </div>
+              {newEmailErrorText && (
+                <p className="registration-error">{newEmailErrorText}</p>
+              )}
               <div className="security-email-password-field">
                 <input
                   type="email"
                   placeholder="Повторіть нову пошту*"
+                  className={confirmEmailError ? "input-error input-shake" : ""}
                   value={emailForm.confirmEmail}
-                  onChange={(e) =>
+                  onChange={(e) => {
                     setEmailForm({
                       ...emailForm,
                       confirmEmail: e.target.value,
-                    })
-                  }
-                  required
+                    });
+                    setConfirmEmailError(false);
+                    setConfirmEmailErrorText("");
+                  }}
                 />
               </div>
-              {error && <p className="error">{error}</p>}
-
+              {confirmEmailErrorText && (
+                <p className="registration-error">{confirmEmailErrorText}</p>
+              )}
               <button
                 className="security-email-submit-btn security-email-btn"
                 type="submit"
