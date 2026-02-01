@@ -3,14 +3,14 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #f7f8fa;
+  background-color: var(--color-background-main);
 }
 
 .messages-card {
-  background: #ffffff;
+  background: var(--modal-color-background);
   padding: 60px 50px;
   border-radius: 16px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--modal-box-shadow);
   text-align: center;
   max-width: 500px;
   width: 100%;
@@ -20,38 +20,37 @@
 }
 
 .messages-card:hover {
-  box-shadow: 0 16px 40px rgba(2, 19, 255, 0.281);
+  box-shadow: var(--modal-box-shadow-hover);
 }
 
+.messages-card-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 72px;
+  height: 72px;
+  margin-bottom: 16px;
+  font-size: 70px;
+  line-height: 1;
+}
 
 .messages-title {
   font-size: 36px;
   font-weight: 600;
   margin-bottom: 20px;
-  color: #222;
+  color: var(--color-text-main);
 }
 
 .messages-text {
-  font-size: 20px;
-  margin-bottom: 16px;
-  color: #333;
-}
-
-.messages-list {
-  list-style: none;
-  padding: 0;
-  margin: 0 0 24px;
-}
-
-.messages-list li {
   font-size: 16px;
-  color: #555;
-  margin-bottom: 8px;
+  margin-bottom: 16px;
+  color: var(--color-text-secondary);
 }
+
 
 .messages-hint {
-  font-size: 15px;
-  color: #999;
+  font-size: 12px;
+  color: var(--color-text-tertiary);
 }
 
 @keyframes popupFadeIn {

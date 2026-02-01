@@ -7,6 +7,7 @@ import "./ResetPasswordPage.css";
 import Modal from "../components/Modal.jsx";
 
 const ProfilePage = () => {
+  const API = process.env.REACT_APP_API_URL || "http://localhost:5000";
   const [dateError, setDateError] = useState(false);
   const { user, login, logout } = useAuth();
   const [isSaving, setIsSaving] = useState(false);
@@ -33,35 +34,35 @@ const ProfilePage = () => {
   const [newPasswordError, setNewPasswordError] = useState(false);
   const [newEmailError, setNewEmailError] = useState(false);
   const [confirmEmailError, setConfirmEmailError] = useState(false);
-const isValidEmail = (email) => {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-};
+  const isValidEmail = (email) => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  };
 
   const [confirmPasswordFieldError, setConfirmPasswordFieldError] =
     useState(false);
   const [emailPasswordError, setEmailPasswordError] = useState(false);
 
-const closeEmailModal = () => {
-  setShowEmailForm(false);
-  setEmailRequestSuccess(false);
-  setError("");
-  setLoading(false);
+  const closeEmailModal = () => {
+    setShowEmailForm(false);
+    setEmailRequestSuccess(false);
+    setError("");
+    setLoading(false);
 
-  setEmailForm({
-    newEmail: "",
-    confirmEmail: "",
-    password: "",
-  });
+    setEmailForm({
+      newEmail: "",
+      confirmEmail: "",
+      password: "",
+    });
 
-  // 🔥 RESET ERRORS
-  setEmailPasswordError(false);
-  setNewEmailError(false);
-  setConfirmEmailError(false);
+    // 🔥 RESET ERRORS
+    setEmailPasswordError(false);
+    setNewEmailError(false);
+    setConfirmEmailError(false);
 
-  setEmailPasswordErrorText("");
-  setNewEmailErrorText("");
-  setConfirmEmailErrorText("");
-};
+    setEmailPasswordErrorText("");
+    setNewEmailErrorText("");
+    setConfirmEmailErrorText("");
+  };
 
   const closePasswordModal = () => {
     setShowPasswordForm(false);
@@ -225,7 +226,7 @@ const closeEmailModal = () => {
     if (!token) return;
 
     axios
-      .get("http://localhost:5000/api/auth/profile", {
+      .get(`${API}/api/auth/profile`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {
@@ -337,11 +338,9 @@ const closeEmailModal = () => {
           : null,
       };
 
-      const res = await axios.put(
-        "http://localhost:5000/api/auth/profile",
-        formattedProfile,
-        { headers: { Authorization: `Bearer ${token}` } },
-      );
+      const res = await axios.put(`${API}/api/auth/profile`, formattedProfile, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
 
       const updated = {
         first_name: res.data.first_name || "",
@@ -394,7 +393,21 @@ const closeEmailModal = () => {
           <form onSubmit={handleProfileSubmit} className="profile-form">
             {/* ІМʼЯ */}
             <div className="profile-field">
-              <span className="profile-icon">👤</span>
+              <span className="profile-icon">
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#22c55e"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <circle cx="12" cy="7" r="4" />
+                  <path d="M5 21c0-4 4-7 7-7s7 3 7 7" />
+                </svg>
+              </span>
               <input
                 name="first_name"
                 placeholder="Ім'я*"
@@ -405,7 +418,22 @@ const closeEmailModal = () => {
 
             {/* ПРІЗВИЩЕ */}
             <div className="profile-field">
-              <span className="profile-icon">🧑‍💼</span>
+              <span className="profile-icon">
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#22c55e"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <rect x="3" y="3" width="18" height="18" rx="2" />
+                  <circle cx="12" cy="10" r="3" />
+                  <line x1="8" y1="15" x2="16" y2="15" />
+                </svg>
+              </span>
               <input
                 name="last_name"
                 placeholder="Прізвище*"
@@ -416,14 +444,44 @@ const closeEmailModal = () => {
 
             {/* EMAIL (READONLY) */}
             <div className="profile-field">
-              <span className="profile-icon">📧</span>
+              <span className="profile-icon">
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#22c55e"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <rect x="3" y="5" width="18" height="14" rx="2" />
+                  <polyline points="3 7 12 13 21 7" />
+                </svg>
+              </span>
               <input value={user?.email || ""} disabled placeholder="E-mail" />
             </div>
 
             {/* ДАТА НАРОДЖЕННЯ */}
             <div className="profile-field date-field">
               <div className="date-input-wrapper">
-                <span className="profile-icon">📅</span>
+                <span className="profile-icon">
+                  <svg
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="#22c55e"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                    <line x1="16" y1="2" x2="16" y2="6" />
+                    <line x1="8" y1="2" x2="8" y2="6" />
+                    <line x1="3" y1="10" x2="21" y2="10" />
+                  </svg>
+                </span>
 
                 <input
                   type="text"
@@ -447,7 +505,24 @@ const closeEmailModal = () => {
 
             {/* СТАТЬ */}
             <div className="profile-field custom-select">
-              <span className="profile-icon">⚧️</span>
+              <span className="profile-icon">
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#22c55e"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <circle cx="12" cy="12" r="5" />
+                  <path d="M12 7V2" />
+                  <path d="M12 22v-5" />
+                  <path d="M17 12h5" />
+                  <path d="M2 12h5" />
+                </svg>
+              </span>
 
               <div
                 className={`select-display ${genderOpen ? "open" : ""}`}
@@ -507,7 +582,34 @@ const closeEmailModal = () => {
 
             {/* ТЕЛЕФОН */}
             <div className="profile-field">
-              <span className="profile-icon">📞</span>
+              <span className="profile-icon">
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#22c55e"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path
+                    d="M22 16.92v3a2 2 0 0 1-2.18 2
+    19.86 19.86 0 0 1-8.63-3.07
+    19.5 19.5 0 0 1-6-6
+    19.86 19.86 0 0 1-3.07-8.67
+    A2 2 0 0 1 4.11 2h3
+    a2 2 0 0 1 2 1.72
+    c.12.81.3 1.6.54 2.36
+    a2 2 0 0 1-.45 2L8.09 9.91
+    a16 16 0 0 0 6 6
+    l1.83-1.83
+    a2 2 0 0 1 2-.45
+    c.76.24 1.55.42 2.36.54
+    a2 2 0 0 1 1.72 2z"
+                  />
+                </svg>
+              </span>
 
               <input
                 name="phone"
@@ -566,7 +668,42 @@ const closeEmailModal = () => {
                 setPasswordRequestSuccess(false);
               }}
             >
-              <div className="security-icon">🔑</div>
+              {/* <div className="security-icon">🔑</div> */}
+              <div className="security-icon">
+                <div className="security-toggle-icon">
+                  <span className="icon closed">🔒</span>
+                  <span className="icon open">🔓</span>
+                  {/* <svg
+                    className="icon closed"
+                    width="22"
+                    height="22"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="#22c55e"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <rect x="3" y="11" width="18" height="11" rx="2" />
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                  </svg>
+
+                  <svg
+                    className="icon open"
+                    width="22"
+                    height="22"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="#22c55e"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <rect x="3" y="11" width="18" height="11" rx="2" />
+                    <path d="M7 11V8a5 5 0 0 1 9-3" />
+                  </svg> */}
+                </div>
+              </div>
               <div className="security-text">
                 <div className="security-title">Змінити пароль</div>
                 <div className="security-subtitle">
@@ -577,33 +714,65 @@ const closeEmailModal = () => {
             </div>
             <div
               className="security-item"
-onClick={() => {
-  setShowEmailForm(true);
-  setShowPasswordForm(false);
+              onClick={() => {
+                setShowEmailForm(true);
+                setShowPasswordForm(false);
 
-  setEmailForm({
-    newEmail: "",
-    confirmEmail: "",
-    password: "",
-  });
+                setEmailForm({
+                  newEmail: "",
+                  confirmEmail: "",
+                  password: "",
+                });
 
-  setError("");
-  setEmailRequestSuccess(false);
+                setError("");
+                setEmailRequestSuccess(false);
 
-  // 🔥 RESET ERROR STATES
-  setEmailPasswordError(false);
-  setNewEmailError(false);
-  setConfirmEmailError(false);
+                // 🔥 RESET ERROR STATES
+                setEmailPasswordError(false);
+                setNewEmailError(false);
+                setConfirmEmailError(false);
 
-  setEmailPasswordErrorText("");
-  setNewEmailErrorText("");
-  setConfirmEmailErrorText("");
+                setEmailPasswordErrorText("");
+                setNewEmailErrorText("");
+                setConfirmEmailErrorText("");
 
-  setShowEmailPassword(false);
-}}
-
+                setShowEmailPassword(false);
+              }}
             >
-              <div className="security-icon">✉️</div>
+              {/* <div className="security-icon">✉️</div> */}
+              <div className="security-toggle-icon">
+                <span className="icon closed">✉️</span>
+                <span className="icon open">📩</span>
+                {/* <svg
+                  className="icon closed"
+                  width="26"
+                  height="26"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#22c55e"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <rect x="3" y="5" width="18" height="14" rx="2" />
+                  <path d="M3 7l9 6 9-6" />
+                </svg>
+                <svg
+                  className="icon open"
+                  width="26"
+                  height="26"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#22c55e"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M3 7l9-5 9 5" />
+                  <rect x="3" y="7" width="18" height="12" rx="2" />
+                  <path d="M7 11h10" />
+                </svg> */}
+              </div>
               <div className="security-text">
                 <div className="security-title">Змінити електронну пошту</div>
                 <div className="security-subtitle">
@@ -615,7 +784,11 @@ onClick={() => {
             {/* 🔴 LOGOUT */}{" "}
             <div className="security-item logout-item" onClick={() => logout()}>
               {" "}
-              <div className="security-icon logout-icon">🚪</div>{" "}
+              {/* <div className="security-icon logout-icon">🚪</div>{" "} */}
+              <div className="security-toggle-icon logout-icon">
+                <span className="icon closed">🚪</span>
+                <span className="icon open">🏃</span>
+                              </div>{" "}
               <div className="security-text">
                 {" "}
                 <div className="security-title logout-title">
@@ -631,7 +804,10 @@ onClick={() => {
         </div>
       </div>
       {successMessage && (
-        <div className="success-toast">✅ Дані успішно збережено</div>
+        <div className="success-toast">
+          <span className="toast-icon">✓</span>
+          <span>Дані успішно збережено</span>
+        </div>
       )}
       {/* ===== PASSWORD MODAL (RESET STYLE) ===== */}
       <Modal open={showPasswordForm} onClose={closePasswordModal}>
@@ -683,7 +859,7 @@ onClick={() => {
               // STEP 2 — перевірка старого пароля сервером
               try {
                 await axios.post(
-                  "http://localhost:5000/api/auth/request-change-password",
+                  `${API}/api/auth/request-change-password`,
                   {
                     oldPassword: passwordForm.oldPassword,
                     newPassword: "__probe__", // будь-що, сервер все одно спершу валідить old
@@ -719,7 +895,7 @@ onClick={() => {
               // STEP 5 — реальна зміна
               try {
                 await axios.post(
-                  "http://localhost:5000/api/auth/request-change-password",
+                  `${API}/api/auth/request-change-password`,
                   {
                     oldPassword: passwordForm.oldPassword,
                     newPassword: passwordForm.password,
@@ -1026,19 +1202,19 @@ onClick={() => {
                 setEmailPasswordErrorText("");
                 setNewEmailErrorText("");
                 setConfirmEmailErrorText("");
-if (!isValidEmail(emailForm.newEmail)) {
-  setNewEmailError(true);
-  setNewEmailErrorText("Невірний формат пошти");
-  setLoading(false);
-  return;
-}
+                if (!isValidEmail(emailForm.newEmail)) {
+                  setNewEmailError(true);
+                  setNewEmailErrorText("Невірний формат пошти");
+                  setLoading(false);
+                  return;
+                }
 
-if (!isValidEmail(emailForm.confirmEmail)) {
-  setConfirmEmailError(true);
-  setConfirmEmailErrorText("Невірний формат пошти");
-  setLoading(false);
-  return;
-}
+                if (!isValidEmail(emailForm.confirmEmail)) {
+                  setConfirmEmailError(true);
+                  setConfirmEmailErrorText("Невірний формат пошти");
+                  setLoading(false);
+                  return;
+                }
 
                 if (!emailForm.password) {
                   setEmailPasswordError(true);
@@ -1071,7 +1247,7 @@ if (!isValidEmail(emailForm.confirmEmail)) {
 
                 try {
                   await axios.post(
-                    "http://localhost:5000/api/auth/request-change-email",
+                    `${API}/api/auth/request-change-email`,
                     emailForm,
                     { headers: { Authorization: `Bearer ${token}` } },
                   );
@@ -1085,15 +1261,27 @@ if (!isValidEmail(emailForm.confirmEmail)) {
                 } catch (e) {
                   const msg = e.response?.data?.message || "";
 
-                  if (msg.toLowerCase().includes("парол")) {
+                  if (
+                    msg.toLowerCase().includes("password") ||
+                    msg.toLowerCase().includes("парол")
+                  ) {
                     setEmailPasswordError(true);
                     setEmailPasswordErrorText("Невірний пароль");
-                  } else if (msg.toLowerCase().includes("email")) {
-                    setNewEmailError(true);
-                    setNewEmailErrorText(msg);
-                  } else {
-                    setError(msg || "Помилка зміни пошти");
+                    return;
                   }
+
+                  if (
+                    msg.toLowerCase().includes("exist") ||
+                    msg.toLowerCase().includes("already") ||
+                    msg.toLowerCase().includes("зареєстр")
+                  ) {
+                    setNewEmailError(true);
+                    setNewEmailErrorText("Ця пошта вже зареєстрована");
+                    return;
+                  }
+
+                  // fallback
+                  setError(msg || "Помилка зміни пошти");
                 } finally {
                   setLoading(false);
                 }
@@ -1190,6 +1378,7 @@ if (!isValidEmail(emailForm.confirmEmail)) {
                   }}
                 />
               </div>
+              {error && <p className="registration-error">{error}</p>}
               {confirmEmailErrorText && (
                 <p className="registration-error">{confirmEmailErrorText}</p>
               )}

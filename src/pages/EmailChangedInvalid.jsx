@@ -16,7 +16,7 @@ function EmailChangedInvalid() {
         </p>
 
         <button
-          className="activation-button"
+          className="registration-submit-btn registration-btn"
           onClick={() => navigate("/login")}
         >
           До входу

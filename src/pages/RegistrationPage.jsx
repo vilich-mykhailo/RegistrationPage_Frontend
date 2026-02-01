@@ -3,6 +3,10 @@ import SuccessModal from "../components/SuccessModal/SuccessModal";
 import "./RegistrationPage.css";
 
 const RegistrationPage = () => {
+const API =
+  process.env.REACT_APP_API_URL || "http://localhost:5000";
+
+
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -87,7 +91,7 @@ const RegistrationPage = () => {
 
     const startTime = Date.now(); // ⏱️ старт таймера
     try {
-      const res = await fetch("http://localhost:5000/api/auth/signup", {
+      const res = await fetch(`${API}/api/auth/signup`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, email, password }),

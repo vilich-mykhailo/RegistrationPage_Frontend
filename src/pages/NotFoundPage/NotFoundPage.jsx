@@ -13,7 +13,7 @@ const NotFoundPage = () => {
           Можливо, ви перейшли за неправильним посиланням або сторінка була видалена.
         </p>
 
-        <Link to="/" className="notfound-btn">
+        <Link to="/" className="notfound-submit-btn notfound-btn">
           На головну
         </Link>
       </div>

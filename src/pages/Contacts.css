@@ -3,15 +3,14 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #f7f8fa;
+  background-color: var(--color-background-main);
 }
 
-/* card */
 .contacts-card {
-  background: #ffffff;
+  background: var(--modal-color-background);
   padding: 60px 50px;
-  border-radius: 16px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  border-radius: var(--modal-border-radius);
+  box-shadow: var(--modal-box-shadow);
   max-width: 520px;
   width: 100%;
   text-align: center;
@@ -20,56 +19,71 @@
   transition: all 0.3s ease;
 }
 
-/* hover ефект */
 .contacts-card:hover {
   transform: translateY(-6px) scale(1.02);
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12);
+  box-shadow: var(--modal-box-shadow-hover);
 }
 
-/* заголовки і тексти */
+.contacts-card-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 72px;
+  height: 72px;
+  margin-bottom: 16px;
+  font-size: 70px;
+  line-height: 1;
+}
+
 .contacts-title {
   font-size: 36px;
   font-weight: 600;
   margin-bottom: 20px;
-  color: #222;
+  color: var(--color-text-main);
 }
 
 .contacts-text {
-  font-size: 18px;
-  margin-bottom: 24px;
-  color: #333;
-}
-
-/* список контактів */
-.contacts-list {
-  text-align: left;
-  margin-bottom: 28px;
-}
-
-.contact-item {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 14px;
   font-size: 16px;
+  margin-bottom: 24px;
+  color: var(--color-text-secondary);
 }
 
-.contact-label {
-  font-weight: 500;
-  color: #444;
+.contacts-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  margin-top: 5px;
+  margin-bottom: 10px;
+  padding: 14px 24px;
+
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: none;
+
+  color: #fff;
+  background: var(--color-primary-bottom-gradient);
+
+  border-radius: 12px;
+
+  transition: transform 0.25s ease, opacity 0.25s ease;
 }
 
-.contact-value {
-  color: #666;
-  text-align: right;
+.contacts-btn:hover {
+  transform: scale(1.05);
 }
 
-/* підказка */
+.contacts-btn:active {
+  transform: translateY(0);
+}
+
+
 .contacts-hint {
-  font-size: 15px;
-  color: #999;
+  font-size: 12px;
+  color: var(--color-text-tertiary);
 }
 
-/* анімація */
 @keyframes contactsFadeIn {
   from {
     opacity: 0;

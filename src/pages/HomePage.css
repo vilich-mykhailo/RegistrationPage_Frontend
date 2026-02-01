@@ -3,16 +3,15 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #f7f8fa;
+  background-color: var(--color-background-main);
   position: relative;
 }
 
-/* card */
 .home-card {
-  background: #ffffff;
+  background: var(--modal-color-background);
   padding: 60px 50px;
-  border-radius: 16px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  border-radius: var(--modal-border-radius);
+  box-shadow: var(--modal-box-shadow);
   text-align: center;
   max-width: 520px;
   width: 100%;
@@ -21,38 +20,43 @@
   transition: all 0.3s ease;
 }
 
-/* hover ефект */
 .home-card:hover {
   transform: translateY(-6px) scale(1.02);
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12);
+  box-shadow: var(--modal-box-shadow-hover);
 }
 
-/* тексти */
+.home-card-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 72px;
+  height: 72px;
+  margin-bottom: 16px;
+
+  font-size: 90px;
+  line-height: 1;
+
+}
+
 .home-title {
   font-size: 36px;
   font-weight: 600;
   margin-bottom: 20px;
-  color: #222;
+  color: var(--color-text-main);
 }
 
 .home-text {
-  font-size: 20px;
-  margin-bottom: 14px;
-  color: #333;
-}
-
-.home-subtext {
   font-size: 16px;
-  color: #666;
-  margin-bottom: 24px;
+  margin-bottom: 14px;
+  color: var(--color-text-main);
 }
 
 .home-hint {
-  font-size: 15px;
-  color: #999;
+  font-size: 12px;
+  color: var(--color-text-tertiary);
 }
 
-/* анімація появи */
 @keyframes homeFadeIn {
   from {
     opacity: 0;

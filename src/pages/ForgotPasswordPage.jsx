@@ -4,6 +4,8 @@ import axios from "axios";
 import "./ForgotPasswordPage.css";
 
 function ForgotPasswordPage() {
+    const API =
+  process.env.REACT_APP_API_URL || "http://localhost:5000";
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -32,7 +34,7 @@ function ForgotPasswordPage() {
     setLoading(true);
 
     try {
-      await axios.post("http://localhost:5000/api/auth/forgot-password", {
+      await axios.post(`${API}/api/auth/forgot-password`, {
         email,
       });
 
@@ -40,13 +42,12 @@ function ForgotPasswordPage() {
     } catch (e) {
       if (e.response?.data?.message === "EMAIL_NOT_FOUND") {
         setError(
-  <>
-    ❌ Акаунт не знайдено.
-    <br />
-    Перевірте email або зареєструйтесь
-  </>
-);
-
+          <>
+            ❌ Акаунт не знайдено.
+            <br />
+            Перевірте email або зареєструйтесь
+          </>,
+        );
       } else {
         setError("Сталася помилка. Спробуйте пізніше.");
       }
@@ -85,7 +86,9 @@ function ForgotPasswordPage() {
         <div className="success-icon">🥲</div>
 
         <h1>Забули пароль?</h1>
-        <p className="auth-card-text">Введіть email — ми надішлемо інструкцію</p>
+        <p className="auth-card-text">
+          Введіть email — ми надішлемо інструкцію
+        </p>
 
         <form onSubmit={handleSubmit} noValidate>
           <input

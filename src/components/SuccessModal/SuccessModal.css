@@ -1,31 +1,27 @@
-/* ===== SUCCESS SCREEN ===== */
-
 .success-screen {
   min-height: calc(100vh - 97px);
-  display: flex;
+  display: flex; 
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #f5f7fa, #e4ecf7);
+  background: var(--color-background-main);
   padding: 20px;
 }
 
 .success-card {
-  background: #ffffff;
-  border-radius: 18px;
+  background: var(--modal-color-background);
+  border-radius: var(--modal-border-radius);
   padding: 40px 36px;
   max-width: 460px;
   width: 100%;
   text-align: center;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--modal-box-shadow);
   animation: fadeIn 0.5s ease;
 }
 
-/* ===== TEXT ===== */
-
 .success-title {
-  font-size: 26px;
+  font-size: var(--modal-title-one-size);
   font-weight: 700;
-  color: #1f2937;
+  color: var(--color-text-main);
   margin-bottom: 20px;
   margin-top: 10px;
 }
@@ -37,17 +33,19 @@
   margin-bottom: 20px;
 }
 
-/* ===== INFO BLOCK ===== */
-
 .success-info {
-  background: #f9fafb;
+  background: #e7e7e7;
   border-radius: 12px;
   padding: 18px 0px;
   font-size: 15px;
-  color: #374151;
+  color: var(--color-text-secondary);
   display: flex;
   flex-direction: column;
   gap: 0px;
+}
+
+.success-info p{
+  margin: 10px;
 }
 
 .success-info strong {
@@ -56,7 +54,7 @@
 
 .success-hint {
   font-size: 12px;
-  color: #6b7280;
+  color: var(--color-text-tertiary);
   margin: 0;
   margin-bottom: 15px;
 }

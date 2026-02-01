@@ -1,8 +1,5 @@
 /* src/components/Header.css */
 
-
-
-/* ===== HEADER ===== */
 .header {
   position: sticky;
   top: 0;
@@ -13,8 +10,6 @@
   max-height: 97px;
 }
 
-
-/* ===== NAV CONTAINER ===== */
 .nav {
   max-width: 1600px;
   margin: 0 auto;
@@ -46,14 +41,14 @@
 /* ===== LEFT LINKS ===== */
 .nav-left {
   display: flex;
-  align-items: center;    /* 🔥 ГОЛОВНЕ */
+  align-items: center;
   gap: 28px;
 }
 
 .nav-link {
   position: relative;
   text-decoration: none;
-  color: #374151;
+  color: var(--color-text-main);
   font-weight: 500;
   padding: 4px 0;
   transition: color 0.25s ease;

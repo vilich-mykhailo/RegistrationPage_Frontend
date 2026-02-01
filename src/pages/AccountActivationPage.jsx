@@ -5,6 +5,8 @@ import axios from "axios";
 import "./AccountActivationPage.css";
 
 function AccountActivationPage() {
+    const API =
+  process.env.REACT_APP_API_URL || "http://localhost:5000";
   const navigate = useNavigate();
   const { token } = useParams(); // ✅ ОДИН РАЗ, ЗОВНІ
   const [status, setStatus] = useState("loading");
@@ -19,7 +21,7 @@ function AccountActivationPage() {
       const start = Date.now();
 
       try {
-        await axios.get(`http://localhost:5000/api/auth/activate/${token}`);
+        await axios.get(`${API}/api/auth/activate/${token}`);
 
         const elapsed = Date.now() - start;
         const delay = Math.max(1000, 1000 - elapsed);
