@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import "./ResetPasswordPage.css";
+import "../Login/ForgotPasswordPage/ResetPasswordPage.css";
 
 function EmailChangedInvalid() {
   const navigate = useNavigate();

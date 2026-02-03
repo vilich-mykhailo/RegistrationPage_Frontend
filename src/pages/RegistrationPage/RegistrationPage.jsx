@@ -1,5 +1,5 @@
 import { useState } from "react";
-import SuccessModal from "../components/SuccessModal/SuccessModal";
+import SuccessModal from "../../components/SuccessModal/SuccessModal";
 import "./RegistrationPage.css";
 
 const RegistrationPage = () => {

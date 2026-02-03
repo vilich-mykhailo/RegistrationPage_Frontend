@@ -158,24 +158,32 @@
   line-height: 1;
   text-align: center;
 
-  transition: opacity 0.2s ease;
+  opacity: 0;
+  transition: 
+    opacity 0.25s ease,
+    transform 2s ease;
+}
+
+.security-toggle-icon .closed {
+  opacity: 1;
+  transform: scale(1);
 }
 
 .security-toggle-icon .open {
   opacity: 0;
+  transform: scale(0.9);
 }
 
 .security-item:hover .security-toggle-icon .closed {
   opacity: 0;
+  transform: scale(0.9);
 }
 
 .security-item:hover .security-toggle-icon .open {
   opacity: 1;
+  transform: scale(1);
 }
 
-.security-item:hover .security-toggle-icon {
-  transform: scale(1.05);
-}
 
 .profile-field input,
 .profile-field select {

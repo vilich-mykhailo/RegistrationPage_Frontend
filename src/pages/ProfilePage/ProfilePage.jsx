@@ -1,10 +1,10 @@
 // ProfilePage.jsx //
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useAuth } from "../context/AuthContext";
-import "./ProfilePage.css";
-import "./ResetPasswordPage.css";
-import Modal from "../components/Modal.jsx";
+import { useAuth } from "../../context/AuthContext.jsx";
+import "../ProfilePage/ProfilePage.css";
+import "../Login/ForgotPasswordPage/ResetPasswordPage.css";
+import Modal from "../../components/Modal/Modal.jsx";
 
 const ProfilePage = () => {
   const API = process.env.REACT_APP_API_URL || "http://localhost:5000";
@@ -788,7 +788,7 @@ const ProfilePage = () => {
               <div className="security-toggle-icon logout-icon">
                 <span className="icon closed">🚪</span>
                 <span className="icon open">🏃</span>
-                              </div>{" "}
+              </div>{" "}
               <div className="security-text">
                 {" "}
                 <div className="security-title logout-title">
@@ -819,7 +819,8 @@ const ProfilePage = () => {
             <h1 className="activation-title">Перевірте пошту</h1>
             <p className="activation-text">
               Ми надіслали лист для підтвердження зміни пароля.
-              <br />
+            </p>
+            <p className="success-hint">
               Якщо листа немає — перевірте папку <b>«Спам»</b>.
             </p>
 
@@ -1169,7 +1170,8 @@ const ProfilePage = () => {
             <p className="activation-text">
               Ми надіслали лист на <b>вашу нову електронну адресу</b> для
               підтвердження зміни пошти.
-              <br />
+            </p>
+            <p className="success-hint">
               Якщо листа немає — перевірте папку <b>«Спам»</b>.
             </p>
 

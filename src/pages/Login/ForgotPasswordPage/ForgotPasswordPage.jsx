@@ -4,8 +4,7 @@ import axios from "axios";
 import "./ForgotPasswordPage.css";
 
 function ForgotPasswordPage() {
-    const API =
-  process.env.REACT_APP_API_URL || "http://localhost:5000";
+  const API = process.env.REACT_APP_API_URL || "http://localhost:5000";
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -68,8 +67,9 @@ function ForgotPasswordPage() {
           <h1>Перевірте пошту</h1>
 
           <p className="success-text auth-card-text">
-            Ми надіслали лист із посиланням для зміни пароля.
-            <br />
+            Ми надіслали лист із посиланням <br />для зміни пароля.
+          </p>
+          <p className="success-hint">
             Якщо листа немає — перевірте папку <b>«Спам»</b>.
           </p>
         </div>

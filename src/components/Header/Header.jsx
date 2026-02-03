@@ -1,5 +1,5 @@
 import { NavLink, Link } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../../context/AuthContext";
 import {
   FaUser,
   FaBalanceScale,
@@ -7,11 +7,17 @@ import {
   FaRegCommentDots,
   FaShoppingCart,
 } from "react-icons/fa";
-import logo from "../assets/logo2.png";
+import logo from "../../assets/logo2.png";
 import "./Header.css";
 
 const Header = () => {
   const { user, isAuthenticated } = useAuth();
+  const getDisplayName = (user) => {
+    const name =
+      user.first_name?.trim() || user.email?.split("@")[0] || "Профіль";
+
+    return name.length > 10 ? name.slice(0, 10) + "…" : name;
+  };
 
   return (
     <header className="header">
@@ -47,16 +53,12 @@ const Header = () => {
             </>
           ) : (
             <div className="header-icons">
-              {/* Profile icon + username under it */}
               <Link to="/profile" className="icon-item">
                 <FaUser />
-                <span>{user.username || "Увійти"}</span>
+                <span>
+                  <span>{getDisplayName(user)}</span>
+                </span>
               </Link>
-
-              {/* <Link to="/compare" className="icon-item">
-                <FaBalanceScale />
-                <span>Порівняння</span>
-              </Link> */}
 
               <Link to="/favourites" className="icon-item">
                 <FaHeart />

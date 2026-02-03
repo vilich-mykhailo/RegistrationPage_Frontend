@@ -1,13 +1,13 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
-import "./ResetPasswordPage.css";
+import { useAuth } from "../../context/AuthContext";
+import "../Login/ForgotPasswordPage/ResetPasswordPage.css";
 
-function PasswordChangedSuccess() {
+function EmailChangedSuccess() {
   const navigate = useNavigate();
   const { logout } = useAuth();
 
-  // 🔥 АВТОМАТИЧНИЙ LOGOUT ПРИ ЗАВАНТАЖЕННІ СТОРІНКИ
+  // 🔥 LOGOUT ПІСЛЯ ЗМІНИ ПОШТИ
   useEffect(() => {
     localStorage.removeItem("token");
     localStorage.removeItem("expiresAt");
@@ -17,18 +17,18 @@ function PasswordChangedSuccess() {
   return (
     <div className="activation-wrapper">
       <div className="activation-card">
-        <div className="activation-icon">🎉</div>
+        <div className="activation-icon">📩</div>
 
-        <h1 className="activation-title">Пароль успішно змінений</h1>
+        <h1 className="activation-title">Пошту успішно змінено</h1>
 
         <p className="activation-text">
           З міркувань безпеки ваш сеанс було завершено.
           <br />
-          Увійдіть з новим паролем.
+          Увійдіть з новою електронною поштою.
         </p>
 
         <button
-          className="security-password-submit-btn security-password-btn"
+          className="security-email-submit-btn security-email-btn"
           onClick={() => navigate("/login")}
         >
           Увійти
@@ -38,4 +38,4 @@ function PasswordChangedSuccess() {
   );
 }
 
-export default PasswordChangedSuccess;
+export default EmailChangedSuccess;
