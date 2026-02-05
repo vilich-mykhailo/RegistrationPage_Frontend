@@ -3,9 +3,7 @@ import SuccessModal from "../../components/SuccessModal/SuccessModal";
 import "./RegistrationPage.css";
 
 const RegistrationPage = () => {
-const API =
-  process.env.REACT_APP_API_URL || "http://localhost:5000";
-
+  const API = process.env.REACT_APP_API_URL || "http://localhost:5000";
 
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -18,6 +16,7 @@ const API =
   const [isLoading, setIsLoading] = useState(false);
   const [confirmPassword, setConfirmPassword] = useState("");
   const [submitAttempted, setSubmitAttempted] = useState(false);
+
   const passwordMismatch =
     submitAttempted &&
     password &&
@@ -256,7 +255,11 @@ const API =
               <div className="securemail-password-password-hints">
                 <p
                   className={
-                    passwordRules.length ? "ok" : submitAttempted ? "error" : ""
+                    passwordRules.length
+                      ? "ok"
+                      : submitAttempted
+                        ? "securemail-error"
+                        : ""
                   }
                 >
                   • Щонайменше 8 символів
@@ -264,7 +267,11 @@ const API =
 
                 <p
                   className={
-                    passwordRules.upper ? "ok" : submitAttempted ? "error" : ""
+                    passwordRules.upper
+                      ? "ok"
+                      : submitAttempted
+                        ? "securemail-error"
+                        : ""
                   }
                 >
                   • Одна велика літера
@@ -272,7 +279,11 @@ const API =
 
                 <p
                   className={
-                    passwordRules.lower ? "ok" : submitAttempted ? "error" : ""
+                    passwordRules.lower
+                      ? "ok"
+                      : submitAttempted
+                        ? "securemail-error"
+                        : ""
                   }
                 >
                   • Одна мала літера
@@ -280,7 +291,11 @@ const API =
 
                 <p
                   className={
-                    passwordRules.number ? "ok" : submitAttempted ? "error" : ""
+                    passwordRules.number
+                      ? "ok"
+                      : submitAttempted
+                        ? "securemail-error"
+                        : ""
                   }
                 >
                   • Одна цифра
@@ -288,7 +303,11 @@ const API =
 
                 <p
                   className={
-                    passwordRules.symbol ? "ok" : submitAttempted ? "error" : ""
+                    passwordRules.symbol
+                      ? "ok"
+                      : submitAttempted
+                        ? "securemail-error"
+                        : ""
                   }
                 >
                   • Один спеціальний символ
@@ -296,13 +315,11 @@ const API =
 
                 <p
                   className={
-                    !hasPassword || !hasLetters
-                      ? ""
-                      : onlyEnglishLetters
-                        ? "ok"
-                        : submitAttempted
-                          ? "error"
-                          : ""
+                    submitAttempted && !onlyEnglishLetters
+                      ? "securemail-error" // 🔴 submit + не ок (в т.ч. пусто)
+                      : hasPassword && onlyEnglishLetters
+                        ? "ok" // 🟢 введено + англійські
+                        : "" // 🟤 дефолт (сірий)
                   }
                 >
                   • Англійські літери (A–Z)
@@ -311,7 +328,7 @@ const API =
             </div>
 
             {errors.password && (
-              <p className="registration-error">{errors.password}</p>
+              <p className="registration-error ">{errors.password}</p>
             )}
           </div>
 

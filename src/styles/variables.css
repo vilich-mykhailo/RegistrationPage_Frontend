@@ -1,7 +1,7 @@
 :root {
   /* ===== COLORS ===== */
   --color-primary: #1f2937;
-  --color-primary-hover: #2563eb;
+  --color-primary-hover: #35eb25;
   --color-primary-gradient: linear-gradient(90deg, #2563eb, #7c3aed);
   --color-primary-bottom-gradient: linear-gradient(135deg, #002fff, #ff0000);
   --color-secondary: #7c3aed;

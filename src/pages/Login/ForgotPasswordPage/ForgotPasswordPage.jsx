@@ -106,7 +106,7 @@ function ForgotPasswordPage() {
 
           <button
             type="submit"
-            className="activation-submit-btn activation-btn"
+            className="registration-submit-btn registration-btn"
             disabled={loading}
           >
             {loading ? "Надсилання..." : "Надіслати"}

@@ -1,69 +1,110 @@
-.home-container {
-  min-height: 80vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: var(--color-background-main);
+.hero {
   position: relative;
-}
-
-.home-card {
-  background: var(--modal-color-background);
-  padding: 60px 50px;
-  border-radius: var(--modal-border-radius);
-  box-shadow: var(--modal-box-shadow);
-  text-align: center;
-  max-width: 520px;
-  width: 100%;
-
-  animation: homeFadeIn 0.5s ease forwards;
-  transition: all 0.3s ease;
-}
-
-.home-card:hover {
-  transform: translateY(-6px) scale(1.02);
-  box-shadow: var(--modal-box-shadow-hover);
-}
-
-.home-card-icon {
-  display: inline-flex;
+  height: 100vh;
+  background: url("../../../../assets/header/header-bg-3.jpg") center / cover no-repeat;
+  display: flex;
   align-items: center;
   justify-content: center;
-
-  width: 72px;
-  height: 72px;
-  margin-bottom: 16px;
-
-  font-size: 90px;
-  line-height: 1;
-
+  text-align: center;
+  color: #f5f5f0;
+  font-family: "Jost", sans-serif;
 }
 
-.home-title {
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.55),
+    rgba(0, 0, 0, 0.35)
+  );
+  z-index: 1;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 720px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.hero-title {
+    font-family: "Jost", sans-serif;
+  font-size: 56px;
+  font-weight: 500;
+  line-height: 1.25;
+  margin-bottom: 24px;
+}
+
+.hero-brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.hero-hash {
+  font-family: "Caveat", cursive;
+  font-size: 36px;
+  color: #9bcf6a;
+}
+
+.hero-name {
+  font-family: "Playfair Display", serif;
   font-size: 36px;
   font-weight: 600;
-  margin-bottom: 20px;
-  color: var(--color-text-main);
 }
 
-.home-text {
+.hero-text {
+  max-width: 460px;
   font-size: 16px;
-  margin-bottom: 14px;
-  color: var(--color-text-main);
+  margin-bottom: 36px;
+  opacity: 0.9;
 }
 
-.home-hint {
-  font-size: 12px;
-  color: var(--color-text-tertiary);
+.hero-button {
+  position: relative;
+  font-size: J;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background: transparent;
+  border: 1.5px solid #9bcf6a;
+  color: #ffffff;
+    font-family: "Jost", sans-serif;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  transition:
+    transform 0.35s ease,
+    background-color 0.35s ease,
+    color 0.35s ease;
 }
 
-@keyframes homeFadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px) scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
+/* додатковий ободок */
+.hero-button::after {
+  content: "";
+  position: absolute;
+  inset: -16px;
+  border-radius: 50%;
+  border: 1.5px solid #9bcf6a;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  pointer-events: none;
+}
+
+.hero-button:hover {
+  background-color: #9bcf6a;
+  color: #1a1a1a;
+  transform: scale(1.05);
+
+}
+
+.hero-button:hover::after {
+  opacity: 1;
 }

@@ -1,84 +1,112 @@
+/* ===== ROOT SCREEN ===== */
 .success-screen {
-  min-height: calc(100vh - 97px);
-  display: flex; 
-  align-items: center;
-  justify-content: center;
-  background: var(--color-background-main);
+  min-height: 100vh;          /* 🔥 повна висота екрана */
+  width: 100%;
+
+  display: flex;
+  align-items: center;        /* 🔥 вертикально по центру */
+  justify-content: center;    /* 🔥 горизонтально по центру */
+
   padding: 20px;
+  animation: fadeIn 0.45s ease forwards;
 }
 
+/* ===== CARD ===== */
 .success-card {
-  background: var(--modal-color-background);
-  border-radius: var(--modal-border-radius);
-  padding: 40px 36px;
-  max-width: 460px;
   width: 100%;
+  max-width: 460px;
+  padding: 40px 32px;
+
+  background: rgba(14, 15, 13, 0.75);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+
+  border-radius: 22px;
+  border: 1px solid rgba(155, 207, 106, 0.25);
+
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.65),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.03);
+
   text-align: center;
-  box-shadow: var(--modal-box-shadow);
-  animation: fadeIn 0.5s ease;
-  transition: all 0.3s ease;
+
+  animation: slideInRight 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
 }
 
 .success-card:hover {
-  box-shadow: var(--modal-box-shadow-hover);
+  box-shadow:
+    0 0px 40px rgba(19, 214, 52, 0.178),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.04);
 }
 
+/* ===== TITLE ===== */
 .success-title {
-  font-size: var(--modal-title-one-size);
-  font-weight: 700;
-  color: var(--color-text-main);
-  margin-bottom: 20px;
-  margin-top: 10px;
-}
-
-.success-main {
-  font-size: 16px;
+  font-size: 28px;
   font-weight: 600;
-  color: #2563eb;
-  margin-bottom: 20px;
+  color: #fff;
+  margin-bottom: 22px;
 }
 
+/* ===== INFO BOX ===== */
 .success-info {
-  background: #f5f5f5;
-  border-radius: 12px;
-  padding: 18px 0px;
-  font-size: 15px;
-  color: var(--color-text-secondary);
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 14px;
+  padding: 18px 16px;
+
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 14px;
+
   display: flex;
   flex-direction: column;
-  gap: 0px;
+  gap: 10px;
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-.success-info p{
-  margin: 10px;
+.success-info p {
+  margin: 0;
 }
 
-.success-info strong {
-  color: #111827;
+/* імʼя користувача */
+.success-info p:first-child {
+  font-weight: 500;
+  color: #fff;
 }
 
+/* ===== HINT ===== */
 .success-hint {
   font-size: 12px;
-  color: var(--color-text-tertiary);
-  margin: 0;
-  margin-bottom: 15px;
+  color: rgba(255, 255, 255, 0.5);
+  margin-top: 6px;
 }
 
-/* ===== ANIMATION ===== */
+.success-hint b {
+  color: #9bcf6a;
+}
 
+/* ===== ANIMATIONS ===== */
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(12px);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
   }
 }
 
 /* ===== MOBILE ===== */
-
 @media (max-width: 480px) {
   .success-card {
     padding: 32px 24px;

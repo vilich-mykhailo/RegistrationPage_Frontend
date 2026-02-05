@@ -5,8 +5,7 @@ import axios from "axios";
 import "./ResetPasswordPage.css";
 
 function ResetPasswordPage() {
-  const API =
-  process.env.REACT_APP_API_URL || "http://localhost:5000";
+  const API = process.env.REACT_APP_API_URL || "http://localhost:5000";
   const { token } = useParams();
   const navigate = useNavigate();
 
@@ -94,20 +93,20 @@ function ResetPasswordPage() {
   // ❌ INVALID TOKEN
   if (!validToken) {
     return (
-      <div className="securemail-password-activation-wrapper">
-        <div className="securemail-password-activation-card">
-          <div className="securemail-password-activation-icon">❌</div>
+    <div className="activation-wrapper">
+      <div className="activation-card">
+        <div className="activation-icon">🎉</div>
 
-          <h1 className="securemail-password-activation-title">
+          <h1 className="activation-title">
             Посилання недійсне
           </h1>
 
-          <p className="securemail-password-activation-text">
+          <p className="activation-text">
             Це посилання вже використано або термін його дії закінчився.
           </p>
 
           <button
-            className="reset-password-submit-btn reset-password-btn"
+            className="registration-submit-btn registration-btn"
             onClick={() => navigate("/forgot-password")}
           >
             Запросити нове
@@ -136,10 +135,7 @@ function ResetPasswordPage() {
     try {
       setSubmitting(true);
 
-      await axios.post(
-        `${API}/api/auth/reset-password/${token}`,
-        { password },
-      );
+      await axios.post(`${API}/api/auth/reset-password/${token}`, { password });
 
       setSuccess(true);
     } catch (e) {
@@ -152,20 +148,20 @@ function ResetPasswordPage() {
   // ✅ SUCCESS
   if (success) {
     return (
-      <div className="securemail-password-activation-wrapper">
-        <div className="securemail-password-activation-card">
-          <div className="securemail-password-activation-icon">🎉</div>
+    <div className="activation-wrapper">
+      <div className="activation-card">
+        <div className="activation-icon">🎉</div>
 
-          <h1 className="securemail-password-activation-title">
+          <h1 className="activation-title">
             Пароль змінено
           </h1>
 
-          <p className="securemail-password-activation-text">
+           <p className="activation-text">
             Тепер ви можете увійти з новим паролем
           </p>
 
           <button
-            className="reset-password-submit-btn reset-password-btn"
+            className="registration-submit-btn registration-btn"
             onClick={() => navigate("/login")}
           >
             Увійти
@@ -186,27 +182,25 @@ function ResetPasswordPage() {
         <form onSubmit={handleSubmit} noValidate>
           {/* PASSWORD */}
           <div className="securemail-password-password-field">
-<input
-  type={showPassword ? "text" : "password"}
-  placeholder="Новий пароль"
-  value={password}
-  onChange={(e) => {
-    setPassword(e.target.value);
-    if (submitAttempted) setSubmitAttempted(false);
-  }}
-className={`login-form-input ${
-  submitAttempted &&
-  (
-    !isPasswordValid ||
-    (isPasswordValid && confirmPassword.length > 0 && password !== confirmPassword)
-  )
-    ? "input-error"
-    : ""
-}`}
-
-  required
-/>
-
+            <input
+              type={showPassword ? "text" : "password"}
+              placeholder="Новий пароль"
+              value={password}
+              onChange={(e) => {
+                setPassword(e.target.value);
+                if (submitAttempted) setSubmitAttempted(false);
+              }}
+              className={`login-form-input ${
+                submitAttempted &&
+                (!isPasswordValid ||
+                  (isPasswordValid &&
+                    confirmPassword.length > 0 &&
+                    password !== confirmPassword))
+                  ? "input-error"
+                  : ""
+              }`}
+              required
+            />
 
             <button
               type="button"
@@ -305,32 +299,29 @@ className={`login-form-input ${
               >
                 • Є латинські літери (A–Z)
               </p>
-              
             </div>
-            
           </div>
 
           {/* CONFIRM PASSWORD */}
           <div className="securemail-password-password-field securemail-password-input-down">
-<input
-  type={showConfirmPassword ? "text" : "password"}
-  placeholder="Підтвердіть пароль"
-  value={confirmPassword}
-  onChange={(e) => {
-    setConfirmPassword(e.target.value);
-    if (submitAttempted) setSubmitAttempted(false);
-  }}
-  className={`login-form-input ${
-    submitAttempted &&
-    isPasswordValid &&
-    confirmPassword.length > 0 &&
-    password !== confirmPassword
-      ? "input-error"
-      : ""
-  }`}
-  required
-/>
-
+            <input
+              type={showConfirmPassword ? "text" : "password"}
+              placeholder="Підтвердіть пароль"
+              value={confirmPassword}
+              onChange={(e) => {
+                setConfirmPassword(e.target.value);
+                if (submitAttempted) setSubmitAttempted(false);
+              }}
+              className={`login-form-input ${
+                submitAttempted &&
+                isPasswordValid &&
+                confirmPassword.length > 0 &&
+                password !== confirmPassword
+                  ? "input-error"
+                  : ""
+              }`}
+              required
+            />
 
             <button
               type="button"
@@ -396,7 +387,7 @@ className={`login-form-input ${
 
           {/* SUBMIT */}
           <button
-            className="reset-password-submit-btn reset-password-btn"
+            className="registration-submit-btn registration-btn"
             type="submit"
             disabled={submitting}
           >

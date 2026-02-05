@@ -1,35 +1,35 @@
 /* src/components/Header.css */
 
 .header {
-  position: sticky;
+  position: fixed; /* або sticky */
   top: 0;
+  width: 100%;
   z-index: 100;
-  background-color: var(--color-bg-header);
-  border-bottom: 1px solid #e5e7eb;
-  padding: 14px 32px;
-  max-height: 97px;
+  background: transparent;
+  font-family: "Jost", sans-serif;
+  
 }
 
 .nav {
-  max-width: 1600px;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 12px 16px;
+  padding: 16px 24px;
+  height: 80px;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  align-items: center; /* 🔑 ВИРІВНЮВАННЯ ПО ГОРИЗОНТАЛІ */
 }
-
 
 /* ===== LOGO ===== */
 .nav-logo {
-  margin-right: 24px;
+    position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
   letter-spacing: 0.5px;
-
   transition: all 0.2s ease;
 }
 
 .nav-logo:hover {
-  transform: scale(1.25) rotate(-5deg);
+  transform: translateX(-50%) scale(1.25);
 }
 
 .nav-logo img {
@@ -41,16 +41,17 @@
 /* ===== LEFT LINKS ===== */
 .nav-left {
   display: flex;
-  align-items: center;
-  gap: 28px;
+  align-items: center; /* 🔑 */
+  gap: 24px;
 }
 
 .nav-link {
   position: relative;
   text-decoration: none;
-  color: var(--color-text-main);
+  color: #fff;
+  font-size: 14px;
   font-weight: 500;
-  padding: 4px 0;
+  padding: 4px 5px;
   transition: color 0.25s ease;
 }
 
@@ -85,8 +86,66 @@
 
 /* ===== RIGHT SIDE ===== */
 .nav-right {
+  margin-left: auto;
+  display: flex;
+  align-items: center; /* 🔑 */
+  gap: 16px;
+}
+
+/* info row */
+.nav-info {
   display: flex;
   align-items: center;
+  gap: 18px;
+  color: #eaeaea;
+  font-size: 13px;
+}
+
+/* single item */
+/* number */
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  opacity: 1;
+    color: #ffffff;
+  text-decoration: none;
+}
+
+.nav-item .icon {
+  color: #9cff7a;
+  font-size: 2px;
+  margin: 0 auto;
+}
+
+
+/* language */
+.nav-lang {
+  cursor: pointer;
+}
+
+.nav-lang .arrow {
+  font-size: 12px;
+}
+
+/* button */
+.book-btn {
+  padding: 8px 18px;
+  border-radius: 20px;
+  font-weight: 600;
+}
+/* CENTER LOGO */
+.nav-center {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+
+  display: flex;
+  align-items: center; /* 🔑 */
+}
+
+.nav-logo img {
+  height: 54px;
 }
 
 .header-icons {
@@ -95,69 +154,13 @@
   gap: 32px;
 }
 
-.icon-item {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-  text-decoration: none;
-  color: var(--color-primary);
-  font-size: 12px;
-  transition: all 0.25s ease;
-}
-
-.icon-item svg {
-  font-size: 22px;
-  transition: transform 0.3s ease, color 0.3s ease;
-}
-
-.icon-item span {
-  transition: opacity 0.25s ease, transform 0.25s ease;
-}
-
-.icon-item:hover {
-  color: var(--color-primary-hover);
-  transform: translateY(-3px);
-}
-
-.icon-item:hover svg {
-  transform: scale(1.15) rotate(-5deg);
-}
-
-.icon-item.active {
-  color: var(----color-primary-hover);
-}
-
-.icon-item.cart {
-  flex-direction: row;
-  gap: 10px;
-  padding: 8px 16px;
-  border-radius: 12px;
-  background: linear-gradient(135deg, #f8f9ff, #eef2ff);
-  border: 1px solid #e0e7ff;
-  font-weight: 600;
-  transition: all 0.3s ease;
-}
-
-.icon-item.cart svg {
-  font-size: 20px;
-}
-
-.icon-item.cart:hover {
-  background: var(--color-primary-gradient);
-  color: #fff;
-  box-shadow: var(--color-box-shadow-hover);
-  transform: translateY(-2px) scale(1.02);
-}
-
 /* ===== AUTH BUTTONS ===== */
 .btn {
   position: relative;
-  padding: 10px 22px;
-  border-radius: 10px;
+  padding: 7px 13px;
+  border-radius: 20px;
   font-weight: 500;
-  font-size: 14px;
+  font-size: 10px;
   text-decoration: none;
   overflow: hidden;
   transition: all 0.25s ease;
@@ -181,31 +184,19 @@
   transform: translateX(100%);
 }
 
-/* Registration button */
-.btn-light {
-  border: 1px solid #ddd;
-  color: #222;
-  background: #fff;
-}
-
-.btn-light:hover {
-  border-color: var(--color-primary-hover);
-  color: var(--color-primary-hover);
-  box-shadow: var(--color-box-shadow-hover);
-  transform: translateY(-2px);
-}
-
 /* Login button */
 .btn-success {
   margin-left: 12px;
-  background: var(--color-primary-bottom-gradient);
+  background: transparent;
   color: #fff;
-  border: none;
+  border: 1px solid #9bcf6ac9;
+  transition: all 0.3s ease;
 }
 
 .btn-success:hover {
-  box-shadow: var(--color-box-shadow-hover);
-  transform: translateY(-2px) scale(1.03);
+  background-color: #9bcf6a;
+  color: #1a1a1a;
+  transform: scale(1.01);
 }
 
 .btn-success:active,

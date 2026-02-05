@@ -1,5 +1,4 @@
 import { Routes, Route } from "react-router-dom";
-
 import Header from "./components/Header/Header";
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -18,38 +17,21 @@ import Messages from "./components/Header/HeaderActions/Messages/Messages";
 import Cart from "./components/Header/HeaderActions/Cart/Cart";
 import Favourites from "./components/Header/HeaderActions/Favourites/Favourites";
 import NotFoundPage from "./pages/NotFoundPage/NotFoundPage";
+import MassagePage from "./components/Header/HeaderActions/HomePage/MassagePage/MassagePage";
 
 function App() {
   return (
     <>
-      <Header />
+    <Header />
 
       <main>
 <Routes>
   {/* 🔐 PROTECTED */}
   <Route
-    path="/"
-    element={
-      <ProtectedRoute>
-        <HomePage />
-      </ProtectedRoute>
-    }
-  />
-
-  <Route
     path="/profile"
     element={
       <ProtectedRoute>
         <ProfilePage />
-      </ProtectedRoute>
-    }
-  />
-
-  <Route
-    path="/users"
-    element={
-      <ProtectedRoute>
-        <Contacts />
       </ProtectedRoute>
     }
   />
@@ -82,6 +64,9 @@ function App() {
   />
 
   {/* 🌍 PUBLIC */}
+  <Route path="/" element={<HomePage />} />
+<Route path="/contacts" element={<Contacts />} />
+<Route path="/massagePage" element={<MassagePage />} />
   <Route path="/sign-up" element={<RegistrationPage />} />
   <Route path="/login" element={<LoginPage />} />
   <Route path="/activate/:token" element={<AccountActivationPage />} />
@@ -96,7 +81,7 @@ function App() {
 </Routes>
 
       </main>
-    </>
+      </>
   );
 }
 

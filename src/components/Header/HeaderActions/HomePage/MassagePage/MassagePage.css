@@ -1,0 +1,165 @@
+
+.page {
+  min-height: 100vh;
+}
+
+.page-enter {
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+.massage-page {
+  background: #0e0f0d;
+  color: #fff;
+  padding: 80px 10%;
+  font-family: "Jost", sans-serif;
+}
+
+.massage-title {
+  text-align: center;
+  font-size: 32px;
+  margin-bottom: 50px;
+  margin-top: 80px;
+  
+}
+
+.massage-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  /* border-bottom: 1px solid #2a2a2a; */
+  margin-bottom: 50px;
+}
+
+.massage-tab::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #9bcf6a;
+
+  transform: scaleX(0);          /* ⛔ приховано */
+  transform-origin: left;        /* 👉 зліва направо */
+  transition: transform 0.35s ease;
+}
+
+.massage-tab {
+  background: none;
+  border: none;
+  color: #aaa;
+  padding-bottom: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  position: relative;
+    font-family: "Jost", sans-serif;
+}
+
+.massage-tab.active {
+  color: #9bcf6a;
+}
+
+.massage-tab.active::after {
+  transform: scaleX(1);          /* ✅ плавна поява */
+}
+
+
+.massage-list {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+    max-width: 1000px;
+  margin: 0 auto;
+}
+
+.massage-card {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  border-bottom: 1px solid #9bcf6a;
+  padding-bottom: 40px;
+}
+
+.massage-info h3 {
+  font-size: 20px;
+  margin-bottom: 6px;
+}
+
+.price {
+  color: #9bcf6a;
+  font-weight: 500;
+}
+
+.massage-info p {
+  max-width: 520px;
+  font-size: 14px;
+  opacity: 0.85;
+  margin: 12px 0;
+}
+
+.tags {
+  display: flex;
+  gap: 10px;
+}
+
+.tag {
+  border: 1px solid #9bcf6a;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  color: #9bcf6a;
+}
+
+.reserve-btn {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  border: 1.5px solid #9bcf6a;
+  background: transparent;
+  color: #fff;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  font: inherit;
+  text-decoration: none;
+  cursor: pointer;
+
+  position: relative;              /* 🔑 для псевдоелемента */
+  transition: all 0.35s ease;
+}
+
+.reserve-btn::after {
+  content: "";
+  position: absolute;
+  inset: -8px;                     /* відстань від кнопки */
+  border-radius: 50%;
+  border: 1px solid #9bcf6a;        /* 👈 тонкий ободок */
+  opacity: 0;
+  transform: scale(0.95);
+  transition: all 0.35s ease;
+}
+
+.reserve-btn:hover::after {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.reserve-btn:hover {
+  background: #9bcf6a;
+  color: #111;
+  transform: scale(1.08);
+}

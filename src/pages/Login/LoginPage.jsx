@@ -1,22 +1,39 @@
 // src/pages/LoginPage.jsx
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import "./LoginPage.css";
+import RegistrationPage from "../RegistrationPage/RegistrationPage";
 
-const LoginPage = () => {
-  const API =
-  process.env.REACT_APP_API_URL || "http://localhost:5000";
+const LoginPage = ({ onSuccess, onSignup, onForgotPassword }) => {
+  const API = process.env.REACT_APP_API_URL || "http://localhost:5000";
   const { login } = useAuth();
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({});
+  const [isClosing, setIsClosing] = useState(false);
+
   const isEmailValid = (value) => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
   };
+  const handleForgot = () => {
+    if (onForgotPassword) {
+      onForgotPassword();
+    } else {
+      navigate("/forgot-password");
+    }
+  };
 
+  const handleSignup = () => {
+    if (onSignup) {
+      onSignup();
+    } else {
+      navigate("/sign-up");
+    }
+  };
   const SESSION_DURATION = 24 * 60 * 60 * 1000;
 
   const handleSubmit = async (e) => {
@@ -47,8 +64,8 @@ const LoginPage = () => {
         } else if (data.message === "WRONG_PASSWORD") {
           setErrors({ password: "Невірний пароль" });
         } else {
-        setErrors({ general: data.message || "Помилка входу" });
-      }
+          setErrors({ general: data.message || "Помилка входу" });
+        }
         return;
       }
 
@@ -56,7 +73,12 @@ const LoginPage = () => {
       localStorage.setItem("expiresAt", Date.now() + SESSION_DURATION);
 
       login(data.user);
-      navigate("/");
+
+      if (onSuccess) {
+        onSuccess(); // 👈 закриває модалку
+      } else {
+        navigate("/"); // 👈 якщо це окрема сторінка
+      }
     } catch {
       setErrors({ general: "Помилка сервера. Спробуйте пізніше." });
     }
@@ -64,7 +86,7 @@ const LoginPage = () => {
 
   return (
     <div className="login-form-section">
-      <div className="login-form-wrapper">
+      <div className={`login-form-wrapper ${isClosing ? "login-closing" : ""}`}>
         <h1 className="login-form-title">Вхід</h1>
 
         <form className="login-form-form" onSubmit={handleSubmit} noValidate>
@@ -90,11 +112,11 @@ const LoginPage = () => {
             />
 
             {errors.email && <p className="login-form-error">{errors.email}</p>}
-                      {errors.general && (
-            <p className="login-form-error login-form-general-error">
-              {errors.general}
-            </p>
-          )}
+            {errors.general && (
+              <p className="login-form-error login-form-general-error">
+                {errors.general}
+              </p>
+            )}
           </div>
 
           <div className="login-form-field">
@@ -165,17 +187,34 @@ const LoginPage = () => {
             <button
               type="button"
               className="login-form-forgot-link"
-              onClick={() => navigate("/forgot-password")}
+              onClick={() => {
+                if (onForgotPassword) {
+                  onForgotPassword();
+                }
+              }}
             >
               Забули пароль?
             </button>
           </div>
 
-          <button className="login-form-submit-btn login-btn" type="submit">
+          <button className="registration-submit-btn registration-btn-login" type="submit">
             Увійти
           </button>
 
-
+          <div className="login-form-signup">
+            <span className="login-form-signup-text">Ще не маєш акаунта?</span>
+            <button
+              type="button"
+              className="login-form-signup-link"
+              onClick={() => {
+                if (onSignup) {
+                  onSignup();
+                }
+              }}
+            >
+              Зареєструватись
+            </button>
+          </div>
         </form>
       </div>
     </div>

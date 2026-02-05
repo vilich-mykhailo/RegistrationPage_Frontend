@@ -1,214 +1,255 @@
+/* ===== ROOT SECTION ===== */
 .registration-section {
-    min-height: calc(100vh - 97px);
+  min-height: 100vh;          /* 🔥 повна висота екрана */
+  width: 100%;
+
   display: flex;
-  justify-content: center;
-  align-items: flex-start; 
-  padding: 20px;
-  padding-top: 10vh;
+  align-items: center;        /* 🔥 вертикально по центру */
+  justify-content: center;    /* 🔥 горизонтально по центру */
+  
+  animation: loginFadeIn 0.45s ease forwards;
 }
 
+/* ===== WRAPPER ===== */
 .registration-wrapper {
   width: 100%;
   max-width: 460px;
-  background: var(--modal-color-background);
-  border-radius: var(--modal-border-radius);
-  padding: 30px;
-  box-shadow: var(--modal-box-shadow);
-  transition: all 0.3s ease;
+  padding: 40px 32px;
+
+  background: rgba(14, 15, 13, 0.75);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+
+  border-radius: 22px;
+  border: 1px solid rgba(155, 207, 106, 0.25);
+
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.65),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.03);
+
+  animation: slideInRight 0.45s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.registration-wrapper:hover {
-  box-shadow: var(--modal-box-shadow-hover);
-}
+/* ===== TITLE ===== */
 .registration-title {
-  text-align: center;
-  margin-top: 0;
-  margin-bottom: 20px;
   font-size: 28px;
   font-weight: 600;
-  color: var(--color-text-main);
+  color: #fff;
+  text-align: center;
+  margin-bottom: 28px;
 }
 
+/* ===== FORM ===== */
 .registration-form {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 18px;
+  transition: gap 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+.registration-form:has(.registration-error) {
+  gap: 5px;
+}
+
+
+/* ===== FIELD ===== */
 .registration-field {
-  display: flex;
-  flex-direction: column;
+  position: relative;
 }
 
-.registration-field input::placeholder {
-  color: var(--modal-color-text-input);
-}
-
+/* ===== INPUT ===== */
 .registration-input {
   width: 100%;
-  padding: 14px 14px;
-  margin-bottom: 5px;
-  border-radius: var(--modal-border-radius-input);
-  border: 1px solid var(--modal-color-text-border-input);
-  font-size: 15px;
-  transition: all 0.2s ease;
+  height: 46px;
+  padding: 0 14px;
+
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+
+  color: #fff;
+  font-size: 14px;
+
+  transition: all 0.25s ease;
+}
+
+.registration-input::placeholder {
+  color: rgba(255, 255, 255, 0.45);
 }
 
 .registration-input:focus {
   outline: none;
-  box-shadow: var(--modal-color-input-focus);
+  border-color: #9bcf6a;
+  background: rgba(255, 255, 255, 0.06);
+  box-shadow: 0 0 0 2px rgba(155, 207, 106, 0.15);
 }
 
-.registration-input-error {
-  border-color: var(--color-error);
+/* ===== INPUT ERROR ===== */
+.registration-input.input-error {
+  background: rgba(14, 15, 13, 0.9);
+  border-color: #ff6b6b;
 }
 
+.registration-input.input-error:focus {
+  border-color: #ff6b6b;
+}
+
+/* ===== PASSWORD FIELD ===== */
 .registration-password-field {
   position: relative;
-  display: flex;
-  align-items: center;
 }
 
 .registration-toggle-password {
   position: absolute;
-  right: 12px;
+  right: 10px;
   top: 50%;
   transform: translateY(-50%);
 
   background: none;
   border: none;
-  padding: 6px;
-  border-radius: 10px;
+  color: rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+
+  transition: color 0.2s ease;
+}
+
+.registration-toggle-password:hover {
+  color: #9bcf6a;
+}
+
+/* ===== PASSWORD HINTS ===== */
+.registration-reset-password-hints {
+  margin-top: 10px;
+}
+
+.securemail-password-password-hints {
+  background: rgba(33, 36, 30, 0.85); /* 🔥 темний glass */
+  border-radius: 14px;
+  padding: 14px 16px;
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.02),
+    0 8px 24px rgba(0, 0, 0, 0.45);
+}
+
+
+.securemail-password-password-hints p {
+  font-size: 12px;
+  margin: 4px 0;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.securemail-password-password-hints p.ok {
+  color: #9bcf6a;
+}
+
+.securemail-password-password-hints p.securemail-error {
+  color: #ff6b6b;
+}
+
+
+/* ===== ERRORS ===== */
+.registration-error {
+  font-size: 12px;
+  margin-top: 6px;
+  color: #ff6b6b;
+  animation: shake 0.25s ease;
+  text-align: center;
+}
+
+.registration-general-error {
+  text-align: center;
+}
+
+/* ===== SUBMIT BUTTON ===== */
+.registration-submit-btn {
+  position: relative;
+
+  width: 100%;
+  height: 48px;
+  margin-top: 30px;
+
+  border-radius: 100px;
+  border: none;
+
+  background: linear-gradient(
+    135deg,
+    #9bcf6a,
+    #7fbf4a
+  );
+
+  color: #111;
+  font-weight: 600;
+  font-size: 18px;
+  letter-spacing: 0.04em;
+
+  cursor: pointer;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
-  cursor: pointer;
-  color: #cfcfcf;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease
+
 }
-
-.registration-toggle-password:hover {
-    color: #9e9e9e;
-  background: rgba(158, 158, 158, 0.08);
-  transform: translateY(-50%) scale(1.08);
-}
-
-.registration-toggle-password:active {
-   transform: translateY(-50%) scale(0.95);
-}
-
-.registration-toggle-password svg {
-  width: 20px;
-  height: 20px;
-  stroke-width: 2;
-}
-
-.registration-password-hints {
-  background: var(--color-background-main);
-  border-radius: var( --modal-border-radius-input);
-  padding: 14px 16px;
-  margin-top: 6px;
-  margin-bottom: 0px;
-  text-align: left;
-  width: 100%;
-}
-
-.registration-password-hints p {
-  font-size: 12px;
-  margin: 4px 0;
-  color: var(--color-text-tertiary);
-  display: flex;
-  align-items: center;
-  gap: 6px;
-
-  text-align: left;
-}
-
-.registration-password-hints p.ok {
-  color: var(--color-good);
-}
-
-.registration-password-hints p.error {
-  color: var(--color-error);
-}
-
-
-.registration-error {
-  text-align: center;
-  font-size: 13px;
-  color: var(--color-error);
-  margin: 0;
-}
-
-.registration-general-error {
-  text-align: center;
-  margin-top: 8px;
-}
-
-.registration-submit-btn {
-  margin-top: 10px;
-  margin-left: 0px;
-  padding: 14px;
-  border-radius: var(--modal-border-radius-input);
-  width: 100%;
-  border: none;
-  color: white;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  text-decoration: none;
-  overflow: hidden;
-  transition: all 0.25s ease;
-}
-
-.registration-submit-btn:disabled {
-  background-color: var(--color-text-border-input);
-  cursor: not-allowed;
-  opacity: 0.8;
-}
-
 
 .registration-submit-btn::after {
   content: "";
   position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    120deg,
-    transparent,
-    rgba(255, 255, 255, 0.4),
-    transparent
-  );
-  transform: translateX(-100%);
-  transition: transform 0.5s ease;
-}
-.registration-submit-btn:hover {
-  transform: translateY(-1px);
-  box-shadow: var(--color-box-shadow-hover);
+
+  inset: -6px;              /* 🔥 відступ ободка */
+  border-radius: 999px;      /* 🔥 та сама форма */
+  border: 2px solid #9bcf6a;
+
+  opacity: 0;
+  transition: all 0.3s ease;
+
+  pointer-events: none;
 }
 
-.registration-submit-btn:active {
-  transform: translateY(0);
-  box-shadow: var(--color-box-shadow);
+.registration-submit-btn:hover {
+  transform: scale(1);
 }
 
 .registration-submit-btn:hover::after {
-  transform: translateX(100%);
+  opacity: 1;
 }
 
-.registration-btn {
-  background: var(--color-primary-bottom-gradient);
-  color: #fff;
-  border: none;
+.registration-submit-btn:active {
+  transform: scale(0.98);
 }
 
-.registration-btn:hover {
-  box-shadow: var(--color-box-shadow-hover);
-  transform: translateY(-2px) scale(1.03);
+.registration-submit-btn:active::after {
+  inset: -6px;   /* трохи ближче */
 }
 
-.registration-btn:active {
-  transform: translateY(0) scale(0.98);
-  box-shadow: var(--color-box-shadow);
+.registration-submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes loginFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-3px); }
+  50% { transform: translateX(3px); }
+  75% { transform: translateX(-2px); }
+  100% { transform: translateX(0); }
 }

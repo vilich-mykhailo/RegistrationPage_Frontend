@@ -62,7 +62,7 @@ function AccountActivationPage() {
           <h1 className="activation-title">Помилка активації</h1>
           <p className="activation-text">Посилання недійсне або застаріле</p>
           <button
-            className="activation-submit-btn activation-btn"
+            className="registration-submit-btn registration-btn"
             onClick={() => navigate("/login")}
           >
             До входу
@@ -80,7 +80,7 @@ function AccountActivationPage() {
         <h1 className="activation-title">Реєстрація успішна</h1>
         <p className="activation-text">Ваш акаунт успішно активовано.</p>
 
-        <Link to="/login" className="activation-submit-btn activation-btn">
+        <Link to="/login" className="registration-submit-btn registration-btn">
           Увійти
         </Link>
       </div>
