@@ -1,3 +1,7 @@
+/* .home-page-container {
+  max-width: 1200px;
+} */
+
 .hero {
   position: relative;
   height: 100vh;
@@ -66,7 +70,6 @@
 
 .hero-button {
   position: relative;
-  font-size: J;
   width: 150px;
   height: 150px;
   border-radius: 50%;
@@ -107,4 +110,303 @@
 
 .hero-button:hover::after {
   opacity: 1;
+}
+
+/* Плаваюча лінія */
+.services-line {
+  width: 100%;
+  overflow: hidden;
+  background: #0f120d; /* темний фон */
+  border-top: 1px solid #8bcf6a;
+  border-bottom: 1px solid #8bcf6a;
+}
+
+.services-track {
+  display: flex;
+  width: max-content;
+  animation: scroll-left 35s linear infinite;
+}
+
+.services-track span {
+  white-space: nowrap;
+  padding: 4px 18px;
+  font-size: 14px;
+  color: #8bcf6a;
+  font-weight: 500;
+}
+
+.services-track span::after {
+  content: "•";
+  margin-left: 18px;
+  color: #8bcf6a;
+}
+
+@keyframes scroll-left {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* Offers */
+.offers {
+  background: #0f120d;
+  min-height: 100px; /* ⬅️ основне */
+  position: relative;
+}
+
+.offers-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: #9bcf6a;
+}
+
+.offer {
+  background: #0f120d;
+  min-height: 420px;
+  position: relative;
+}
+
+/* IMAGES */
+.image {
+  background-size: cover;
+  background-position: center;
+}
+
+.image-1 {
+  background-image: url("/public/images/image-offers-3.png");
+}
+
+.image-2 {
+  background-image: url("/public/images/image-offers-4.png");
+}
+
+/* CONTENT */
+.content {
+  padding: 6px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #e9f3e1;
+}
+
+.content h2 {
+  font-size: 28px;
+  margin-bottom: 16px;
+}
+
+.content p {
+  font-size: 14px;
+  opacity: 0.8;
+  margin-bottom: 32px;
+}
+
+/* BADGE */
+.badge {
+  display: inline-block;
+  border: 1px solid #9bcf6a;
+  color: #9bcf6a;
+  font-size: 11px;
+  padding: 4px 10px;
+  width: fit-content;
+}
+
+.badge-title {
+  padding: 0;
+}
+
+.badge-text {
+  margin: 0;
+}
+
+/* BUTTON */
+.circle-btn {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  border: 1px solid #9bcf6a;
+  background: transparent;
+  color: #9bcf6a;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.circle-btn:hover {
+  background: #9bcf6a;
+  color: #0b0e0a;
+}
+
+/* PROMO BLOCK */
+.promo {
+  position: absolute;
+  bottom: 40px;
+  left: 40px;
+  color: #d9f0c8;
+}
+
+.promo h3 {
+  font-size: 32px;
+  margin-bottom: 16px;
+}
+
+.price {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.price .new {
+  font-size: 28px;
+  color: #9be27c;
+}
+
+.price .old {
+  text-decoration: line-through;
+  opacity: 0.6;
+}
+
+.promo-code {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 6px 12px;
+  background: #9be27c;
+  color: #0b0e0a;
+  font-size: 12px;
+  border-radius: 20px;
+}
+
+/* PRICE ACCENT */
+.price-accent {
+  color: #9be27c;
+  font-size: 24px;
+  margin-bottom: 24px;
+}
+
+.price-accent span {
+  font-size: 14px;
+  text-decoration: line-through;
+  opacity: 0.6;
+  margin-left: 8px;
+}
+
+
+/* ВИДИ МАСАЖУ */
+/* ===== Section ===== */
+.massage-type {
+  padding: 100px 40px;
+  background: #0b0f0c;
+  color: #e8f5ec;
+}
+
+.massage-type__title {
+  text-align: center;
+  font-size: 42px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 80px;
+  color: #9bcf6a;
+}
+
+/* ===== Grid ===== */
+.massage-type__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 48px;
+}
+
+/* ===== Card ===== */
+.massage-type__card {
+  position: relative;
+  padding-bottom: 24px;
+  cursor: pointer;
+  transition: transform 0.4s ease;
+}
+
+.massage-type__card:hover {
+  transform: translateY(-10px);
+}
+
+/* ===== Image ===== */
+.massage-type__image {
+  overflow: hidden;
+  border-radius: 18px;
+}
+
+.massage-type__image img {
+  width: 100%;
+  height: 260px;
+  object-fit: cover;
+  transition: transform 0.8s ease, filter 0.8s ease;
+  filter: brightness(0.85);
+}
+
+.massage-type__card:hover img {
+  transform: scale(1.08);
+  filter: brightness(1);
+}
+
+/* ===== Title ===== */
+.massage-type__card-title {
+  margin-top: 22px;
+  font-size: 22px;
+  font-weight: 500;
+}
+
+/* ===== Tags ===== */
+.massage-type__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 14px 0;
+}
+
+.massage-type__tag {
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1px solid rgba(127, 209, 140, 0.6);
+  font-size: 13px;
+  color: #9bcf6a;
+  transition: all 0.3s ease;
+}
+
+.massage-type__card:hover .massage-type__tag {
+  background: rgba(127, 209, 140, 0.15);
+}
+
+/* ===== Description ===== */
+.massage-type__desc {
+  font-size: 14px;
+  line-height: 1.7;
+  opacity: 0.85;
+  max-width: 90%;
+}
+
+/* ===== Bottom Line ===== */
+.massage-type__line {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 1px;
+  width: 0%;
+  background: linear-gradient(90deg, transparent, #9bcf6a, transparent);
+  transition: width 0.5s ease;
+}
+
+.massage-type__card:hover .massage-type__line {
+  width: 100%;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+  .massage-type {
+    padding: 70px 20px;
+  }
+
+  .massage-type__title {
+    font-size: 32px;
+  }
 }
