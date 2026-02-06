@@ -1,0 +1,273 @@
+/* =================================================
+   GIFT CERTIFICATE PAGE — PREMIUM VERSION
+================================================= */
+
+.gift {
+  background: radial-gradient(
+    circle at top,
+    #121611 0%,
+    #0b0e0a 65%
+  );
+  color: #e9f3e1;
+  padding: 120px 24px;
+  min-height: 100vh;
+  font-family: "Jost", sans-serif;
+}
+
+/* ================= CONTAINER ================= */
+
+.gift__container {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 96px;
+}
+
+/* ================= LEFT / PRODUCT ================= */
+
+.gift__title {
+  font-size: 36px;
+  font-weight: 500;
+  margin-bottom: 30px;
+}
+
+.gift__subtitle {
+  max-width: 560px;
+  font-size: 15px;
+  line-height: 1.7;
+  opacity: 0.7;
+  margin-bottom: 48px;
+}
+
+/* ================= IMAGE ================= */
+
+.gift__image {
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+  margin-bottom: 48px;
+  transition: transform 0.6s ease, box-shadow 0.6s ease;
+}
+
+.gift__image img {
+  width: 100%;
+  display: block;
+}
+
+/* ================= SECTION TITLE ================= */
+
+.gift__section-title {
+  font-size: 18px;
+  font-weight: 500;
+  margin-bottom: 20px;
+}
+
+/* ================= PRICE TILES ================= */
+
+.gift__prices {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 18px;
+  margin-bottom: 32px;
+}
+
+.price-tile {
+  position: relative;
+  padding: 20px 16px;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 6px;
+  border: 1px solid rgba(155, 207, 106, 0.35);
+  background: linear-gradient(
+    180deg,
+    rgba(155, 207, 106, 0.06),
+    rgba(0, 0, 0, 0.35)
+  );
+  color: #A3DA74;
+  transition:
+    transform 0.45s ease,
+    box-shadow 0.45s ease,
+    border-color 0.45s ease;
+}
+
+.price-tile:hover {
+  transform: translateY(-6px);
+  border-color: #A3DA74;
+  box-shadow: 0 22px 42px rgba(0, 0, 0, 0.5);
+}
+
+.price-tile.active {
+  background: linear-gradient(
+    180deg,
+    rgba(155, 207, 106, 0.35),
+    rgba(155, 207, 106, 0.08)
+  );
+  border-color: #A3DA74;
+  box-shadow: 0 13px 10px rgba(155, 207, 106, 0.185);
+}
+
+.price-value {
+  display: block;
+  font-size: 24px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+.price-currency {
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+/* ================= CUSTOM PRICE ================= */
+
+.gift__custom {
+  margin-bottom: 44px;
+}
+
+.custom-label {
+  display: block;
+  font-size: 14px;
+  color: #b1b1b1;
+  margin-bottom: 8px;
+}
+
+.gift__custom input {
+  width: 100%;
+  max-width: 280px;
+  padding: 14px 16px;
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px dashed rgba(155, 207, 106, 0.5);
+  color: #e9f3e1;
+  font-size: 15px;
+  transition: border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+.gift__custom input::placeholder {
+  color: rgba(233, 243, 225, 0.4);
+}
+
+.gift__custom input:focus {
+  outline: none;
+  border-color: #A3DA74;
+  box-shadow: 0 0 0 3px rgba(155, 207, 106, 0.25);
+}
+
+/* ================= CTA BUTTON ================= */
+
+.gift__action {
+  margin-top: 8px;
+}
+
+.gift__btn {
+  width: 100%;
+  max-width: 340px;
+  padding: 20px 26px;
+  font-size: 14px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 4px;
+  background: linear-gradient(
+    135deg,
+    #9bcf6a,
+    #7fbf5b
+  );
+  color: #0b0e0a;
+  cursor: pointer;
+  transition: transform 0.45s ease, box-shadow 0.45s ease;
+}
+
+.gift__btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 20px 44px rgba(155, 207, 106, 0.45);
+}
+
+.gift__btn.filled {
+  background: linear-gradient(
+    135deg,
+    #7fbf5b,
+    #6aaa4a
+  );
+}
+
+/* ================= MOTIVATION BLOCK ================= */
+
+.gift__motivation {
+  margin-bottom: 48px;
+  max-width: 520px;
+}
+
+.gift__motivation h3 {
+  font-size: 20px;
+  font-weight: 500;
+  margin-bottom: 16px;
+  color: #9bcf6a;
+}
+
+.gift__motivation p {
+  font-size: 14px;
+  line-height: 1.8;
+  opacity: 0.75;
+  margin-bottom: 14px;
+}
+
+/* ================= RIGHT / TERMS ================= */
+
+.gift__terms {
+  padding-top: 96px;
+}
+
+.gift__motivation {
+  margin-top: 50px;
+  margin-bottom: 40px;
+}
+
+.gift__terms h2 {
+  font-size: 22px;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+
+.gift__terms ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.gift__terms li {
+  font-size: 12px;
+  opacity: 0.6;
+}
+
+
+/* ================= ADAPTIVE ================= */
+
+@media (max-width: 1024px) {
+  .gift__container {
+    grid-template-columns: 1fr;
+    gap: 72px;
+  }
+
+  .gift__terms {
+    padding-top: 0;
+  }
+}
+
+@media (max-width: 640px) {
+  .gift {
+    padding: 96px 16px;
+  }
+
+  .gift__title {
+    font-size: 28px;
+  }
+
+  .gift__subtitle {
+    font-size: 14px;
+  }
+
+  .gift__btn {
+    max-width: 100%;
+  }
+}

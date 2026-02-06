@@ -1,6 +1,9 @@
-import { useState } from "react";
+/* MassagePage.jsx */
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import LoginModal from "../../LoginModal/LoginModal";
+import { useParams } from "react-router-dom";
+
 
 
 import "./MassagePage.css";
@@ -184,9 +187,18 @@ const DATA = {
 
 /* ===== COMPONENT ===== */
 const MassagePage = () => {
+  const { type } = useParams();
   const [activeTab, setActiveTab] = useState("all");
   const [isLoginOpen, setLoginOpen] = useState(false); // 🔥
 
+
+useEffect(() => {
+  if (type && DATA[type]) {
+    setActiveTab(type);
+  } else {
+    setActiveTab("all");
+  }
+}, [type]);
   return (
     <>
     <section className="massage-page page page-enter">

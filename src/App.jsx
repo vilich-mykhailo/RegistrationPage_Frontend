@@ -18,70 +18,87 @@ import Cart from "./components/Header/HeaderActions/Cart/Cart";
 import Favourites from "./components/Header/HeaderActions/Favourites/Favourites";
 import NotFoundPage from "./pages/NotFoundPage/NotFoundPage";
 import MassagePage from "./components/Header/HeaderActions/HomePage/MassagePage/MassagePage";
+import ScrollToTop from "./components/ScrollToTop";
+import GiftCertificatePage from "./components/Header/HeaderActions/GiftCertificatePage/GiftCertificatePage";
 
 function App() {
   return (
     <>
-    <Header />
-
+      <Header />
+      <ScrollToTop />
       <main>
-<Routes>
-  {/* 🔐 PROTECTED */}
-  <Route
-    path="/profile"
-    element={
-      <ProtectedRoute>
-        <ProfilePage />
-      </ProtectedRoute>
-    }
-  />
+        <Routes>
+          {/* 🔐 PROTECTED */}
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <ProfilePage />
+              </ProtectedRoute>
+            }
+          />
 
-  <Route
-    path="/favourites"
-    element={
-      <ProtectedRoute>
-        <Favourites />
-      </ProtectedRoute>
-    }
-  />
+          <Route
+            path="/favourites"
+            element={
+              <ProtectedRoute>
+                <Favourites />
+              </ProtectedRoute>
+            }
+          />
 
-  <Route
-    path="/messages"
-    element={
-      <ProtectedRoute>
-        <Messages />
-      </ProtectedRoute>
-    }
-  />
+          <Route
+            path="/messages"
+            element={
+              <ProtectedRoute>
+                <Messages />
+              </ProtectedRoute>
+            }
+          />
 
-  <Route
-    path="/cart"
-    element={
-      <ProtectedRoute>
-        <Cart />
-      </ProtectedRoute>
-    }
-  />
+          <Route
+            path="/cart"
+            element={
+              <ProtectedRoute>
+                <Cart />
+              </ProtectedRoute>
+            }
+          />
 
-  {/* 🌍 PUBLIC */}
-  <Route path="/" element={<HomePage />} />
-<Route path="/contacts" element={<Contacts />} />
-<Route path="/massagePage" element={<MassagePage />} />
-  <Route path="/sign-up" element={<RegistrationPage />} />
-  <Route path="/login" element={<LoginPage />} />
-  <Route path="/activate/:token" element={<AccountActivationPage />} />
-  <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-  <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
-  <Route path="/password-changed-success" element={<PasswordChangedSuccess />} />
-  <Route path="/email-changed-success" element={<EmailChangedSuccess />} />
-  <Route path="/email-changed-invalid" element={<EmailChangedInvalid />} />
+          {/* 🌍 PUBLIC */}
+          <Route path="/" element={<HomePage />} />
+          <Route path="/contacts" element={<Contacts />} />
+          <Route path="/certificates" element={<GiftCertificatePage />} />
 
-  {/* ❌ 404 */}
-  <Route path="*" element={<NotFoundPage />} />
-</Routes>
+          <Route path="/massagePage" element={<MassagePage />} />
+          <Route path="/massage/:type" element={<MassagePage />} />
 
+          <Route path="/sign-up" element={<RegistrationPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/activate/:token" element={<AccountActivationPage />} />
+          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+          <Route
+            path="/reset-password/:token"
+            element={<ResetPasswordPage />}
+          />
+          <Route
+            path="/password-changed-success"
+            element={<PasswordChangedSuccess />}
+          />
+          <Route
+            path="/email-changed-success"
+            element={<EmailChangedSuccess />}
+          />
+          <Route
+            path="/email-changed-invalid"
+            element={<EmailChangedInvalid />}
+          />
+
+          {/* ❌ 404 */}
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
       </main>
-      </>
+    </>
   );
 }
 

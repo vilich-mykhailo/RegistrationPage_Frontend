@@ -9,7 +9,6 @@ import {
   FaRegCommentDots,
   FaShoppingCart,
 } from "react-icons/fa";
-import logo from "../../assets/logo.svg";
 import "./Header.css";
 import LoginModal from "./HeaderActions/LoginModal/LoginModal";
 
@@ -46,7 +45,7 @@ const Header = () => {
         </div>
         <div className="nav-center">
           <NavLink to="/" className="nav-logo">
-            <img src={logo} alt="MyShop logo" />
+            <img src="/images/logo.png" alt="MyShop logo" />
           </NavLink>
         </div>
         {/* Right side */}
@@ -92,18 +91,18 @@ const Header = () => {
                     >
                       <path
                         d="M22 16.9v3a2 2 0 0 1-2.2 2
-           19.8 19.8 0 0 1-8.6-3
-           19.5 19.5 0 0 1-6-6
-           19.8 19.8 0 0 1-3-8.6
-           A2 2 0 0 1 4.1 2h3
-           a2 2 0 0 1 2 1.7
-           c.1 1 .4 2 .7 2.9
-           a2 2 0 0 1-.5 2.1L8 9
-           a16 16 0 0 0 7 7
-           l.3-1.3
-           a2 2 0 0 1 2.1-.5
-           c.9.3 1.9.6 2.9.7
-           a2 2 0 0 1 1.7 2Z"
+                            19.8 19.8 0 0 1-8.6-3
+                            19.5 19.5 0 0 1-6-6
+                            19.8 19.8 0 0 1-3-8.6
+                            A2 2 0 0 1 4.1 2h3
+                            a2 2 0 0 1 2 1.7
+                            c.1 1 .4 2 .7 2.9
+                            a2 2 0 0 1-.5 2.1L8 9
+                            a16 16 0 0 0 7 7
+                            l.3-1.3
+                            a2 2 0 0 1 2.1-.5
+                            c.9.3 1.9.6 2.9.7
+                            a2 2 0 0 1 1.7 2Z"
                         stroke="#6AA84F"
                         stroke-width="2"
                         stroke-linecap="round"
