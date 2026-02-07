@@ -20,10 +20,12 @@ import NotFoundPage from "./pages/NotFoundPage/NotFoundPage";
 import MassagePage from "./components/Header/HeaderActions/HomePage/MassagePage/MassagePage";
 import ScrollToTop from "./components/ScrollToTop";
 import GiftCertificatePage from "./components/Header/HeaderActions/GiftCertificatePage/GiftCertificatePage";
+import ScrollToSection from "./components/ScrollToSection";
 
 function App() {
   return (
     <>
+      <ScrollToSection />
       <Header />
       <ScrollToTop />
       <main>

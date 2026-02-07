@@ -409,12 +409,12 @@
   height: 260px;
   object-fit: cover;
   transition: transform 0.8s ease, filter 0.8s ease;
-  filter: brightness(0.85);
+  filter: brightness(0.9);
 }
 
 .massage-type__card:hover img {
   transform: scale(1.08);
-  filter: brightness(1);
+  filter: brightness(1.3);
 }
 
 /* ===== Title ===== */
@@ -476,5 +476,570 @@
 
   .massage-type__title {
     font-size: 32px;
+  }
+}
+
+
+/* ================= TEAM ================= */
+
+.team {
+  padding: 100px 24px 0 24px;
+}
+
+.team__container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.team__title {
+  text-align: center;
+  font-size: 34px;
+  font-weight: 500;
+  margin-bottom: 12px;
+  color: #e9f3e1;
+}
+
+.team__subtitle {
+  text-align: center;
+  font-size: 15px;
+  opacity: 0.65;
+  margin-bottom: 80px;
+    color: #e9f3e1;
+}
+
+/* GRID */
+.team__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 48px;
+}
+
+/* CARD */
+.team__card {
+  text-align: center;
+  transition: transform 0.6s ease;
+}
+
+.team__card:hover {
+  transform: translateY(-10px);
+}
+
+.team__card__line{
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 1px;
+  width: 0%;
+  background: linear-gradient(90deg, transparent, #9bcf6a, transparent);
+  transition: width 0.5s ease;
+}
+
+.team__card:hover .team__card__line {
+  width: 100%;
+}
+
+/* IMAGE */
+.team__image {
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  margin-bottom: 24px;
+}
+
+.team__image img {
+  width: 100%;
+  display: block;
+  transition: transform 0.8s ease, filter 0.8s ease;
+  filter: grayscale(20%);
+}
+
+.team__card:hover img {
+  transform: scale(1.05);
+  filter: grayscale(0%);
+}
+
+.team__image::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at 30% 30%,
+    rgba(155, 207, 106, 0.18),
+    transparent 60%
+  );
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+.team__card:hover .team__image::after {
+  opacity: 1;
+}
+
+/* TEXT */
+.team__name {
+  font-size: 18px;
+    color: #e9f3e1;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.team__age {
+  display: block;
+    color: #e9f3e1;
+  font-size: 12px;
+  opacity: 0.5;
+  margin-bottom: 10px;
+}
+
+.team__edu {
+  font-size: 13px;
+  color: #9bcf6a;
+  margin-bottom: 14px;
+}
+
+.team__desc {
+    color: #e9f3e1;
+  font-size: 14px;
+  line-height: 1.7;
+  opacity: 0.7;
+}
+
+/* ================= ADAPTIVE ================= */
+
+@media (max-width: 1024px) {
+  .team__grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px;
+  }
+}
+
+@media (max-width: 640px) {
+  .team {
+    padding: 96px 16px;
+  }
+
+  .team__grid {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+
+  .team__title {
+    font-size: 26px;
+  }
+}
+
+/* ================= TEAM ABOUT ================= */
+
+.team-about {
+  padding: 120px 24px;
+}
+
+.team-about__container {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 80px;
+  align-items: center;
+}
+
+/* IMAGE */
+.team-about__image {
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+  transition: transform 0.6s ease, box-shadow 0.6s ease;
+}
+
+.team-about__image img {
+  width: 100%;
+  display: block;
+  filter: grayscale(20%);
+  transition: filter 0.6s ease, transform 0.6s ease;
+}
+
+.team-about__image::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at 30% 30%,
+    rgba(155, 207, 106, 0.18),
+    transparent 60%
+  );
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+.team-about__image:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.55);
+}
+
+.team-about__image:hover img {
+  filter: grayscale(0%);
+  transform: scale(1.03);
+}
+
+.team-about__image:hover::after {
+  opacity: 1;
+}
+
+/* CONTENT */
+.team-about__content {
+  color: #e9f3e1;
+}
+
+.team-about__title {
+  font-size: 34px;
+  font-weight: 500;
+  margin-bottom: 28px;
+}
+
+.team-about__content p {
+  font-size: 15px;
+  line-height: 1.8;
+  opacity: 0.75;
+  margin-bottom: 18px;
+}
+
+/* ================= ADAPTIVE ================= */
+
+@media (max-width: 1024px) {
+  .team-about__container {
+    grid-template-columns: 1fr;
+    gap: 64px;
+  }
+
+  .team-about__title {
+    font-size: 28px;
+  }
+}
+
+@media (max-width: 640px) {
+  .team-about {
+    padding: 96px 16px;
+  }
+
+  .team-about__title {
+    font-size: 24px;
+  }
+}
+
+/* =================================================
+   CONTACT + BOOKING — GLASS PREMIUM STYLE
+================================================= */
+
+.contact-booking {
+  padding: 45px 24px;
+  font-family: "Jost", sans-serif;
+}
+
+.contact-booking__container {
+  max-width: 1400px;
+    margin: 0 auto;
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: 100px;
+}
+
+/* ================= CONTACT INFO CARD ================= */
+
+.contact-info {
+    background: linear-gradient(
+    180deg,
+    rgba(255,255,255,0.04),
+    rgba(0,0,0,0.55)
+  );
+  border-radius: 28px;
+  padding: 56px 48px;
+  border: 1px solid rgba(155, 207, 106, 0.35);
+  box-shadow:
+    0 30px 80px rgba(0,0,0,0.7),
+    inset 0 0 0 1px rgba(255,255,255,0.04);
+}
+
+/* TITLE */
+.contact-info__title {
+    text-align: center;
+  font-size: 32px;
+  font-weight: 500;
+  margin-bottom: 44px;
+  color: #ffffff;
+}
+
+/* LIST */
+.contact-info__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* ITEM */
+.contact-info__list li {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 30px;
+  padding-left: 4px;
+  transition: transform 0.4s ease;
+}
+
+.contact-info__list li:last-child {
+  margin-bottom: 0;
+}
+
+/* LABEL WITH ICON */
+.contact-info__list .label {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+
+  font-size: 12px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+
+  color: #9bcf6a;
+  opacity: 0.85;
+}
+
+/* SVG ICON */
+.contact-info__list .label svg {
+  flex-shrink: 0;
+  transition: transform 0.4s ease, filter 0.4s ease;
+  filter: drop-shadow(0 0 6px rgba(155, 207, 106, 0.35));
+}
+
+
+
+/* TEXT */
+.contact-info__list p {
+  margin: 0;
+  padding-left: 28px; /* aligns text under label text, not icon */
+  font-size: 15px;
+  line-height: 1.6;
+  color: rgba(255,255,255,0.85);
+}
+
+/* SUBTLE SEPARATOR (OPTIONAL BUT NICE) */
+.contact-info__list li::after {
+  content: "";
+  display: block;
+  width: 36px;
+  height: 1px;
+  background: rgba(155, 207, 106, 0.25);
+  margin-top: 18px;
+}
+
+.contact-info__list li:last-child::after {
+  display: none;
+}
+
+.contact-info__list .icon {
+  font-size: 18px;
+  line-height: 1;
+  filter: drop-shadow(0 0 6px rgba(155, 207, 106, 0.35));
+}
+
+.contact-note {
+  display: block;
+  padding-left: 28px;
+  font-size: 13px;
+  opacity: 0.6;
+  margin-top: 4px;
+}
+
+
+/* ================= RIGHT — BOOKING CARD ================= */
+
+.booking {
+  background: linear-gradient(
+    180deg,
+    rgba(255,255,255,0.04),
+    rgba(0,0,0,0.55)
+  );
+  border-radius: 28px;
+  padding: 56px 56px 64px;
+  border: 1px solid rgba(155, 207, 106, 0.45);
+  box-shadow:
+    0 30px 80px rgba(0,0,0,0.75),
+    inset 0 0 0 1px rgba(255,255,255,0.05);
+}
+
+/* TITLE */
+.booking__title {
+    text-align: center;
+  font-size: 32px;
+  font-weight: 500;
+  color: #ffffff;
+  margin-bottom: 36px;
+}
+
+/* FORM */
+.booking__form {
+  display: grid;
+  gap: 18px;
+}
+
+/* INPUTS — CAPSULE STYLE */
+.booking__form input,
+.booking__form select,
+.booking__form textarea {
+  height: 54px;
+  border-radius: 16px;
+  background: rgba(0,0,0,0.35);
+  border: 1px solid rgba(255,255,255,0.12);
+  padding: 0 18px;
+  color: #ffffff;
+  font-size: 14px;
+  transition: 
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.booking__form textarea {
+  height: auto;
+  min-height: 110px;
+  padding: 16px 18px;
+  resize: none;
+}
+
+.booking__form input::placeholder,
+.booking__form textarea::placeholder {
+  color: rgba(255,255,255,0.35);
+}
+
+.booking__form input:focus,
+.booking__form select:focus,
+.booking__form textarea:focus {
+  outline: none;
+  border-color: #9bcf6a;
+  box-shadow: 0 0 0 3px rgba(155,207,106,0.25);
+}
+
+.booking-button {
+  height: 54px;
+  border-radius: 16px;
+  background: rgba(0,0,0,0.35);
+  border: 1px solid rgba(255,255,255,0.12);
+  padding: 0 18px;
+    color: rgba(255,255,255,0.35);
+  font-size: 14px;
+  cursor: pointer;
+  transition: 
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.booking-button:hover {
+  outline: none;
+  color: #ffffff;
+  border-color: #9bcf6a;
+  box-shadow: 0 0 0 3px rgba(155,207,106,0.25);
+}
+
+.booking-button.selected {
+  border-color: #9bcf6a;
+  box-shadow: 0 0 0 1px rgba(155,207,106,0.4);
+}
+
+.booking-button.selected p {
+  color: #9bcf6a;
+}
+
+/* ================= CONFIRM METHOD ================= */
+
+.booking__confirm {
+  margin-top: 12px;
+}
+
+.booking__confirm span {
+  display: block;
+  font-size: 13px;
+  color: rgba(255,255,255,0.55);
+  margin-bottom: 12px;
+}
+
+/* CHANNEL BUTTONS */
+.booking__channels {
+  display: flex;
+  gap: 12px;
+}
+
+.booking__channels input {
+  display: none;
+}
+
+.booking__channels label {
+  flex: 1;
+  height: 46px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.14);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  color: rgba(255,255,255,0.7);
+  cursor: pointer;
+  transition:
+    background 0.3s ease,
+    border-color 0.3s ease,
+    color 0.3s ease;
+}
+
+.booking__channels label:hover {
+  border-color: #9bcf6a;
+  color: #ffffff;
+}
+
+.booking__channels input:checked + label {
+  background: #9bcf6a;
+  border-color: #9bcf6a;
+  color: #0b0e0a;
+}
+
+/* ================= CTA ================= */
+
+.booking__btn {
+  margin-top: 32px;
+  height: 56px;
+  border-radius: 999px;
+  background: #9bcf6a;
+  border: none;
+  color: #0b0e0a;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.booking__btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 40px rgba(155,207,106,0.45);
+}
+
+/* ================= ADAPTIVE ================= */
+
+@media (max-width: 1024px) {
+  .contact-booking__container {
+    grid-template-columns: 1fr;
+    gap: 72px;
+  }
+}
+
+@media (max-width: 640px) {
+  .contact-booking {
+    padding: 96px 16px;
+  }
+
+  .contact-info,
+  .booking {
+    padding: 40px 28px;
+  }
+
+  .booking__channels {
+    flex-direction: column;
   }
 }

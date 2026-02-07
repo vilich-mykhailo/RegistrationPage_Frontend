@@ -1,14 +1,24 @@
 /* src/components/Header.css */
 
 .header {
-  position: fixed; /* або sticky */
+  position: fixed;
   top: 20px;
   width: 100%;
   z-index: 100;
-  background: transparent;
+
+  background: rgba(14, 15, 13, 0.55); /* напівпрозорий темний */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+    overflow: visible;
+    
+  border-radius: 24px;
   font-family: "Jost", sans-serif;
-  
+  box-shadow: 
+    0 10px 30px rgba(0, 0, 0, 0.25),
+    inset 0 0 0 1px rgba(155, 207, 106, 0.15);
 }
+
 
 .nav {
   max-width: 1400px;
@@ -28,21 +38,30 @@
   transition: all 0.2s ease;
 }
 
-.nav-logo:hover {
-  transform: translateX(-50%) scale(1.25);
-}
+/* .nav-logo:hover {
+  transform: translateX(-50%) scale(1.1);
+} */
 
 .nav-logo img {
-  border-radius: 50%;
-  height: 70px;
+  width: 80px;
+  height: 80px;
   display: block;
+
+  transition:
+    transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+    filter 0.35s ease;
 }
+.nav-logo:hover img {
+  filter:
+    drop-shadow(0 0px 1px rgb(43, 255, 0))
+}
+
 
 
 /* ===== LEFT LINKS ===== */
 .nav-left {
   display: flex;
-  align-items: center; /* 🔑 */
+  align-items: center; 
   gap: 24px;
 }
 

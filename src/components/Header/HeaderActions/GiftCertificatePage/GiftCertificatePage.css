@@ -194,20 +194,19 @@
 /* ================= MOTIVATION BLOCK ================= */
 
 .gift__motivation {
-  margin-bottom: 48px;
+  margin-bottom: 8px;
   max-width: 520px;
 }
 
 .gift__motivation h3 {
   font-size: 20px;
   font-weight: 500;
-  margin-bottom: 16px;
+  margin-bottom: 6px;
   color: #9bcf6a;
 }
 
 .gift__motivation p {
   font-size: 14px;
-  line-height: 1.8;
   opacity: 0.75;
   margin-bottom: 14px;
 }
@@ -215,7 +214,7 @@
 /* ================= RIGHT / TERMS ================= */
 
 .gift__terms {
-  padding-top: 96px;
+  padding-top: 80px;
 }
 
 .gift__motivation {
@@ -271,3 +270,4 @@
     max-width: 100%;
   }
 }
+

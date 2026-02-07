@@ -14,7 +14,7 @@ const NotFoundPage = () => {
         </p>
 
         <Link to="/" className="notfound-submit-btn notfound-btn">
-          На головну
+          НА ГОЛОВНУ
         </Link>
       </div>
     </div>

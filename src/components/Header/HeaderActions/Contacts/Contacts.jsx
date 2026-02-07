@@ -1,35 +1,39 @@
-// src/pages/Contacts.jsx
 import "./Contacts.css";
+import { contactsInfo } from "../../../../data/massageData";
 
 const Contacts = () => {
   return (
-    <div className="contacts-container">
-      <div className="contacts-card">
-        <span className="contacts-card-icon">🏬</span>
-        <h1 className="contacts-title">Контакти магазину</h1>
-
-        <p className="contacts-text">
-          Якщо у вас виникли питання або потрібна допомога- ми завжди на
-          звʼязку 📞
-        </p>
-
-        <div className="contacts-list">
-          <a
-            href="https://t.me/vilich_m"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="contacts-btn"
-          >
-            💬 Написати в Telegram
-          </a>
+    <section className="contacts-page page page-enter">
+      <div className="contacts-container">
+        {/* LEFT — IMAGE */}
+        <div className="contacts-image">
+          <img
+            src="/images/HomePage/Contacts/contacts.png"
+            alt="IvRoxe Massage Studio"
+          />
         </div>
 
-        <p className="contacts-hint">
-          Сторінка в розробці ✨
-          <br /> Незабаром тут зʼявиться онлайн-чат та форма зворотного звʼязку.
-        </p>
+        {/* RIGHT — INFO */}
+        <div className="page-contact-info">
+          <h2 className="page-contact-info__title">
+            {contactsInfo.title}
+          </h2>
+
+          <ul className="page-contact-info__list">
+            {contactsInfo.items.map((item) => (
+              <li key={item.label}>
+                <span className="page-contact-label">
+                  {item.icon}{" "}{item.label}
+                </span>
+
+                <p>{item.value}</p>
+                <small>{item.note}</small>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
-    </div>
+    </section>
   );
 };
 
