@@ -3,21 +3,26 @@
 .header {
   position: fixed;
   top: 20px;
-  width: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+
+  width: 95%;
+  max-width: 2100px;
+
   z-index: 100;
 
-  background: rgba(14, 15, 13, 0.55); /* напівпрозорий темний */
+  background: rgba(14, 15, 13, 0.55);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
 
-    overflow: visible;
-    
   border-radius: 24px;
   font-family: "Jost", sans-serif;
+
   box-shadow: 
     0 10px 30px rgba(0, 0, 0, 0.25),
     inset 0 0 0 1px rgba(155, 207, 106, 0.15);
 }
+
 
 
 .nav {
@@ -25,6 +30,7 @@
   margin: 0 auto;
   padding: 16px 24px;
   height: 80px;
+  
   display: flex;
   align-items: center; /* 🔑 ВИРІВНЮВАННЯ ПО ГОРИЗОНТАЛІ */
 }
@@ -227,6 +233,137 @@
 .btn-light:active {
   transform: translateY(0) scale(0.98);
   box-shadow: #A3DA74;
+}
+
+
+/* ===============================
+   HEADER ICONS ACOUNT
+=============================== */
+
+.header-icons {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+/* ===============================
+   ICON ITEM
+=============================== */
+
+.icon-item {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  text-decoration: none;
+  color: #ffffff;
+
+  font-family: "Jost", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+
+  padding: 6px 10px;
+  border-radius: 14px;
+
+  transition:
+    color 0.25s ease,
+    background 0.25s ease,
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+/* ===============================
+   ICON (Fa icons)
+=============================== */
+
+.icon-item svg {
+  font-size: 18px;
+  color: #9bcf6a;
+
+  transition:
+    transform 0.3s ease,
+    color 0.3s ease,
+    filter 0.3s ease;
+}
+
+/* ===============================
+   TEXT
+=============================== */
+
+.icon-item span {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+
+  white-space: nowrap;
+}
+
+/* ===============================
+   HOVER
+=============================== */
+
+.icon-item:hover {
+  background: rgba(155, 207, 106, 0.12);
+  color: #9bcf6a;
+  transform: translateY(-1px);
+  box-shadow:
+    0 6px 18px rgba(155, 207, 106, 0.25),
+    inset 0 0 0 1px rgba(155, 207, 106, 0.25);
+}
+
+.icon-item:hover svg {
+  color: #b8e18b;
+  transform: scale(1.15);
+  filter: drop-shadow(0 0 4px rgba(155, 207, 106, 0.6));
+}
+
+/* ===============================
+   ACTIVE (current page)
+=============================== */
+
+.icon-item.active {
+  color: #9bcf6a;
+}
+
+.icon-item.active svg {
+  color: #9bcf6a;
+}
+
+/* ===============================
+   CART SPECIAL
+=============================== */
+
+.icon-item.cart {
+  padding-right: 14px;
+}
+
+/* ===============================
+   CLICK
+=============================== */
+
+.icon-item:active {
+  transform: scale(0.96);
+  box-shadow: none;
+}
+
+/* ===============================
+   MOBILE
+=============================== */
+
+@media (max-width: 768px) {
+  .header-icons {
+    gap: 18px;
+  }
+
+  .icon-item span {
+    display: none;
+  }
+
+  .icon-item.cart span {
+    display: inline;
+  }
 }
 
 /* ===== MOBILE ===== */

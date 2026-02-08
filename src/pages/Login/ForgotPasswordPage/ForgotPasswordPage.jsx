@@ -81,7 +81,7 @@ function ForgotPasswordPage() {
      FORM
   ========================= */
   return (
-    <div className="auth-screen">
+    <div className="auth-screen page">
       <div className="auth-card">
         <div className="success-icon">🥲</div>
 

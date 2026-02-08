@@ -3,7 +3,7 @@ import { contactsInfo } from "../../../../data/massageData";
 
 const Contacts = () => {
   return (
-    <section className="contacts-page page page-enter">
+    <section className="contacts-page page ">
       <div className="contacts-container">
         {/* LEFT — IMAGE */}
         <div className="contacts-image">

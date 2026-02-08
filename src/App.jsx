@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import Header from "./components/Header/Header";
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -18,18 +18,24 @@ import Cart from "./components/Header/HeaderActions/Cart/Cart";
 import Favourites from "./components/Header/HeaderActions/Favourites/Favourites";
 import NotFoundPage from "./pages/NotFoundPage/NotFoundPage";
 import MassagePage from "./components/Header/HeaderActions/HomePage/MassagePage/MassagePage";
-import ScrollToTop from "./components/ScrollToTop";
 import GiftCertificatePage from "./components/Header/HeaderActions/GiftCertificatePage/GiftCertificatePage";
+
+import ScrollToTop from "./components/ScrollToTop";
 import ScrollToSection from "./components/ScrollToSection";
+import { FavouritesProvider } from "./context/FavouritesContext";
 
 function App() {
+  const location = useLocation();
+
   return (
-    <>
-      <ScrollToSection />
+    <FavouritesProvider>
+      {/* GLOBAL */}
       <Header />
       <ScrollToTop />
+      <ScrollToSection />
+
       <main>
-        <Routes>
+        <Routes location={location} key={location.pathname}>
           {/* 🔐 PROTECTED */}
           <Route
             path="/profile"
@@ -79,10 +85,8 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/activate/:token" element={<AccountActivationPage />} />
           <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-          <Route
-            path="/reset-password/:token"
-            element={<ResetPasswordPage />}
-          />
+          <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
+
           <Route
             path="/password-changed-success"
             element={<PasswordChangedSuccess />}
@@ -100,8 +104,9 @@ function App() {
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </main>
-    </>
+      </FavouritesProvider>
   );
 }
 
 export default App;
+

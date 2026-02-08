@@ -190,6 +190,8 @@ const LoginPage = ({ onSuccess, onSignup, onForgotPassword }) => {
               onClick={() => {
                 if (onForgotPassword) {
                   onForgotPassword();
+                } else {
+                  navigate("/forgot-password");
                 }
               }}
             >
@@ -197,7 +199,10 @@ const LoginPage = ({ onSuccess, onSignup, onForgotPassword }) => {
             </button>
           </div>
 
-          <button className="registration-submit-btn registration-btn-login" type="submit">
+          <button
+            className="registration-submit-btn registration-btn-login"
+            type="submit"
+          >
             Увійти
           </button>
 
@@ -208,7 +213,9 @@ const LoginPage = ({ onSuccess, onSignup, onForgotPassword }) => {
               className="login-form-signup-link"
               onClick={() => {
                 if (onSignup) {
-                  onSignup();
+                  onSignup(); // 👈 якщо модалка
+                } else {
+                  navigate("/sign-up"); // 👈 якщо сторінка
                 }
               }}
             >

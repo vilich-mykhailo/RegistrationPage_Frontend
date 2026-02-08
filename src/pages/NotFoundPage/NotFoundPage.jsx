@@ -3,7 +3,7 @@ import "./NotFoundPage.css";
 
 const NotFoundPage = () => {
   return (
-    <div className="notfound-container">
+    <div className="notfound-container page">
       <div className="notfound-card">
         <h1 className="notfound-title">404</h1>
         <p className="notfound-text">

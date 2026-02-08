@@ -17,15 +17,11 @@ const GiftCertificatePage = () => {
   const finalPrice = customPrice ? Number(customPrice) : price;
 
   return (
-    <section className="gift">
+    <section className="gift page ">
       <div className="gift__container">
         {/* LEFT */}
         <div className="gift__product">
           <h1 className="gift__title">Подарунковий сертифікат на масаж</h1>
-          {/* <p className="gift__subtitle">
-            Універсальний подарунок, який дарує турботу, спокій і час для себе
-          </p> */}
-
           <div className="gift__image">
             <img src="/images/certificates.png" alt="Gift certificate" />
           </div>

@@ -14,7 +14,8 @@
 /* ===== MODAL WINDOW ===== */
 .modal-window {
   position: relative;
-  background: #ffffff;
+  background: #0f120d;
+  border: 1px solid #9bcf6a7a;
   border-radius: 18px;
   padding: 30px 25px;
   width: 100%;
@@ -87,22 +88,26 @@
   height: 25px;
   border-radius: 50%;
   border: none;
-  background-color: #ffffff;
+  background-color: transparent;
   cursor: pointer;
-  font-size: 12px;
-  line-height: 1;
+
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #3f3f3f;
-  transition: all 0.25s ease;
+
+  color: #d1d1d1;
+
+  transition:
+    color 0.25s ease,
+    background-color 0.25s ease;
 }
 
 .modal-close:hover {
-  color: #ff0000;
-  font-weight: 900;
-  transform: scale(1.3);
+  color: #ff4d4d; 
+  background-color: rgba(255, 77, 77, 0.12);
 }
+
+
 @keyframes fadeIn {
   from { opacity: 0; }
   to   { opacity: 1; }

@@ -1,7 +1,35 @@
+/* ================================
+   ROOT / VARIABLES
+================================ */
+:root {
+  --green-main: #9bcf6a;
+  --green-soft: rgba(155, 207, 106, 0.35);
+
+  --bg-main: #0e0f0d;
+  --bg-card: rgba(20, 22, 20, 0.75);
+
+  --border-soft: rgba(155, 207, 106, 0.25);
+
+  --text-main: #ffffff;
+  --text-muted: rgba(255, 255, 255, 0.6);
+  --text-dim: rgba(255, 255, 255, 0.4);
+
+  --error: #ef4444;
+}
+
+/* ================================
+   PAGE
+================================ */
 .profile-section {
-  min-height: calc(100vh - 97px);
-  background: var(--color-background-main);
-  padding: 30px 0 0 0;
+
+  background: var(--bg-main);
+  padding: 40px 0 80px;
+  font-family: "Jost", sans-serif;
+    min-height: 100vh;
+  background: #0e0f0d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .profile-container {
@@ -12,17 +40,24 @@
   gap: 32px;
 }
 
+/* ================================
+   CARD (GLASS)
+================================ */
 .profile-card {
-  background: var(--modal-color-background);
-  border-radius: var(--modal-border-radius);
-  padding: 28px 28px 34px;
-  box-shadow: var(--modal-box-shadow);
-  animation: fadeUp 0.5s ease both;
-  transition: all 0.3s ease;
-}
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.04),
+    rgba(0, 0, 0, 0.6)
+  );
+  border-radius: 24px;
+  padding: 32px 32px 36px;
 
-.profile-card:hover {
-  box-shadow: var(--modal-box-shadow-hover);
+  border: 1px solid var(--border-soft);
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.6),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.03);
+
+  animation: fadeUp 0.5s ease both;
 }
 
 @keyframes fadeUp {
@@ -36,288 +71,210 @@
   }
 }
 
+/* ================================
+   TITLES
+================================ */
 .profile-title {
   font-size: 20px;
-  font-weight: 600;
-  margin-bottom: 22px;
-  color: var(--color-text-main);
-  width: 100%;
+  font-weight: 500;
+  margin-bottom: 28px;
   text-align: center;
+  color: var(--text-main);
 }
 
-/* ===== ПОЛЕ ФОРМИ ===== */
+/* ================================
+   FORM
+================================ */
 .profile-form {
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
-.password-full-field {
-  width: 100%;
-}
-.profile-form input,
-.profile-form select {
-  height: 46px;
-  border-radius: 8px;
-  border: 1px solid var(--modal-color-text-border-input);
-  padding: 0 14px;
-  font-size: 14px;
-  transition: all 0.25s ease;
-  background: var(--modal-color-background);
-}
 
-.profile-form input:focus,
-.profile-form select:focus {
-  outline: none;
-  border-color: #6366f1;
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
-}
-
-.profile-form input:disabled {
-  background: #f3f4f6;
-  color: #9ca3af;
-}
-
-.date-field {
-  position: relative;
-}
-
-.date-input-wrapper {
-  position: relative;
-}
-
-.date-error-text {
-  font-size: 12px;
-  color: var(--color-error);
-  margin-top: 6px;
-  margin-bottom: 0px;
-  padding-left: 4px;
-
-  animation: fadeInError 0.25s ease;
-}
-
-.error-text {
-  font-size: 12px;
-  color: var(--color-error);
-  margin-top: 4px;
-}
-
-.input-error {
-  border-color: var(--color-error) !important;
-  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15);
-  background-color: #fffafa;
-}
-
-
-@keyframes fadeInError {
-  from {
-    opacity: 0;
-    transform: translateY(-4px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* ===== Профіль акаунт ===== */
 .profile-field {
   position: relative;
   width: 100%;
 }
-.profile-field input,
-.profile-field select {
+
+/* ================================
+   INPUTS
+================================ */
+.profile-form input {
   width: 100%;
-}
-
-.profile-icon {
-  position: absolute;
-  left: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 16px;
-  opacity: 1;
-  pointer-events: none;
-}
-
-.security-toggle-icon {
-  position: relative;
-  width: 22px;
-  height: 22px;
-  flex-shrink: 0;
-}
-
-.security-toggle-icon .icon {
-  position: absolute;
-  inset: 0; 
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  font-size: 22px;
-  line-height: 1;
-  text-align: center;
-
-  opacity: 0;
-  transition: 
-    opacity 0.25s ease,
-    transform 2s ease;
-}
-
-.security-toggle-icon .closed {
-  opacity: 1;
-  transform: scale(1);
-}
-
-.security-toggle-icon .open {
-  opacity: 0;
-  transform: scale(0.9);
-}
-
-.security-item:hover .security-toggle-icon .closed {
-  opacity: 0;
-  transform: scale(0.9);
-}
-
-.security-item:hover .security-toggle-icon .open {
-  opacity: 1;
-  transform: scale(1);
-}
-
-
-.profile-field input,
-.profile-field select {
-  padding-left: 42px !important;
-}
-
-.profile-btn {
-  margin-top: 18px;
   height: 48px;
   border-radius: 14px;
-  border: none;
-  font-size: 16px;
-  font-weight: 600;
-  color: #ffffff;
-  background: linear-gradient(135deg, #6366f1, #4f46e5);
-  cursor: pointer;
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(0, 0, 0, 0.35);
+
+  padding: 0 14px 0 42px;
+  font-size: 14px;
+  color: var(--text-main);
+
   transition: all 0.25s ease;
 }
 
-.profile-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 26px rgba(99, 102, 241, 0.35);
+.profile-form input::placeholder {
+  color: var(--text-dim);
 }
 
-.profile-btn:active {
-  transform: scale(0.97);
+.profile-form input:focus {
+  outline: none;
+  border-color: var(--green-main);
+  box-shadow: 0 0 0 3px rgba(155, 207, 106, 0.15);
+  background: rgba(0, 0, 0, 0.55);
 }
 
-.profile-btn.disabled {
-  background: #acacac;
+.profile-form input:disabled {
+  opacity: 0.6;
   cursor: not-allowed;
-  box-shadow: none;
-  transform: none;
 }
 
+/* ================================
+   ICONS
+================================ */
+.profile-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.profile-icon svg {
+  stroke: var(--green-main);
+  filter: drop-shadow(0 0 6px rgba(155, 207, 106, 0.35));
+}
+
+/* ================================
+   ERRORS
+================================ */
+.input-error {
+  border-color: var(--error) !important;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2);
+}
+
+.date-error-text,
+.registration-error {
+  font-size: 12px;
+  color: var(--error);
+  margin-top: 4px;
+}
+
+/* ================================
+   CUSTOM SELECT
+================================ */
 .custom-select {
   position: relative;
-  width: 100%;
 }
 
 .select-display {
+  height: 48px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(0, 0, 0, 0.35);
+
+  padding: 0 42px;
   display: flex;
   align-items: center;
   justify-content: space-between;
 
-  height: 46px;
-  padding: 0 42px 0 42px;
   font-size: 14px;
+  color: var(--text-main);
   cursor: pointer;
-  border-radius: 8px;
-  border: 1px solid var(--modal-color-text-border-input);
-  transition: all 0.25s ease;
-  background: var(--modal-color-background);
 
   transition: all 0.25s ease;
+}
+
+.select-display.open {
+  border-color: var(--green-main);
 }
 
 .custom-arrow {
   font-size: 18px;
-  color: #969696;
-  transition: 
-    transform 0.25s ease,
-    color 0.25s ease;
-}
-
-.select-display:hover .custom-arrow {
-  color: #6b7280;
-  transform: scale(1.45);
+  color: var(--text-muted);
+  transition: transform 0.25s ease;
 }
 
 .select-display.open .custom-arrow {
-  transform: rotate(180deg) scale(1.45);
-  color: var(--color-good);
+  transform: rotate(180deg);
+  color: var(--green-main);
 }
-
-.select-display.open:hover .custom-arrow {
-  transform: rotate(180deg) scale(1.45);
-  color: var(--color-good);
-}
-
 
 .select-dropdown {
   position: absolute;
-  top: calc(100% + 6px);
+  top: calc(100% + 8px);
   left: 0;
   right: 0;
 
-  background: #ffffff;
-  border-radius: 12px;
+  background: #0f120f;
+  border-radius: 16px;
+  border: 1px solid var(--border-soft);
+
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.7);
   padding: 6px;
 
-  box-shadow:
-    0 20px 40px rgba(0, 0, 0, 0.12),
-    0 2px 6px rgba(0, 0, 0, 1);
-
-  z-index: 999;
-  animation: dropdownIn 0.25s ease;
-}
-
-@keyframes dropdownIn {
-  from {
-    opacity: 0;
-    transform: translateY(-6px) scale(0.98);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
+  z-index: 50;
 }
 
 .select-option {
   padding: 10px 12px;
-  border-radius: 8px;
+  border-radius: 10px;
   font-size: 14px;
   cursor: pointer;
+  color: var(--text-main);
   transition: all 0.2s ease;
-  color: var(--color-text-main);
 }
 
 .select-option:hover {
-  background: linear-gradient(135deg, #eef2ff, #e0e7ff);
-  color: var(--color-good);
+  background: rgba(155, 207, 106, 0.12);
+  color: var(--green-main);
   transform: translateX(4px);
 }
 
+/* ================================
+   SAVE BUTTON
+================================ */
+.profile-btn {
+  margin-top: 22px;
+  height: 52px;
+  border-radius: 999px;
 
-/* ===== ПРАВА СТОРОНА ===== */
-/* ===== Блок БЕЗПЕКА ===== */
+  background: linear-gradient(135deg, #a6d977, #8bbf5d);
+  color: #111;
+
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+
+  transition: all 0.3s ease;
+}
+
+.profile-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 40px rgba(155, 207, 106, 0.45);
+}
+
+.profile-btn.disabled {
+  background: #3a3a3a;
+  color: #777;
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+/* ================================
+   RIGHT COLUMN
+================================ */
 .profile-right {
   display: flex;
   flex-direction: column;
   gap: 24px;
 }
 
+/* ================================
+   SECURITY
+================================ */
 .security-card {
   padding: 24px;
 }
@@ -326,65 +283,36 @@
   display: flex;
   align-items: center;
   gap: 14px;
-  padding: 14px 14px;
-  border-radius: 10px;
+  padding: 14px;
+  border-radius: 16px;
   cursor: pointer;
-  transition: all 0.25s ease;
+  transition: all 0.3s ease;
 }
 
 .security-item:hover {
-  background: var( --color-background-main);
-  transform: translateX(4px);
-}
-
-.security-icon {
-  font-size: 24px;
-}
-
-.security-text {
-  flex: 1;
+  background: rgba(155, 207, 106, 0.08);
+  transform: translateX(6px);
 }
 
 .security-title {
-  font-weight: 600;
   font-size: 14px;
-  color: var(--color-text-main);
+  font-weight: 600;
+  color: var(--text-main);
 }
 
 .security-subtitle {
   font-size: 12px;
-  color: var(--color-text-tertiary);
+  color: var(--text-muted);
 }
 
 .security-arrow {
+  color: var(--text-muted);
   font-size: 20px;
-  color: var(--color-text-tertiary);
 }
 
-
-/* ===== ВИХІД З АКАУНТА ===== */
-.logout-item:hover {
-  background: var(--color-background-main);
-}
-
-.logout-title {
-  color: #464646;
-}
-
-.logout-subtitle {
-  color: #666666;
-}
-
-.logout-item:hover .logout-title {
-  color: #dc2626;
-}
-
-.logout-item:hover .logout-subtitle {
-  color: #f87171;
-}
-
-
-/* ===== ВИПЛИВАЮЧЕ ВІКНО ===== */
+/* ================================
+   SUCCESS TOAST
+================================ */
 .success-toast {
   position: fixed;
   bottom: 28px;
@@ -397,47 +325,35 @@
 
   padding: 14px 18px;
 
-  background: rgba(20, 24, 22, 0.75);
+  background: rgba(15, 18, 15, 0.85);
   backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+
+  border-radius: 14px;
+  border: 1px solid rgba(155, 207, 106, 0.3);
 
   color: #eafff1;
   font-size: 14px;
   font-weight: 500;
-  letter-spacing: 0.2px;
-
-  border-radius: 14px;
-  border: 1px solid rgba(80, 255, 150, 0.15);
-
-  box-shadow:
-    0 12px 32px rgba(0, 0, 0, 0.35),
-    inset 0 1px 0 rgba(255, 255, 255, 0.06);
 
   animation:
     toastIn 0.45s cubic-bezier(0.16, 1, 0.3, 1),
     toastOut 0.35s ease 2.8s forwards;
 }
 
-
-/* ===== ICON ===== */
 .toast-icon {
   width: 22px;
   height: 22px;
+  border-radius: 50%;
+
+  background: linear-gradient(135deg, #3cff9e, #22c55e);
+  color: #052e1b;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
-  background: linear-gradient(135deg, #3cff9e, #22c55e);
-  color: #052e1b;
-
-  border-radius: 50%;
   font-size: 13px;
   font-weight: 700;
-
-  box-shadow:
-    0 0 0 3px rgba(34, 197, 94, 0.15),
-    0 4px 12px rgba(34, 197, 94, 0.4);
 }
 
 @keyframes toastIn {
@@ -458,17 +374,76 @@
   }
 }
 
+/* контейнер іконок */
+.security-toggle-icon {
+  position: relative;
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+/* базові стилі для обох ікон */
+.security-toggle-icon .icon {
+  position: absolute;
+  inset: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 22px;
+  line-height: 1;
+
+  opacity: 0;
+  transform: scale(0.85) rotate(-8deg);
+
+  transition:
+    opacity 0.25s ease,
+    transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* 🔒 за замовчуванням */
+.security-toggle-icon .closed {
+  opacity: 1;
+  transform: scale(1) rotate(0deg);
+}
+
+/* 🔓 прихована */
+.security-toggle-icon .open {
+  opacity: 0;
+}
+
+/* =========================
+   HOVER — ПЕРЕМИКАННЯ
+========================= */
+.security-item:hover .security-toggle-icon .closed {
+  opacity: 0;
+  transform: scale(0.7) rotate(-12deg);
+}
+
+.security-item:hover .security-toggle-icon .open {
+  opacity: 1;
+  transform: scale(1) rotate(0deg);
+}
 
 
-/* ===== БЕЗПЕКА - ЗМІНА ПАРОЛЯ ===== */
+/* ===============================
+   SECURITY — PASSWORD FORM
+=============================== */
+
 .security-reset-form {
   width: 100%;
-  max-width: 360px;
+  max-width: 420px;
+    background: #0f120d;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  margin-top: 8px;
+  gap: 14px;
 }
+
+/* ===============================
+   FIELD WRAPPER
+=============================== */
 
 .security-password-field {
   position: relative;
@@ -477,270 +452,406 @@
   align-items: center;
 }
 
-.security-password-field input::placeholder {
-  color: var(--modal-color-text-input);
-}
+/* ===============================
+   INPUT
+=============================== */
 
 .security-password-field input {
   width: 100%;
-  height: 48px;
-  border-radius: var(--modal-border-radius-input);
-  border: 1px solid var(--modal-color-text-border-input);
-  padding: 0 50px 0 16px;
+  height: 52px;
+
+  padding: 0 52px 0 18px;
+
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(155, 207, 106, 0.25);
+  border-radius: 14px;
+
+  font-family: "Jost", sans-serif;
   font-size: 14px;
-  background: var(--modal-color-background);
-  transition: all 0.25s ease;
+  color: #ffffff;
+
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease,
+    background 0.3s ease;
 }
 
+.security-password-field input::placeholder {
+  color: rgba(255, 255, 255, 0.45);
+}
+
+/* focus */
 .security-password-field input:focus {
   outline: none;
-  box-shadow: var(--modal-color-input-focus);
+  border-color: #9bcf6a;
+  box-shadow:
+    0 0 0 1px rgba(155, 207, 106, 0.35),
+    0 12px 28px rgba(155, 207, 106, 0.15);
+  background: rgba(255, 255, 255, 0.05);
 }
+
+/* error */
+.security-password-field input.input-error {
+  border-color: rgba(239, 68, 68, 0.8);
+  box-shadow:
+    0 0 0 1px rgba(239, 68, 68, 0.4),
+    0 10px 26px rgba(239, 68, 68, 0.2);
+}
+
+/* ===============================
+   TOGGLE PASSWORD BUTTON
+=============================== */
 
 .security-toggle-password {
   position: absolute;
-  right: 12px;
+  right: 10px;
   top: 50%;
   transform: translateY(-50%);
 
-  background: none;
+  width: 36px;
+  height: 36px;
+
+  border-radius: 12px;
   border: none;
-  padding: 6px;
-  border-radius: 10px;
+
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(255, 255, 255, 0.75);
 
   display: flex;
   align-items: center;
   justify-content: center;
 
   cursor: pointer;
-  color: #cfcfcf;
-  transition: all 0.2s ease;
-}
 
-.security-toggle-password:hover {
-  color: #9e9e9e;
-  background: rgba(158, 158, 158, 0.08);
-  transform: translateY(-50%) scale(1.08);
-}
-
-.security-toggle-password:active {
-  transform: translateY(-50%) scale(0.95);
+  transition:
+    background 0.3s ease,
+    color 0.3s ease,
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
 .security-toggle-password svg {
   width: 20px;
   height: 20px;
-  stroke-width: 2;
+
+  transition:
+    transform 0.35s ease,
+    opacity 0.35s ease;
 }
 
-.security-password-field input:focus + .security-toggle-password {
-  color: #cecece;
+/* hover */
+.security-toggle-password:hover {
+  background: rgba(155, 207, 106, 0.15);
+  color: #9bcf6a;
+  transform: translateY(-50%) scale(1.08);
+  box-shadow: 0 6px 18px rgba(155, 207, 106, 0.25);
+}
+
+/* active */
+.security-toggle-password:active {
+  transform: translateY(-50%) scale(0.95);
+}
+
+/* ===============================
+   PASSWORD RULES
+=============================== */
+
+.security-reset-password-hints {
+  margin-top: 6px;
 }
 
 .security-password-hints {
-  background: var(--color-background-main);
-  border-radius: var(--modal-border-radius-input);
-  padding: 14px 16px;
-  margin-top: 6px;
-  margin-bottom: 4px;
-  text-align: left;
-  width: 100%;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(155, 207, 106, 0.2);
+  border-radius: 16px;
+
+  padding: 16px 18px;
+
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.03);
 }
 
 .security-password-hints p {
   font-size: 12px;
+  line-height: 1.6;
   margin: 4px 0;
-  color: var(--color-text-tertiary);
-  display: flex;
-  align-items: center;
-  gap: 6px;
 
-  text-align: left;
+  color: rgba(255, 255, 255, 0.6);
+  transition: color 0.25s ease;
 }
 
 .security-password-hints p.ok {
-  color: var(--color-good);
+  color: #9bcf6a;
 }
 
 .security-password-hints p.error {
-  color: var(--color-error);
+  color: #ef4444;
 }
 
-.security-error {
+/* ===============================
+   ERROR TEXT
+=============================== */
+
+.registration-error {
   font-size: 13px;
-  color: var(--color-error);
-  margin-top: 6px;
+  color: #ef4444;
+  margin-top: 4px;
+
+  animation: errorFade 0.3s ease;
 }
+
+@keyframes errorFade {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===============================
+   SUBMIT BUTTON
+=============================== */
 
 .security-password-submit-btn {
-  margin-top: 10px;
-  margin-left: 0px;
-  padding: 14px;
-  border-radius: var(--modal-border-radius-input);
+  margin-top: 18px;
+
+  height: 54px;
   width: 100%;
+
+  border-radius: 16px;
   border: none;
-  color: white;
-  font-size: 16px;
-  font-weight: 600;
+
+  font-family: "Jost", sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+
+  color: #0e0f0d;
+  background: linear-gradient(135deg, #9bcf6a, #b8e18b);
+
   cursor: pointer;
-  text-decoration: none;
-  overflow: hidden;
-  transition: all 0.25s ease;
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    background 0.25s ease;
 }
 
-.security-password-submit-btn:disabled {
-  background-color: #9ca3af; 
-  cursor: not-allowed;
-  opacity: 0.8;
-}
-
-
-.security-password-submit-btn::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    120deg,
-    transparent,
-    rgba(255, 255, 255, 0.4),
-    transparent
-  );
-  transform: translateX(-100%);
-  transition: transform 0.5s ease;
-}
+/* hover */
 .security-password-submit-btn:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 8px 20px rgba(79, 70, 229, 0.35);
+  transform: translateY(-2px);
+  box-shadow: 0 14px 36px rgba(155, 207, 106, 0.35);
 }
 
+/* active */
 .security-password-submit-btn:active {
-  transform: translateY(0);
-  box-shadow: 0 4px 10px rgba(79, 70, 229, 0.25);
+  transform: translateY(0) scale(0.97);
 }
 
-.security-password-submit-btn:hover::after {
-  transform: translateX(100%);
-}
-
-.security-password-btn {
-  background: var(--color-primary-bottom-gradient);
-  color: #fff;
-  border: none;
-}
-
-.security-password-btn:hover {
-  box-shadow: 0 6px 18px rgba(4, 0, 255, 0.35);
-  transform: translateY(-2px) scale(1.03);
-}
-
-.security-password-btn:active {
-  transform: translateY(0) scale(0.98);
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+/* disabled */
+.security-password-submit-btn:disabled {
+  background: rgba(255, 255, 255, 0.15);
+  color: rgba(255, 255, 255, 0.4);
+  cursor: not-allowed;
+  box-shadow: none;
 }
 
 
-/* ===== БЕЗПЕКА - ЗМІНА ПОШТИ ===== */
+/* ===============================
+   EMAIL CHANGE — WRAPPER
+=============================== */
+
 .security-email-reset-form {
   width: 100%;
-  max-width: 360px;
+  max-width: 420px;
+  margin: 0 auto;
+
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  margin-top: 8px;
+  gap: 14px;
 }
+
+/* ===============================
+   EMAIL FIELD
+=============================== */
 
 .security-email-password-field {
   position: relative;
   width: 100%;
+
   display: flex;
   align-items: center;
 }
 
-.security-email-password-field input::placeholder {
-  color: var(--modal-color-text-input);
-}
+/* ===============================
+   INPUT
+=============================== */
 
 .security-email-password-field input {
   width: 100%;
-  height: 48px;
-  border-radius: var(--modal-border-radius-input);
-  border: 1px solid var(--modal-color-text-border-input);
-  padding: 0 50px 0 16px;
+  height: 52px;
+
+  padding: 0 52px 0 18px;
+
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(155, 207, 106, 0.25);
+  border-radius: 14px;
+
+  font-family: "Jost", sans-serif;
   font-size: 14px;
-  background: var(--modal-color-background);
-  transition: all 0.25s ease;
+  color: #ffffff;
+
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease,
+    background 0.3s ease;
 }
 
+.security-email-password-field input::placeholder {
+  color: rgba(255, 255, 255, 0.45);
+}
+
+/* focus */
 .security-email-password-field input:focus {
   outline: none;
-  box-shadow: var(--modal-color-input-focus);
+  border-color: #9bcf6a;
+  box-shadow:
+    0 0 0 1px rgba(155, 207, 106, 0.35),
+    0 12px 28px rgba(155, 207, 106, 0.15);
+  background: rgba(255, 255, 255, 0.05);
 }
 
-.security-email-password-field input:focus + .security-toggle-password {
-  color: #cecece;
+/* error */
+.security-email-password-field input.input-error {
+  border-color: rgba(239, 68, 68, 0.85);
+  box-shadow:
+    0 0 0 1px rgba(239, 68, 68, 0.4),
+    0 10px 26px rgba(239, 68, 68, 0.2);
 }
+
+/* ===============================
+   TOGGLE PASSWORD (EYE)
+=============================== */
+
+.security-email-password-field .security-toggle-password {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+
+  width: 36px;
+  height: 36px;
+
+  border-radius: 12px;
+  border: none;
+
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(255, 255, 255, 0.75);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+
+  transition:
+    background 0.3s ease,
+    color 0.3s ease,
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.security-email-password-field .security-toggle-password svg {
+  width: 20px;
+  height: 20px;
+
+  transition:
+    transform 0.35s ease,
+    opacity 0.35s ease;
+}
+
+/* hover */
+.security-email-password-field .security-toggle-password:hover {
+  background: rgba(155, 207, 106, 0.15);
+  color: #9bcf6a;
+  transform: translateY(-50%) scale(1.08);
+  box-shadow: 0 6px 18px rgba(155, 207, 106, 0.25);
+}
+
+/* active */
+.security-email-password-field .security-toggle-password:active {
+  transform: translateY(-50%) scale(0.95);
+}
+
+/* ===============================
+   ERROR TEXT
+=============================== */
+
+.registration-error {
+  font-size: 13px;
+  color: #ef4444;
+  margin-top: 4px;
+
+  animation: errorFade 0.3s ease;
+}
+
+/* reuse */
+@keyframes errorFade {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===============================
+   SUBMIT BUTTON
+=============================== */
 
 .security-email-submit-btn {
-  margin-top: 10px;
-  margin-left: 0px;
-  padding: 14px;
-  border-radius: var(--modal-border-radius-input);
+  margin-top: 18px;
+
+  height: 54px;
   width: 100%;
+
+  border-radius: 16px;
   border: none;
-  color: white;
-  font-size: 16px;
-  font-weight: 600;
+
+  font-family: "Jost", sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+
+  color: #0e0f0d;
+  background: linear-gradient(135deg, #9bcf6a, #b8e18b);
+
   cursor: pointer;
-  text-decoration: none;
-  overflow: hidden;
-  transition: all 0.25s ease;
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    background 0.25s ease;
 }
 
-.security-email-submit-btn:disabled {
-  background-color: #9ca3af; 
-  cursor: not-allowed;
-  opacity: 0.8;
-}
-
-.security-email-submit-btn::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    120deg,
-    transparent,
-    rgba(255, 255, 255, 0.4),
-    transparent
-  );
-  transform: translateX(-100%);
-  transition: transform 0.5s ease;
-}
+/* hover */
 .security-email-submit-btn:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 8px 20px rgba(79, 70, 229, 0.35);
+  transform: translateY(-2px);
+  box-shadow: 0 14px 36px rgba(155, 207, 106, 0.35);
 }
 
+/* active */
 .security-email-submit-btn:active {
-  transform: translateY(0);
-  box-shadow: 0 4px 10px rgba(79, 70, 229, 0.25);
+  transform: translateY(0) scale(0.97);
 }
 
-.security-email-submit-btn:hover::after {
-  transform: translateX(100%);
-}
-
-.security-email-btn {
-  background: var(--color-primary-bottom-gradient);
-  color: #fff;
-  border: none;
-}
-
-.security-email-btn:hover {
-  box-shadow: 0 6px 18px rgba(4, 0, 255, 0.35);
-  transform: translateY(-2px) scale(1.03);
-}
-
-.security-email-btn:active {
-  transform: translateY(0) scale(0.98);
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+/* disabled */
+.security-email-submit-btn:disabled {
+  background: rgba(255, 255, 255, 0.15);
+  color: rgba(255, 255, 255, 0.4);
+  cursor: not-allowed;
+  box-shadow: none;
 }

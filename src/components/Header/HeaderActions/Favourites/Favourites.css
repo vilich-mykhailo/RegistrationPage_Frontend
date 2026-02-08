@@ -1,64 +1,89 @@
-.favourites-container {
-  min-height: 80vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: var(--color-background-main);
+/* ===== PAGE ===== */
+.favourites-page {
+  background: #0e0f0d;
+  color: #fff;
+  padding: 80px 10%;
+  font-family: "Jost", sans-serif;
 }
 
-.favourites-card {
-  background: var(--modal-color-background);
-  padding: 60px 50px;
-  border-radius: var(--modal-border-radius);
-  box-shadow: var(--modal-box-shadow);
-  text-align: center;
-  max-width: 480px;
-  width: 100%;
-
-  animation: popupFadeIn 0.5s ease forwards;
-  transition: all 0.3s ease;
-}
-
-.favourites-card:hover {
-  box-shadow: var(--modal-box-shadow-hover);
-}
-
-.favourites-card-icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 72px;
-  height: 72px;
-  margin-bottom: 16px;
-  font-size: 70px;
-  line-height: 1;
-}
-
+/* ===== TITLE ===== */
 .favourites-title {
-  font-size: 36px;
-  font-weight: 600;
-  margin-bottom: 20px;
-  color: var(--color-text-main);
+  text-align: center;
+  font-size: 32px;
+  margin-bottom: 60px;
+  margin-top: 80px;
 }
 
-.favourites-text {
-  font-size: 16px;
+/* ===== EMPTY STATE ===== */
+.favourites-empty {
+  text-align: center;
+  margin-top: 120px;
+  opacity: 0.9;
+}
+
+.favourites-empty-icon {
+  font-size: 64px;
+  display: block;
+  margin-bottom: 24px;
+}
+
+.favourites-empty-text {
+  font-size: 18px;
   margin-bottom: 12px;
-  color: var(--color-text-secondary);
 }
 
-.favourites-hint {
+.favourites-empty-hint {
+  font-size: 14px;
+  opacity: 0.75;
+}
+
+/* ===== LIST (same as massage-list) ===== */
+.favourites-list {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* ===== REUSE MASSAGE CARD STYLE ===== */
+.massage-card {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  border-bottom: 1px solid #9bcf6a;
+  padding-bottom: 40px;
+}
+
+.massage-info h3 {
+  font-size: 20px;
+  margin-bottom: 6px;
+}
+
+.price {
+  color: #9bcf6a;
+  font-weight: 500;
+}
+
+.massage-info p {
+  max-width: 520px;
+  font-size: 14px;
+  opacity: 0.85;
+  margin: 12px 0;
+}
+
+/* ===== TAGS ===== */
+.tags {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.tag {
+  border: 1px solid #9bcf6a;
+  padding: 4px 10px;
+  border-radius: 20px;
   font-size: 12px;
-  color: #999;
-}
-
-@keyframes popupFadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px) scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
+  color: #9bcf6a;
 }

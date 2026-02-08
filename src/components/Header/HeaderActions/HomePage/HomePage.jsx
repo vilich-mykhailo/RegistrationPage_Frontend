@@ -43,7 +43,7 @@ const HomePage = () => {
   const [selectedMassage, setSelectedMassage] = useState("");
 
   return (
-    <section className="home-page-container">
+    <section className="home-page-container page">
       <section className="hero">
         <div className="hero-overlay" />
 
@@ -511,7 +511,7 @@ const HomePage = () => {
               <textarea placeholder="Примітка або побажання (необовʼязково)" />
 
               <div className="booking__confirm">
-                <span>Отримати підтвердження:</span>
+                <span>Ми надішлемо підтвердження запису на вашу пошту</span>
               </div>
 
               <button type="submit" className="booking__btn">

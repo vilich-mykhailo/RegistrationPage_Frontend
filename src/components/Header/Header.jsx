@@ -1,4 +1,4 @@
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, useLocation, useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import LangSwitcher from "./LangSwitcher/LangSwitcher";
 import { useState } from "react";
@@ -13,6 +13,16 @@ import "./Header.css";
 import LoginModal from "./HeaderActions/LoginModal/LoginModal";
 
 const Header = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const isHomeTop = location.pathname === "/" && location.hash === "";
+
+  const isTeams = location.pathname === "/" && location.hash === "#teams";
+
+  const isMassageTypes =
+    location.pathname === "/" && location.hash === "#massage-types";
+
   const { user, isAuthenticated } = useAuth();
   const [isLoginOpen, setLoginOpen] = useState(false);
   const getDisplayName = (user) => {
@@ -27,18 +37,35 @@ const Header = () => {
         <nav className="nav">
           {/* Left side */}
           <div className="nav-left">
-            {/* <NavLink to="/about" className="nav-link">
-            Про нас
-          </NavLink> */}
-            <NavLink to="/#massage-types" className="nav-link">
+            <Link
+              to="/"
+              className={`nav-link ${isHomeTop ? "active" : ""}`}
+              onClick={(e) => {
+                if (location.pathname === "/") {
+                  e.preventDefault();
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                } else {
+                  navigate("/");
+                }
+              }}
+            >
+              Головна
+            </Link>
+
+            <Link to="/massagePage" className="nav-link">
               Види масажу
-            </NavLink>
+            </Link>
+
             <NavLink to="/certificates" className="nav-link">
               Сертифікати
             </NavLink>
-            <NavLink to="/#teams" className="nav-link">
+            <Link
+              to="/#teams"
+              className={`nav-link ${isTeams ? "active" : ""}`}
+            >
               Команда
-            </NavLink>
+            </Link>
+
             <NavLink to="/contacts" className="nav-link">
               Контакти
             </NavLink>

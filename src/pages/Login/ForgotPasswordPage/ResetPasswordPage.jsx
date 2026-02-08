@@ -148,7 +148,7 @@ function ResetPasswordPage() {
   // ✅ SUCCESS
   if (success) {
     return (
-    <div className="activation-wrapper">
+    <div className="activation-wrapper page">
       <div className="activation-card">
         <div className="activation-icon">🎉</div>
 

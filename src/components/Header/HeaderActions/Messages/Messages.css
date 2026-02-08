@@ -1,65 +1,177 @@
+/* ===============================
+   PAGE
+=============================== */
+
+.messages-page {
+  min-height: calc(100vh - 97px);
+  padding: 120px 20px 60px;
+  background: #0e0f0d;
+  font-family: "Jost", sans-serif;
+}
+
+/* ===============================
+   CONTAINER
+=============================== */
+
 .messages-container {
-  min-height: 80vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: var(--color-background-main);
+  max-width: 900px;
+  margin: 0 auto;
 }
 
-.messages-card {
-  background: var(--modal-color-background);
-  padding: 60px 50px;
-  border-radius: 16px;
-  box-shadow: var(--modal-box-shadow);
-  text-align: center;
-  max-width: 500px;
-  width: 100%;
-
-  animation: popupFadeIn 0.5s ease forwards;
-  transition: all 0.3s ease;
-}
-
-.messages-card:hover {
-  box-shadow: var(--modal-box-shadow-hover);
-}
-
-.messages-card-icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 72px;
-  height: 72px;
-  margin-bottom: 16px;
-  font-size: 70px;
-  line-height: 1;
-}
+/* ===============================
+   TITLE
+=============================== */
 
 .messages-title {
-  font-size: 36px;
+  text-align: center;
+  font-size: 28px;
   font-weight: 600;
-  margin-bottom: 20px;
-  color: var(--color-text-main);
+  color: #ffffff;
+  margin-bottom: 40px;
+  letter-spacing: 0.4px;
 }
 
-.messages-text {
+/* ===============================
+   LIST
+=============================== */
+
+.messages-list {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* ===============================
+   CARD
+=============================== */
+
+.message-card {
+  position: relative;
+
+  background: rgba(20, 24, 22, 0.6);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+
+  border-radius: 18px;
+  padding: 18px 20px 20px;
+
+  border: 1px solid rgba(155, 207, 106, 0.15);
+  box-shadow:
+    0 10px 28px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
+}
+
+/* ===============================
+   UNREAD
+=============================== */
+
+.message-card.unread {
+  border-color: rgba(155, 207, 106, 0.45);
+}
+
+.message-card.unread::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 18px;
+  background: linear-gradient(
+    120deg,
+    transparent,
+    rgba(155, 207, 106, 0.08),
+    transparent
+  );
+  pointer-events: none;
+}
+
+/* ===============================
+   HOVER
+=============================== */
+
+.message-card:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 16px 36px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  border-color: rgba(155, 207, 106, 0.35);
+}
+
+/* ===============================
+   HEADER
+=============================== */
+
+.message-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 10px;
+}
+
+.message-header h3 {
   font-size: 16px;
-  margin-bottom: 16px;
-  color: var(--color-text-secondary);
+  font-weight: 600;
+  color: #eafff1;
 }
 
+/* ===============================
+   DATE
+=============================== */
 
-.messages-hint {
+.message-date {
   font-size: 12px;
-  color: var(--color-text-tertiary);
+  color: #9ca3af;
+  white-space: nowrap;
 }
 
-@keyframes popupFadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px) scale(0.95);
+/* ===============================
+   TEXT
+=============================== */
+
+.message-text {
+  font-size: 14px;
+  line-height: 1.7;
+  color: #d1d5db;
+  max-width: 720px;
+}
+
+/* ===============================
+   UNREAD DOT
+=============================== */
+
+.message-dot {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+
+  background: #9bcf6a;
+  box-shadow:
+    0 0 0 4px rgba(155, 207, 106, 0.2),
+    0 0 12px rgba(155, 207, 106, 0.8);
+}
+
+/* ===============================
+   MOBILE
+=============================== */
+
+@media (max-width: 640px) {
+  .messages-title {
+    font-size: 24px;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
+
+  .message-card {
+    padding: 16px;
+  }
+
+  .message-header h3 {
+    font-size: 15px;
   }
 }

@@ -134,7 +134,7 @@ const RegistrationPage = () => {
 
   // ===== REGISTRATION FORM =====
   return (
-    <div className="registration-section">
+    <div className="registration-section page">
       <div className="registration-wrapper">
         <h1 className="registration-title">Реєстрація</h1>
 
